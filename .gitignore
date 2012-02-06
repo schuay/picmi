@@ -1,0 +1,6 @@
+*.o
+moc_*
+*.pro.user
+picmi
+Makefile
+ui_*.h

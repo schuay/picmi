@@ -1,0 +1,76 @@
+PICMI
+
+
+
+General Information
+-------------------
+
+Picmi has the following dependencies:
+
+At compile time:
+qt, boost, cmake
+
+At run time:
+qt
+
+
+The default installation directories are
+
+$prefix/share/picmi        (gfx)
+$prefix/bin                (executable)
+$prefix/share/applications (.desktop file)
+~/.config/picmi/	(user configurations and highscores, created at runtime)
+
+$prefix can be configured by setting the CMAKE_INSTALL_PREFIX variable when running cmake and defaults to /usr/local/ if not set.
+
+
+Installation from AUR (Archlinux)
+-------------------
+
+Install using your favorite AUR helper or manually with wget && makepkg && pacman -U.
+
+Package Name: picmi
+URL: 
+
+
+
+Installation on Ubuntu
+-------------------
+
+Packages are now available from my personal package archive, located at
+
+ppa:jakob-gruber/picmi
+
+To install, open a terminal and enter:
+
+sudo add-apt-repository ppa:jakob-gruber/picmi
+sudo apt-get update
+sudo apt-get install picmi
+
+For more information on adding ppas to your source list, 
+see https://launchpad.net/+help/soyuz/ppa-sources-list.html
+
+
+Manual Installation
+-------------------
+
+Check above for archlinux and ubuntu installation packages.
+
+In the picmi directory containing CMakeLists.txt, execute:
+
+cmake -DCMAKE_INSTALL_PREFIX="/usr" .
+make
+make install
+
+CMAKE_INSTALL_PREFIX can be set as required.
+This will install to the default directories as specified above. For packaging,
+
+make DESTDIR="/your/packaging/dir" install
+
+will install to /your/packaging/dir.
+
+All done, execute picmi to run the game.
+
+
+
+Enjoy!

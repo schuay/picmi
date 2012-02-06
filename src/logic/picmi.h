@@ -1,0 +1,74 @@
+/* *************************************************************************
+ *  Copyright 2012 Jakob Gruber                                            *
+ *                                                                         *
+ *  This program is free software: you can redistribute it and/or modify   *
+ *  it under the terms of the GNU General Public License as published by   *
+ *  the Free Software Foundation, either version 2 of the License, or      *
+ *  (at your option) any later version.                                    *
+ *                                                                         *
+ *  This program is distributed in the hope that it will be useful,        *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of         *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          *
+ *  GNU General Public License for more details.                           *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ************************************************************************* */
+
+
+#ifndef PICMI_H
+#define PICMI_H
+
+#include <boost/shared_ptr.hpp>
+#include <QTime>
+
+#include "boardmap.h"
+#include "boardstate.h"
+#include "src/settings.h"
+#include "elapsedtime.h"
+
+struct StreakElement {
+    int value;
+    bool solved;
+};
+
+class Picmi
+{
+public:
+    Picmi(boost::shared_ptr<Settings> settings);
+
+    int width() const;
+    int height() const;
+    bool outOfBounds(int x, int y) const;
+
+    /* 0 <= x < width(); 0 <= y < height() */
+    Board::State stateAt(int x, int y) const { return m_state->get(x, y); }
+    void setState(int x, int y, Board::State state);
+
+    void setPaused(bool paused);
+    QTime elapsedTime() const;
+
+    bool won() const;
+    void endGame();
+
+    void undo();
+
+    std::vector<boost::shared_ptr<struct StreakElement> > getRowStreak(int y) const;
+    std::vector<boost::shared_ptr<struct StreakElement> > getColStreak(int x) const;
+
+private:
+    std::vector<boost::shared_ptr<struct StreakElement> > newStreak(const std::vector<int> &map) const;
+    std::vector<boost::shared_ptr<struct StreakElement> > processStreak(
+            const std::vector<int> &map, boost::shared_ptr<BoardState::LineInfo> state) const;
+    void setCross(int x, int y);
+    void setBox(int x, int y);
+
+private:
+    boost::shared_ptr<BoardMap> m_map;
+    boost::shared_ptr<BoardState> m_state;
+    boost::shared_ptr<Settings> m_settings;
+
+    ElapsedTime m_timer;
+};
+
+#endif // PICMI_H

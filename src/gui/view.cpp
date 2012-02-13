@@ -43,5 +43,6 @@ boost::shared_ptr<Scene> View::createScene(boost::shared_ptr<Picmi> game) {
 
 void View::setPaused(bool paused) {
     setEnabled(!paused);
+    setFocus();
     m_scene->setPaused(paused);
 }

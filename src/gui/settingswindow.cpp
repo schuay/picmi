@@ -25,6 +25,8 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setFixedSize(400, 300);
+
     connect(ui->gameSizeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(gameSizeChanged(int)));
 
     restoreSettings();

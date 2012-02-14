@@ -25,6 +25,7 @@
 #include "helpwindow.h"
 #include "settingswindow.h"
 #include "src/config.h"
+#include "src/constants.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QCoreApplication::setOrganizationName("picmi");
+    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
 
     setWindowIcon(QIcon(QString(FILEPATH) + "icon.png"));

@@ -37,6 +37,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
     
 private slots:
     void startGame();
@@ -48,11 +51,16 @@ private slots:
     void undo();
 
 private:
+    void restoreWindowState();
+    void saveWindowState();
+
     Ui::MainWindow *ui;
 
     boost::shared_ptr<Picmi> m_game;
     boost::shared_ptr<Scene> m_scene;
     QTimer m_timer;
+
+    const QString m_key_size, m_key_pos;
 };
 
 #endif // MAINWINDOW_H

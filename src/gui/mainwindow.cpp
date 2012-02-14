@@ -28,7 +28,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow), m_key_size("window/size"), m_key_pos("window/position")
 {
     ui->setupUi(this);
 
@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setApplicationName("picmi");
 
     setWindowIcon(QIcon(QString(FILEPATH) + "icon.png"));
+
+    restoreWindowState();
 
     connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(startGame()));
     connect(ui->actionHelp, SIGNAL(triggered()), this, SLOT(help()));
@@ -48,6 +50,27 @@ MainWindow::MainWindow(QWidget *parent) :
     m_timer.start();
 
     startGame();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    saveWindowState();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::saveWindowState() {
+    QSettings settings;
+    settings.setValue(m_key_size, size());
+    settings.setValue(m_key_pos, pos());
+    settings.sync();
+}
+
+void MainWindow::restoreWindowState() {
+    QSettings settings;
+    QSize s = settings.value(m_key_size, size()).toSize();
+    QPoint p = settings.value(m_key_pos, pos()).toPoint();
+
+    resize(s);
+    move(p);
 }
 
 void MainWindow::updateStatusbar() {

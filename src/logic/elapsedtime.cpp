@@ -26,7 +26,7 @@ void ElapsedTime::start() {
     if (m_stopped) {
         return;
     }
-    m_start = QTime::currentTime();
+    m_start = QDateTime::currentDateTime();
     m_timer.start();
 }
 
@@ -48,14 +48,18 @@ void ElapsedTime::stop() {
 }
 
 QTime ElapsedTime::elapsed() const {
+    QTime time(0, 0, 0, 0);
+    return time.addMSecs(elapsedMSecs());
+}
+
+int ElapsedTime::elapsedMSecs() const {
     int elapsed = m_elapsed;
     if (!m_paused && !m_stopped) {
         elapsed += m_timer.elapsed();
     }
-    QTime time(0, 0, 0, 0);
-    return time.addMSecs(elapsed);
+    return elapsed;
 }
 
-QTime ElapsedTime::starttime() const {
+QDateTime ElapsedTime::starttime() const {
     return m_start;
 }

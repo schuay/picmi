@@ -20,6 +20,7 @@
 #define ELAPSEDTIME_H
 
 #include <QTime>
+#include <QDateTime>
 
 class ElapsedTime
 {
@@ -31,11 +32,12 @@ public:
     void stop();
 
     QTime elapsed() const;
-    QTime starttime() const;
+    int elapsedMSecs() const;
+    QDateTime starttime() const;
 
 private:
     QTime m_timer;
-    QTime m_start;
+    QDateTime m_start;
     int m_elapsed;
     bool m_paused, m_stopped;
 };

@@ -58,8 +58,10 @@ void Picmi::undo() {
     m_state->undo();
 }
 
-void Picmi::endGame() {
+boost::shared_ptr<HighScore> Picmi::endGame() {
     m_timer.stop();
+    return boost::shared_ptr<HighScore>(new HighScore(
+           *m_settings.get(), m_timer.starttime(), m_timer.elapsedMSecs() / 1000));
 }
 
 int Picmi::height() const {

@@ -26,6 +26,7 @@
 #include "src/logic/picmi.h"
 #include "scene.h"
 #include "view.h"
+#include "src/highscores.h"
 
 namespace Ui {
 class MainWindow;
@@ -58,6 +59,7 @@ private:
 
     boost::shared_ptr<Picmi> m_game;
     boost::shared_ptr<Scene> m_scene;
+    boost::shared_ptr<HighScores> m_scores;
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;

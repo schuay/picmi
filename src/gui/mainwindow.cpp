@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     restoreWindowState();
 
+    m_scores.reset(new HighScores);
+
     connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(startGame()));
     connect(ui->actionHelp, SIGNAL(triggered()), this, SLOT(help()));
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
@@ -104,7 +106,8 @@ void MainWindow::startGame() {
 }
 
 void MainWindow::gameWon() {
-    m_game->endGame();
+    boost::shared_ptr<HighScore> score = m_game->endGame();
+    m_scores->add(score);
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
 }

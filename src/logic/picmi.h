@@ -26,6 +26,7 @@
 #include "boardstate.h"
 #include "src/settings.h"
 #include "elapsedtime.h"
+#include "src/highscores.h"
 
 struct StreakElement {
     int value;
@@ -49,7 +50,7 @@ public:
     QTime elapsedTime() const;
 
     bool won() const;
-    void endGame();
+    boost::shared_ptr<HighScore> endGame();
 
     void undo();
 

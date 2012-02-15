@@ -23,7 +23,7 @@
 #include "src/constants.h"
 
 StreakItem::StreakItem(int x, int y, boost::shared_ptr<Picmi> game, QGraphicsItem *parent) :
-    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_padding(10), m_color_solved("#777777"), m_color_unsolved("#000000")
+    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_padding(10), m_color_solved("#555555"), m_color_unsolved("#000000")
 {
     setZValue(ZVALUE_STREAKTEXT);
     m_font.reset(new QFont(FONT_NAME, 24));

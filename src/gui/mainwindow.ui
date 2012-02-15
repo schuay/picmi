@@ -46,6 +46,7 @@
     <addaction name="actionUndo"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
+    <addaction name="actionHigh_Scores"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -70,17 +71,17 @@
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>About...</string>
    </property>
   </action>
   <action name="actionHelp">
    <property name="text">
-    <string>Help</string>
+    <string>Help...</string>
    </property>
   </action>
   <action name="actionSettings">
    <property name="text">
-    <string>Settings</string>
+    <string>Settings...</string>
    </property>
   </action>
   <action name="actionNew">
@@ -108,6 +109,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="actionHigh_Scores">
+   <property name="text">
+    <string>High Scores...</string>
    </property>
   </action>
  </widget>

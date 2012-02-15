@@ -114,6 +114,8 @@ void MainWindow::gameWon() {
 
     HighScoreWindow w(m_scores, score, this);
     w.exec();
+
+    ui->graphicsView->setFocus();
 }
 
 void MainWindow::togglePaused(bool paused) {

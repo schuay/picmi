@@ -1,7 +1,6 @@
 PICMI
 
 
-
 General Information
 -------------------
 
@@ -16,10 +15,10 @@ qt
 
 The default installation directories are
 
-$prefix/share/picmi        (gfx)
+$prefix/share/picmi        (graphics)
 $prefix/bin                (executable)
 $prefix/share/applications (.desktop file)
-~/.config/picmi/	(user configurations and highscores, created at runtime)
+~/.config/picmi/           (user configurations and highscores, created at runtime)
 
 $prefix can be configured by setting the CMAKE_INSTALL_PREFIX variable when running cmake and defaults to /usr/local/ if not set.
 
@@ -30,7 +29,7 @@ Installation from AUR (Archlinux)
 Install using your favorite AUR helper or manually with wget && makepkg && pacman -U.
 
 Package Name: picmi
-URL: 
+URL: https://aur.archlinux.org/packages.php?ID=36179
 
 
 
@@ -54,8 +53,6 @@ see https://launchpad.net/+help/soyuz/ppa-sources-list.html
 Manual Installation
 -------------------
 
-Check above for archlinux and ubuntu installation packages.
-
 In the picmi directory containing CMakeLists.txt, execute:
 
 cmake -DCMAKE_INSTALL_PREFIX="/usr" .
@@ -71,6 +68,19 @@ will install to /your/packaging/dir.
 
 All done, execute picmi to run the game.
 
+
+
+Cross Platform Compatibility
+----------------------------
+
+Picmi should be compatible with any platform supported by Qt and boost. At the
+very least, this means Linux, Mac and Windows installs should work just fine.
+
+To install on another platform than Linux, edit CMakeLists.txt and set picmi_FILEPATH
+to a location appropriate to your platform.
+
+Settings and high scores will be automatically saved to platform-dependent locations;
+for more details, see the QSettings documentation.
 
 
 Enjoy!

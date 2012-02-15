@@ -1,6 +1,6 @@
 *.o
 moc_*
-*.pro.user
+*.user
+build/
 picmi
-Makefile
 ui_*.h

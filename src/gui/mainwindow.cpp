@@ -25,7 +25,7 @@
 #include "highscorewindow.h"
 #include "helpwindow.h"
 #include "settingswindow.h"
-#include "src/config.h"
+#include "config.h"
 #include "src/constants.h"
 
 MainWindow::MainWindow(QWidget *parent) :

@@ -25,7 +25,7 @@
 
 #include "src/systemexception.h"
 #include "src/outofboundsexception.h"
-#include "src/config.h"
+#include "config.h"
 
 Renderer::Renderer() : m_streak_grid_count(6)
 {

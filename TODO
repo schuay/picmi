@@ -1,0 +1,11 @@
+hints mode
+figure out a way to use the left upper area
+highscore menu entry
+f11 maximize
+remove highlights on game conclusion
+about menu item
+refactoring
+    remove duplicate code between HighScore and Settings
+    improve streak calculation
+    ...
+don't depend on Ubuntu Mono font

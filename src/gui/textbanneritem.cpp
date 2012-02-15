@@ -28,6 +28,12 @@ TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
     setZValue(ZVALUE_BANNER);
 }
 
+void TextBannerItem::reload(const QSize &size) {
+    const int fontsize = Renderer::instance()->getFontSize(Renderer::Large);
+    m_font->setPointSize(fontsize);
+    setFont(*m_font);
+}
+
 PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
 {
     setText("PAUSED");
@@ -35,6 +41,7 @@ PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
 }
 
 void PauseBannerItem::reload(const QSize &size) {
+    TextBannerItem::reload(size);
     QRectF rect = boundingRect();
     setPos((size.width() - rect.width()) / 2,
            (size.height() - rect.height()) / 2);
@@ -51,7 +58,7 @@ void TimeBannerItem::setTime(const QTime &time) {
 }
 
 void TimeBannerItem::reload(const QSize &size) {
-    Q_UNUSED(size);
+    TextBannerItem::reload(size);
     QRectF rect = boundingRect();
     const int xoffset = Renderer::instance()->getXOffset();
     const int yoffset = Renderer::instance()->getYOffset();

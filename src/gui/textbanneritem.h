@@ -30,6 +30,8 @@ class TextBannerItem : public QGraphicsSimpleTextItem, public ReloadableItem
 public:
     TextBannerItem(QGraphicsItem *parent = 0);
 
+    void reload(const QSize &size);
+
 protected:
     boost::shared_ptr<QFont> m_font;
 };

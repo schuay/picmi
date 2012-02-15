@@ -24,6 +24,19 @@ void HighScores::add(boost::shared_ptr<HighScore> score) {
     m_size++;
 }
 
+QList<boost::shared_ptr<HighScore> > HighScores::scoresInCategory(boost::shared_ptr<HighScore> score) const {
+    QList<boost::shared_ptr<HighScore> > scores;
+    for (int i = 0; i < m_scores.size(); i++) {
+        if (m_scores[i]->boxDensity() == score->boxDensity() &&
+            m_scores[i]->noHintsMode() == score->noHintsMode() &&
+            m_scores[i]->height() == score->height() &&
+            m_scores[i]->width() == score->width()) {
+            scores.push_back(m_scores[i]);
+        }
+    }
+    return scores;
+}
+
 HighScore::HighScore(boost::shared_ptr<QSettings> settings, int index)
 {
     initKeys();

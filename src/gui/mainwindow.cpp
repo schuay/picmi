@@ -22,6 +22,7 @@
 #include <QHBoxLayout>
 #include <QGraphicsSimpleTextItem>
 
+#include "highscorewindow.h"
 #include "helpwindow.h"
 #include "settingswindow.h"
 #include "src/config.h"
@@ -110,6 +111,9 @@ void MainWindow::gameWon() {
     m_scores->add(score);
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
+
+    HighScoreWindow w(m_scores, score, this);
+    w.exec();
 }
 
 void MainWindow::togglePaused(bool paused) {

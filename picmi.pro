@@ -31,7 +31,8 @@ SOURCES += src/systemexception.cpp \
     src/gui/settingswindow.cpp \
     src/logic/elapsedtime.cpp \
     src/gui/pausebanneritem.cpp \
-    src/highscores.cpp
+    src/highscores.cpp \
+    src/gui/highscorewindow.cpp
 
 HEADERS  += src/settings.h \
     src/outofboundsexception.h \
@@ -57,8 +58,10 @@ HEADERS  += src/settings.h \
     src/logic/elapsedtime.h \
     src/gui/pausebanneritem.h \
     src/constants.h \
-    src/highscores.h
+    src/highscores.h \
+    src/gui/highscorewindow.h
 
 FORMS    += src/gui/mainwindow.ui \
     src/gui/helpwindow.ui \
-    src/gui/settingswindow.ui
+    src/gui/settingswindow.ui \
+    src/gui/highscorewindow.ui

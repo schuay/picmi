@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="titleLabel">
        <property name="font">
         <font>
          <pointsize>16</pointsize>
@@ -51,7 +51,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QLabel" name="textLabel">
        <property name="text">
         <string>You placed 1st out of 1000
 Your time: 1:30

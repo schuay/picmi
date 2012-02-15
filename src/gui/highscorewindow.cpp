@@ -71,15 +71,10 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::sh
 {
     ui->setupUi(this);
 
-    QList<boost::shared_ptr<HighScore> > category_scores = scores->scoresInCategory(current);
-    qSort(category_scores.begin(), category_scores.end(), durationLessThan);
-
-    m_model.reset(new ScoreTableModel(category_scores));
-
-    ui->tableView->setModel(m_model.get());
-    ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    ui->tableView->horizontalHeader()->show();
-    ui->tableView->verticalHeader()->show();
+    QList<boost::shared_ptr<HighScore> > category_scores =
+            scores->scoresInCategory(current->height(), current->width(),
+                                     current->boxDensity(), current->noHintsMode());
+    prepareTable(category_scores);
 
     int current_index = -1, total_time = 0;
     for (int i = 0; i < category_scores.size(); i++) {
@@ -94,10 +89,35 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::sh
     int average_time = total_time / category_scores.size();
 
     QString s("You placed #%1 out of %2\nTime used: %3\nAverage time used: %4");
-    ui->label_2->setText(s.arg(current_index + 1)
+    ui->textLabel->setText(s.arg(current_index + 1)
                           .arg(category_scores.size())
                           .arg(current->played().toString())
                           .arg(QTime(0, 0, 0).addSecs(average_time).toString()));
+}
+
+HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::HighScoreWindow)
+{
+    ui->setupUi(this);
+
+    QList<boost::shared_ptr<HighScore> > category_scores = scores->scoresInCategory(
+                settings.height(), settings.width(), settings.boxDensity(), settings.noHintsMode());
+    prepareTable(category_scores);
+
+    ui->titleLabel->setText("High Scores");
+    ui->textLabel->hide();
+}
+
+void HighScoreWindow::prepareTable(QList<boost::shared_ptr<HighScore> > &scores) {
+    qSort(scores.begin(), scores.end(), durationLessThan);
+
+    m_model.reset(new ScoreTableModel(scores));
+
+    ui->tableView->setModel(m_model.get());
+    ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->show();
+    ui->tableView->verticalHeader()->show();
 }
 
 HighScoreWindow::~HighScoreWindow()

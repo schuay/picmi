@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPause, SIGNAL(triggered(bool)), this, SLOT(togglePaused(bool)));
     connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+    connect(ui->actionHigh_Scores, SIGNAL(triggered()), this, SLOT(highscores()));
 
     m_timer.setInterval(1000);
 
@@ -115,6 +116,14 @@ void MainWindow::gameWon() {
     m_timer.stop();
 
     HighScoreWindow w(m_scores, score, this);
+    w.exec();
+
+    ui->graphicsView->setFocus();
+}
+
+void MainWindow::highscores() {
+    Settings s;
+    HighScoreWindow w(m_scores, s, this);
     w.exec();
 
     ui->graphicsView->setFocus();

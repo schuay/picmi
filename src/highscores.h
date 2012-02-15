@@ -69,7 +69,7 @@ public:
     HighScores();
 
     void add(boost::shared_ptr<HighScore> score);
-    QList<boost::shared_ptr<HighScore> > scoresInCategory(boost::shared_ptr<HighScore> score) const;
+    QList<boost::shared_ptr<HighScore> > scoresInCategory(int h, int w, double density, bool no_hints_mode) const;
 
 private:
     QVector<boost::shared_ptr<HighScore> > m_scores;

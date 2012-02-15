@@ -50,6 +50,7 @@ private slots:
     void gameWon();
     void undo();
     void about();
+    void highscores();
 
 private:
     void restoreWindowState();

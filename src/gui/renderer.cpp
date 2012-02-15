@@ -61,6 +61,14 @@ void Renderer::setTilesize(int tilesize) {
     m_tilesize = tilesize;
 }
 
+int Renderer::getFontSize(enum FontSize size) const {
+    switch (size) {
+    case Regular: return (m_tilesize - 24) * 0.75 + 10;
+    case Large: return (m_tilesize - 24) * 1.00 + 14;
+    default: assert(0);
+    }
+}
+
 Renderer *Renderer::instance() {
     static Renderer instance;
     return &instance;

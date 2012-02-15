@@ -34,9 +34,6 @@ public:
     virtual void reload(const QSize &size) = 0;
 
 protected:
-
-    int fontSize(int tilesize) const;
-
     const boost::shared_ptr<Picmi> m_game;
     const int m_padding;
     const QString m_color_solved, m_color_unsolved;

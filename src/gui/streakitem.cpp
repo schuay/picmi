@@ -30,24 +30,6 @@ StreakItem::StreakItem(int x, int y, boost::shared_ptr<Picmi> game, QGraphicsIte
     setFont(*m_font);
 }
 
-int StreakItem::fontSize(int tilesize) const {
-    if (tilesize < 24) {
-        return 10;
-    } else if (tilesize < 28) {
-        return 12;
-    } else if (tilesize < 32) {
-        return 14;
-    } else if (tilesize < 36) {
-        return 16;
-    } else if (tilesize < 40) {
-        return 20;
-    } else if (tilesize < 48) {
-        return 24;
-    } else {
-        return 28;
-    }
-}
-
 RowStreakItem::RowStreakItem(boost::shared_ptr<Picmi> game, int y, QGraphicsItem *parent) :
     StreakItem(0, y, game, parent)
 {
@@ -73,8 +55,9 @@ void RowStreakItem::refresh() {
 void RowStreakItem::reload(const QSize &size) {
     Q_UNUSED(size);
     const int tilesize = Renderer::instance()->getTilesize();
+    const int fontsize = Renderer::instance()->getFontSize(Renderer::Regular);
 
-    m_font->setPointSize(fontSize(tilesize));
+    m_font->setPointSize(fontsize);
     setFont(*m_font);
 
     QRectF rect = boundingRect();
@@ -113,7 +96,9 @@ void ColStreakItem::refresh() {
 void ColStreakItem::reload(const QSize &size) {
     Q_UNUSED(size);
     const int tilesize = Renderer::instance()->getTilesize();
-    m_font->setPointSize(fontSize(tilesize));
+    const int fontsize = Renderer::instance()->getFontSize(Renderer::Regular);
+
+    m_font->setPointSize(fontsize);
     setFont(*m_font);
 
     QRectF rect = boundingRect();

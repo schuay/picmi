@@ -40,11 +40,20 @@ public:
         Divider
     };
 
+    enum FontSize {
+        Tiny,
+        Small,
+        Regular,
+        Large,
+        Huge
+    };
+
     static Renderer *instance();
 
     QPixmap getPixmap(Renderer::Resource res) const;
 
     int getTilesize() const;
+    int getFontSize(enum FontSize) const;
 
     /* returns the width of streak areas in pixels */
     int getYOffset() const;

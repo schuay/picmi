@@ -171,6 +171,7 @@ void Scene::press(int x, int y, Board::State state) {
     m_col_streaks[x]->refresh();
 
     if (m_game->won()) {
+        updatePlayedTime(); /* make sure we display the same time as in high score */
         emit gameWon();
     }
 }

@@ -18,6 +18,8 @@
 #include "highscorewindow.h"
 #include "ui_highscorewindow.h"
 
+#include "src/outofboundsexception.h"
+
 ScoreTableModel::ScoreTableModel(QList<boost::shared_ptr<HighScore> > scores) {
     m_scores = scores;
 }
@@ -79,12 +81,15 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::sh
     ui->tableView->horizontalHeader()->show();
     ui->tableView->verticalHeader()->show();
 
-    int current_index, total_time = 0;
+    int current_index = -1, total_time = 0;
     for (int i = 0; i < category_scores.size(); i++) {
         total_time += category_scores[i]->playedSeconds();
         if (category_scores[i] == current) {
             current_index = i;
         }
+    }
+    if (current_index == -1) {
+        throw OutOfBoundsException();
     }
     int average_time = total_time / category_scores.size();
 

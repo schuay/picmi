@@ -4,3 +4,4 @@ moc_*
 build/
 picmi
 ui_*.h
+*.swp

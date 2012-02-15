@@ -64,14 +64,14 @@ void CellItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     m_dragmanager.reset(new DragManager(m_game, m_scene, QPoint(m_x, m_y)));
     m_dragbutton = event->button();
-    switch (event->button()) {
+    switch (m_dragbutton) {
     case Qt::LeftButton:
         m_dragmanager->init(Board::Box);
         break;
     case Qt::RightButton:
         m_dragmanager->init(Board::Cross);
         break;
-    default:
+    default:    /* for example, middle mouse button */
         break;
     }
 }
@@ -91,6 +91,10 @@ int CellItem::drag_offset(int pos) const {
 }
 
 void CellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+    if (!m_dragmanager) {
+        return;
+    }
+
     int dx = drag_offset(event->pos().x());
     int dy = drag_offset(event->pos().y());
 

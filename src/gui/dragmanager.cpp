@@ -19,7 +19,7 @@
 #include "dragmanager.h"
 
 DragManager::DragManager(boost::shared_ptr<Picmi> game, Scene *scene, QPoint start) :
-    m_game(game), m_start(start), m_scene(scene)
+    m_game(game), m_start(start), m_scene(scene), m_initialized(false)
 {
     m_direction = Undefined;
 }
@@ -29,12 +29,13 @@ void DragManager::init(Board::State state) {
     m_request = state;
     m_scene->press(m_start.x(), m_start.y(), state);
     m_after = m_game->stateAt(m_start.x(), m_start.y());
+    m_initialized = true;
 }
 
 void DragManager::move(int x, int y) {
     QPoint normed = normCoordinates(x, y);
     Board::State current = m_game->stateAt(normed.x(), normed.y());
-    if (current == m_before && current != m_after) {
+    if (current == m_before && current != m_after && m_initialized) {
         m_scene->press(normed.x(), normed.y(), m_request);
     } else {
         m_scene->hover(normed.x(), normed.y());

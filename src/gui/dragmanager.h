@@ -50,6 +50,7 @@ private:
     Scene *m_scene;
     Board::State m_before, m_after, m_request;
     DragManager::DragDirection m_direction;
+    bool m_initialized;
 };
 
 #endif // DRAGMANAGER_H

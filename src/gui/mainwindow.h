@@ -55,6 +55,7 @@ private slots:
 private:
     void restoreWindowState();
     void saveWindowState();
+    void pauseGame();
 
     Ui::MainWindow *ui;
 
@@ -62,6 +63,8 @@ private:
     boost::shared_ptr<Scene> m_scene;
     boost::shared_ptr<HighScores> m_scores;
     QTimer m_timer;
+
+    bool m_in_progress;
 
     const QString m_key_size, m_key_pos;
 };

@@ -31,7 +31,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), m_key_size("window/size"), m_key_pos("window/position")
+    ui(new Ui::MainWindow), m_key_size("window/size"), m_key_pos("window/position"), m_in_progress(false)
 {
     ui->setupUi(this);
 
@@ -106,6 +106,8 @@ void MainWindow::startGame() {
 
     connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+
+    m_in_progress = true;
 }
 
 void MainWindow::gameWon() {
@@ -114,6 +116,7 @@ void MainWindow::gameWon() {
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
     m_timer.stop();
+    m_in_progress = false;
 
     HighScoreWindow w(m_scores, score, this);
     w.exec();
@@ -122,6 +125,8 @@ void MainWindow::gameWon() {
 }
 
 void MainWindow::highscores() {
+    pauseGame();
+
     Settings s;
     HighScoreWindow w(m_scores, s, this);
     w.exec();
@@ -140,6 +145,8 @@ void MainWindow::togglePaused(bool paused) {
 }
 
 void MainWindow::about() {
+    pauseGame();
+
     QString text = QString("Picmi %1.%2.%3\nBuilt on %4 at %5\n\nCopyright 2012 Jakob Gruber\n\n"
                            "This program is distributed in the hope that it will be useful,\n"
                            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
@@ -149,12 +156,25 @@ void MainWindow::about() {
     QMessageBox::about(this, "About Picmi", text);
 }
 
+void MainWindow::pauseGame() {
+    if (ui->actionPause->isChecked() || !m_in_progress) {
+        return;
+    }
+
+    ui->actionPause->setChecked(true);
+    togglePaused(true);
+}
+
 void MainWindow::help() {
+    pauseGame();
+
     HelpWindow w(this);
     w.exec();
 }
 
 void MainWindow::settings() {
+    pauseGame();
+
     SettingsWindow w(this);
     w.exec();
 }

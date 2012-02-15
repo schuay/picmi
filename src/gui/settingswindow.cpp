@@ -67,7 +67,7 @@ void SettingsWindow::setValues(int height, int width, double density, bool no_hi
 
 void SettingsWindow::restoreSettings() {
     setValues(m_settings.height(), m_settings.width(),
-              m_settings.boxDensity() * 100.0, m_settings.noHintsMode());
+              m_settings.boxDensity(), m_settings.noHintsMode());
     ui->gameSizeComboBox->setCurrentIndex(m_settings.size());
     gameSizeChanged(m_settings.size());
 }

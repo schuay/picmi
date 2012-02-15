@@ -21,6 +21,7 @@
 
 #include <QHBoxLayout>
 #include <QGraphicsSimpleTextItem>
+#include <QMessageBox>
 
 #include "highscorewindow.h"
 #include "helpwindow.h"
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
     connect(ui->actionPause, SIGNAL(triggered(bool)), this, SLOT(togglePaused(bool)));
     connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     m_timer.setInterval(1000);
 
@@ -126,6 +128,16 @@ void MainWindow::togglePaused(bool paused) {
     } else {
         m_timer.start();
     }
+}
+
+void MainWindow::about() {
+    QString text = QString("Picmi %1.%2.%3\nBuilt on %4 at %5\n\nCopyright 2012 Jakob Gruber\n\n"
+                           "This program is distributed in the hope that it will be useful,\n"
+                           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+                           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
+            .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH)
+            .arg(__DATE__).arg(__TIME__);
+    QMessageBox::about(this, "About Picmi", text);
 }
 
 void MainWindow::help() {

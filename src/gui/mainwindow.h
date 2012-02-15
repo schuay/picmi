@@ -49,6 +49,7 @@ private slots:
     void settings();
     void gameWon();
     void undo();
+    void about();
 
 private:
     void restoreWindowState();

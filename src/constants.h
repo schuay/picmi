@@ -28,7 +28,7 @@ const int ZVALUE_CELLFRAME = 0;
 const int ZVALUE_STREAKFRAME = 0;
 const int ZVALUE_DIVIDER = 3;
 const int ZVALUE_CELLITEM = 7;
-const int ZVALUE_PAUSEBANNER = 7;
+const int ZVALUE_BANNER = 7;
 const int ZVALUE_STREAKTEXT = 7;
 const int SECTION_SIZE = 5;
 

@@ -26,16 +26,24 @@ Scene::Scene(boost::shared_ptr<Picmi> game, QObject *parent) :
     init();
 }
 
-void Scene::loadPauseBanner() {
+void Scene::loadBanners() {
     m_pause_banner = new PauseBannerItem();
     m_items.push_back(m_pause_banner);
     addItem(m_pause_banner);
+
+    m_time_banner = new TimeBannerItem();
+    m_group->addToGroup(m_time_banner);
+    m_items.push_back(m_time_banner);
 }
 
 void Scene::loadBackground() {
     PixmapItem *p = new PixmapItem(Renderer::Background, 0, 0);
     m_items.push_back(p);
     addItem(p);
+}
+
+void Scene::updatePlayedTime() {
+    m_time_banner->setTime(m_game->elapsedTime());
 }
 
 void Scene::loadCells() {
@@ -116,7 +124,7 @@ void Scene::init() {
 
     m_group = new QGraphicsItemGroup;
 
-    loadPauseBanner();
+    loadBanners();
     loadBackground();
     loadCells();
     loadStreaks();
@@ -145,6 +153,7 @@ void Scene::refresh() {
 void Scene::setPaused(bool paused) {
     m_game->setPaused(paused);
     m_group->setVisible(!paused);
+    m_time_banner->setVisible(!paused);
     m_pause_banner->setVisible(paused);
 }
 

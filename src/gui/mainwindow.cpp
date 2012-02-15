@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setWindowIcon(QIcon(QString(FILEPATH) + "icon.png"));
 
+    /* hide the status bar for now until we find a use for it */
+    ui->statusBar->hide();
+
     restoreWindowState();
 
     m_scores.reset(new HighScores);
@@ -50,8 +53,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
 
     m_timer.setInterval(1000);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(updateStatusbar()));
-    m_timer.start();
 
     startGame();
 }
@@ -77,11 +78,6 @@ void MainWindow::restoreWindowState() {
     move(p);
 }
 
-void MainWindow::updateStatusbar() {
-    QTime elapsed = m_game->elapsedTime();
-    ui->statusBar->showMessage(elapsed.toString());
-}
-
 void MainWindow::undo() {
     m_game->undo();
     m_scene->refresh();
@@ -91,11 +87,13 @@ void MainWindow::startGame() {
 
     if (m_scene) {
         disconnect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+        disconnect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     }
 
     ui->actionPause->setEnabled(true);
     ui->actionPause->setChecked(false);
 
+    m_timer.start();
     boost::shared_ptr<Settings> settings(new Settings());
     m_game.reset(new Picmi(settings));
     m_scene = ui->graphicsView->createScene(m_game);
@@ -103,6 +101,7 @@ void MainWindow::startGame() {
     ui->graphicsView->setEnabled(true);
     ui->statusBar->clearMessage();
 
+    connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 }
 
@@ -111,6 +110,7 @@ void MainWindow::gameWon() {
     m_scores->add(score);
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
+    m_timer.stop();
 
     HighScoreWindow w(m_scores, score, this);
     w.exec();

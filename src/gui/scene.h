@@ -30,7 +30,7 @@
 #include "streakitem.h"
 #include "pixmapitem.h"
 #include "highlightitem.h"
-#include "pausebanneritem.h"
+#include "textbanneritem.h"
 
 class CellItem;
 
@@ -54,6 +54,7 @@ signals:
     void gameWon();
     
 public slots:
+    void updatePlayedTime();
 
 private:
 
@@ -62,7 +63,7 @@ private:
     void loadStreaks();
     void loadCells();
     void loadDividers();
-    void loadPauseBanner();
+    void loadBanners();
 
     void updateHighlights();
     int xy_to_i(int x, int y) const;
@@ -71,6 +72,7 @@ private:
     boost::shared_ptr<Picmi> m_game;
 
     /* The scene automatically deletes registered items */
+    TimeBannerItem *m_time_banner;
     PauseBannerItem *m_pause_banner;
     std::vector<ReloadableItem*> m_items;
     std::vector<CellItem*> m_cells;

@@ -45,7 +45,6 @@ protected:
 private slots:
     void startGame();
     void togglePaused(bool paused);
-    void updateStatusbar();
     void help();
     void settings();
     void gameWon();

@@ -16,23 +16,46 @@
  ************************************************************************* */
 
 
-#ifndef PAUSEBANNERITEM_H
-#define PAUSEBANNERITEM_H
+#include "textbanneritem.h"
 
-#include <QGraphicsSimpleTextItem>
-#include <QFont>
+#include "src/constants.h"
 
-#include "reloadableitem.h"
-
-class PauseBannerItem : public QGraphicsSimpleTextItem, public ReloadableItem
+TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
+    QGraphicsSimpleTextItem(parent), ReloadableItem(0, 0)
 {
-public:
-    PauseBannerItem(QGraphicsItem *parent = 0);
+    m_font.reset(new QFont(FONT_NAME, 24));
+    setFont(*m_font);
+    setZValue(ZVALUE_BANNER);
+}
 
-    void reload(const QSize &size);
+PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
+{
+    setText("PAUSED");
+    setVisible(false);
+}
 
-private:
-    boost::shared_ptr<QFont> m_font;
-};
+void PauseBannerItem::reload(const QSize &size) {
+    QRectF rect = boundingRect();
+    setPos((size.width() - rect.width()) / 2,
+           (size.height() - rect.height()) / 2);
+}
 
-#endif // PAUSEBANNERITEM_H
+
+TimeBannerItem::TimeBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
+{
+    setTime(QTime(0, 0, 0));
+}
+
+void TimeBannerItem::setTime(const QTime &time) {
+    setText(time.toString("mm:ss"));
+}
+
+void TimeBannerItem::reload(const QSize &size) {
+    Q_UNUSED(size);
+    QRectF rect = boundingRect();
+    const int xoffset = Renderer::instance()->getXOffset();
+    const int yoffset = Renderer::instance()->getYOffset();
+
+    setPos(0 - xoffset + (xoffset - rect.width()) / 2,
+           0 - yoffset + (yoffset - rect.height()) / 2);
+}

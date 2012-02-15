@@ -16,22 +16,39 @@
  ************************************************************************* */
 
 
-#include "pausebanneritem.h"
+#ifndef PAUSEBANNERITEM_H
+#define PAUSEBANNERITEM_H
 
-#include "src/constants.h"
+#include <QGraphicsSimpleTextItem>
+#include <QFont>
+#include <QTime>
 
-PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) :
-    QGraphicsSimpleTextItem(parent), ReloadableItem(0, 0)
+#include "reloadableitem.h"
+
+class TextBannerItem : public QGraphicsSimpleTextItem, public ReloadableItem
 {
-    setText("PAUSED");
-    m_font.reset(new QFont(FONT_NAME, 24));
-    setFont(*m_font);
-    setVisible(false);
-    setZValue(ZVALUE_PAUSEBANNER);
-}
+public:
+    TextBannerItem(QGraphicsItem *parent = 0);
 
-void PauseBannerItem::reload(const QSize &size) {
-    QRectF rect = boundingRect();
-    setPos((size.width() - rect.width()) / 2,
-           (size.height() - rect.height()) / 2);
-}
+protected:
+    boost::shared_ptr<QFont> m_font;
+};
+
+class TimeBannerItem : public TextBannerItem
+{
+public:
+    TimeBannerItem(QGraphicsItem *parent = 0);
+
+    void setTime(const QTime &time);
+    void reload(const QSize &size);
+};
+
+class PauseBannerItem : public TextBannerItem
+{
+public:
+    PauseBannerItem(QGraphicsItem *parent = 0);
+
+    void reload(const QSize &size);
+};
+
+#endif // PAUSEBANNERITEM_H

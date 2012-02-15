@@ -93,6 +93,7 @@ void MainWindow::startGame() {
         disconnect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     }
 
+    ui->actionUndo->setEnabled(true);
     ui->actionPause->setEnabled(true);
     ui->actionPause->setChecked(false);
 
@@ -115,6 +116,7 @@ void MainWindow::gameWon() {
     m_scores->add(score);
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
+    ui->actionUndo->setEnabled(false);
     m_timer.stop();
     m_in_progress = false;
 
@@ -136,6 +138,7 @@ void MainWindow::highscores() {
 
 void MainWindow::togglePaused(bool paused) {
     ui->graphicsView->setPaused(paused);
+    ui->actionUndo->setEnabled(!paused);
 
     if (paused) {
         m_timer.stop();

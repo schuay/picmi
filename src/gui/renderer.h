@@ -68,8 +68,9 @@ public:
 private:
     Renderer();
 
-    static boost::shared_ptr<QPixmap> load(QString path);
+    static boost::shared_ptr<QPixmap> loadPixmap(QString path);
     QPixmap getCachedPixmap(Renderer::Resource resource, int h, int w) const;
+    void loadResources();
 
 private:
 

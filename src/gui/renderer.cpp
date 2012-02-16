@@ -22,6 +22,8 @@
 #include <iostream>
 #include <QPixmapCache>
 #include <QPainter>
+#include <QFile>
+#include <QDir>
 
 #include "src/systemexception.h"
 #include "src/outofboundsexception.h"
@@ -29,10 +31,7 @@
 
 Renderer::Renderer() : m_streak_grid_count(6)
 {
-    QString basepath(FILEPATH);
-
-    m_renderer.reset(new QSvgRenderer(basepath + "picmi.svg"));
-    m_background = load(basepath + "background.jpg");
+    loadResources();
 
     m_names << "transparent";
     m_names << "background";
@@ -45,7 +44,30 @@ Renderer::Renderer() : m_streak_grid_count(6)
     m_names << "divider";
 }
 
-boost::shared_ptr<QPixmap> Renderer::load(QString path)
+void Renderer::loadResources() {
+    QList<QString> paths;
+    paths << QString("gfx/") << QString(FILEPATH);
+
+    /* try loading first from working directory, then the system directory */
+    for (int i = 0; i < paths.size(); i++) {
+        const QString filenameSvg = QDir::toNativeSeparators(paths[i] + "picmi.svg");
+        const QString filenameBg = QDir::toNativeSeparators(paths[i] + "background.jpg");
+
+        if (!QFile::exists(filenameSvg) ||
+                !QFile::exists(filenameBg)) {
+            continue;
+        }
+        m_renderer.reset(new QSvgRenderer(filenameSvg));
+        m_background = loadPixmap(filenameBg);
+        break;
+    }
+
+    if (!m_background) {
+        throw SystemException();
+    }
+}
+
+boost::shared_ptr<QPixmap> Renderer::loadPixmap(QString path)
 {
     boost::shared_ptr<QPixmap> pixmap(new QPixmap);
     if (!pixmap->load(path)) {

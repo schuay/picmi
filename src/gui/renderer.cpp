@@ -85,9 +85,9 @@ void Renderer::setTilesize(int tilesize) {
 
 int Renderer::getFontSize(enum FontSize size) const {
     switch (size) {
-    case Regular: return (m_tilesize - 24) * 0.75 + 10;
-    case Large: return (m_tilesize - 24) * 1.00 + 14;
-    default: assert(0);
+    case Regular: return (m_tilesize - 10) * 0.5 + 5;
+    case Large: return (m_tilesize - 10) * 0.75 + 7;
+    default: assert(0); /* not used */
     }
 }
 

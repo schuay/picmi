@@ -25,7 +25,7 @@
 
 #include "reloadableitem.h"
 
-class TextBannerItem : public QGraphicsSimpleTextItem, public ReloadableItem
+class TextBannerItem : public QGraphicsTextItem, public ReloadableItem
 {
 public:
     TextBannerItem(QGraphicsItem *parent = 0);
@@ -34,15 +34,23 @@ public:
 
 protected:
     boost::shared_ptr<QFont> m_font;
+    Renderer::FontSize m_size;
 };
 
 class TimeBannerItem : public TextBannerItem
 {
 public:
-    TimeBannerItem(QGraphicsItem *parent = 0);
+    TimeBannerItem(int remaining_boxes, QGraphicsItem *parent = 0);
 
     void setTime(const QTime &time);
+    void setRemainingBoxes(int remaining_boxes);
     void reload(const QSize &size);
+
+private:
+    void updateText();
+
+    QString m_time;
+    int m_remaining_boxes;
 };
 
 class PauseBannerItem : public TextBannerItem

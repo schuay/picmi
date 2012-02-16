@@ -20,7 +20,7 @@
 
 #include <algorithm>
 
-BoardState::BoardState(int width, int height) : Board(width, height)
+BoardState::BoardState(int width, int height) : Board(width, height), m_box_count(0)
 {
     calcStreaks();
 }
@@ -37,6 +37,7 @@ void BoardState::set(int x, int y, State state) {
     m_undo_queue.push(undo);
 
     m_state[i] = state;
+    calcBoxCount();
     calcStreaks(x, y);
 }
 
@@ -47,11 +48,22 @@ void BoardState::undo() {
 
     UndoAction undo = m_undo_queue.pop();
     m_state[xy_to_i(undo.x, undo.y)] = undo.state;
+    calcBoxCount();
     calcStreaks(undo.x, undo.y);
 }
 
 bool BoardState::isStreakFiller(enum State state) const {
     return (state == Cross);
+}
+
+void BoardState::calcBoxCount() {
+    int count = 0;
+    for (int i = 0; i < m_size; i++) {
+        if (m_state[i] == Board::Box) {
+            count++;
+        }
+    }
+    m_box_count = count;
 }
 
 void BoardState::calcStreaks(int x, int y) {

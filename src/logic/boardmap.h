@@ -30,6 +30,8 @@ public:
     std::vector<int> getRowStreak(int y) const;
     std::vector<int> getColStreak(int x) const;
 
+    int boxCount() const { return m_box_count; }
+
 private:
     void genRandom();
     void calcStreaks();

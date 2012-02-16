@@ -40,6 +40,7 @@ public:
 
     int width() const;
     int height() const;
+    int remainingBoxCount() const { return m_map->boxCount() - m_state->boxCount(); }
     bool outOfBounds(int x, int y) const;
 
     /* 0 <= x < width(); 0 <= y < height() */

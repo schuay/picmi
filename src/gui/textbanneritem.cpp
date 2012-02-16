@@ -21,23 +21,24 @@
 #include "src/constants.h"
 
 TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
-    QGraphicsSimpleTextItem(parent), ReloadableItem(0, 0)
+    QGraphicsTextItem(parent), ReloadableItem(0, 0)
 {
     m_font.reset(new QFont(FONT_NAME, 24));
     setFont(*m_font);
     setZValue(ZVALUE_BANNER);
+    m_size = Renderer::Large;
 }
 
 void TextBannerItem::reload(const QSize &size) {
     Q_UNUSED(size);
-    const int fontsize = Renderer::instance()->getFontSize(Renderer::Large);
+    const int fontsize = Renderer::instance()->getFontSize(m_size);
     m_font->setPointSize(fontsize);
     setFont(*m_font);
 }
 
 PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
 {
-    setText("PAUSED");
+    setPlainText("PAUSED");
     setVisible(false);
 }
 
@@ -49,13 +50,27 @@ void PauseBannerItem::reload(const QSize &size) {
 }
 
 
-TimeBannerItem::TimeBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
+TimeBannerItem::TimeBannerItem(int remaining_boxes, QGraphicsItem *parent) : TextBannerItem(parent)
 {
+    m_size = Renderer::Regular;
     setTime(QTime(0, 0, 0));
+    setRemainingBoxes(remaining_boxes);
+}
+
+void TimeBannerItem::setRemainingBoxes(int remaining_boxes) {
+    m_remaining_boxes = remaining_boxes;
+    updateText();
 }
 
 void TimeBannerItem::setTime(const QTime &time) {
-    setText(time.toString("mm:ss"));
+    m_time = time.toString("mm:ss");
+    updateText();
+}
+
+void TimeBannerItem::updateText() {
+    QString text("<p align=\"center\">Elapsed time<br>%1"
+                 "<p align=\"center\">Boxes left<br>%2");
+    setHtml(text.arg(m_time).arg(m_remaining_boxes));
 }
 
 void TimeBannerItem::reload(const QSize &size) {

@@ -31,7 +31,7 @@ void Scene::loadBanners() {
     m_items.push_back(m_pause_banner);
     addItem(m_pause_banner);
 
-    m_time_banner = new TimeBannerItem();
+    m_time_banner = new TimeBannerItem(m_game->remainingBoxCount());
     m_group->addToGroup(m_time_banner);
     m_items.push_back(m_time_banner);
 }
@@ -148,6 +148,7 @@ void Scene::refresh() {
     for (int i = 0; i < (int)m_col_streaks.size(); i++) {
         m_col_streaks[i]->refresh();
     }
+    m_time_banner->setRemainingBoxes(m_game->remainingBoxCount());
 }
 
 void Scene::setPaused(bool paused) {
@@ -169,6 +170,8 @@ void Scene::press(int x, int y, Board::State state) {
     m_cells[xy_to_i(x, y)]->refresh();
     m_row_streaks[y]->refresh();
     m_col_streaks[x]->refresh();
+
+    m_time_banner->setRemainingBoxes(m_game->remainingBoxCount());
 
     if (m_game->won()) {
         updatePlayedTime(); /* make sure we display the same time as in high score */

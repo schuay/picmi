@@ -45,12 +45,16 @@ public:
     boost::shared_ptr<LineInfo> getRowStreak(int y) const;
     boost::shared_ptr<LineInfo> getColStreak(int x) const;
 
+    int boxCount() const { return m_box_count; }
+
 private:
     bool isStreakFiller(enum State state) const;
 
     /* 0 <= x < m_width; 0 <= y < m_height */
     void calcStreaks(int x, int y);
     void calcStreaks();
+
+    void calcBoxCount();
 
     boost::shared_ptr<LineInfo> lineToLineInfo(const std::vector<enum State> &line) const;
 
@@ -65,6 +69,8 @@ private:
 
     QVector<boost::shared_ptr<LineInfo> > m_row_infos;
     QVector<boost::shared_ptr<LineInfo> > m_col_infos;
+
+    int m_box_count;
 };
 
 #endif // BOARDSTATE_H

@@ -187,6 +187,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>gameSizeComboBox</tabstop>
+  <tabstop>heightSpinBox</tabstop>
+  <tabstop>widthSpinBox</tabstop>
+  <tabstop>densitySlider</tabstop>
+  <tabstop>noHintsModeCheckBox</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

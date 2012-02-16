@@ -64,9 +64,9 @@ private:
     boost::shared_ptr<HighScores> m_scores;
     QTimer m_timer;
 
-    bool m_in_progress;
-
     const QString m_key_size, m_key_pos;
+
+    bool m_in_progress;
 };
 
 #endif // MAINWINDOW_H

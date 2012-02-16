@@ -29,6 +29,7 @@ TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
 }
 
 void TextBannerItem::reload(const QSize &size) {
+    Q_UNUSED(size);
     const int fontsize = Renderer::instance()->getFontSize(Renderer::Large);
     m_font->setPointSize(fontsize);
     setFont(*m_font);

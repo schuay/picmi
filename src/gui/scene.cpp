@@ -175,6 +175,8 @@ void Scene::press(int x, int y, Board::State state) {
 
     if (m_game->won()) {
         updatePlayedTime(); /* make sure we display the same time as in high score */
+        hideHighlights();
+
         emit gameWon();
     }
 }
@@ -191,6 +193,12 @@ void Scene::hover(int x, int y) {
 void Scene::updateHighlights() {
     for (int i = 0; i < (int)m_highlights.size(); i++) {
         m_highlights[i]->highlight(m_position);
+    }
+}
+
+void Scene::hideHighlights() {
+    for (int i = 0; i < (int)m_highlights.size(); i++) {
+        m_highlights[i]->setVisible(false);
     }
 }
 

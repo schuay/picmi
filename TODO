@@ -1,7 +1,6 @@
 hints mode
 figure out a way to use the left upper area
 f11 maximize
-remove highlights on game conclusion
 refactoring
     remove duplicate code between HighScore and Settings
     improve streak calculation

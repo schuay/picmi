@@ -66,6 +66,7 @@ private:
     void loadBanners();
 
     void updateHighlights();
+    void hideHighlights();
     int xy_to_i(int x, int y) const;
     int gridSize(const QSize &size) const;
 

@@ -33,6 +33,8 @@ struct StreakElement {
     bool solved;
 };
 
+class IOHandler;
+
 class Picmi
 {
 public:
@@ -62,13 +64,12 @@ private:
     std::vector<boost::shared_ptr<struct StreakElement> > newStreak(const std::vector<int> &map) const;
     std::vector<boost::shared_ptr<struct StreakElement> > processStreak(
             const std::vector<int> &map, boost::shared_ptr<BoardState::LineInfo> state) const;
-    void setCross(int x, int y);
-    void setBox(int x, int y);
 
 private:
     boost::shared_ptr<BoardMap> m_map;
     boost::shared_ptr<BoardState> m_state;
     boost::shared_ptr<Settings> m_settings;
+    boost::shared_ptr<IOHandler> m_io_handler;
 
     ElapsedTime m_timer;
 };

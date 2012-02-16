@@ -1,4 +1,4 @@
-hints mode
+replace QTime since it wraps every 24 hours
 figure out a way to use the left upper area
 f11 maximize
 refactoring

@@ -18,12 +18,97 @@
 
 #include "picmi.h"
 
+class IOHandler
+{
+public:
+    IOHandler(BoardMap *map, BoardState *state, ElapsedTime *timer) : m_map(map), m_state(state), m_timer(timer) { }
+
+    void set(int x, int y, Board::State state);
+
+protected:
+    virtual void setCross(int x, int y);
+    virtual void setBox(int x, int y) = 0;
+
+    BoardMap *m_map;
+    BoardState *m_state;
+    ElapsedTime *m_timer;
+};
+
+void IOHandler::set(int x, int y, Board::State state) {
+    switch (state) {
+    case Board::Cross: setCross(x, y); break;
+    case Board::Box: setBox(x, y); break;
+    default: assert(0);
+    }
+}
+
+void IOHandler::setCross(int x, int y) {
+    switch (m_state->get(x, y)) {
+    case Board::Cross: m_state->set(x, y, Board::Nothing); break;
+    case Board::Box: break;
+    case Board::Nothing: m_state->set(x, y, Board::Cross); break;
+    default: assert(0);
+    }
+}
+
+class IOHandlerNoHints : public IOHandler
+{
+public:
+    IOHandlerNoHints(BoardMap *map, BoardState *state, ElapsedTime *timer) : IOHandler(map, state, timer) { }
+
+protected:
+    void setBox(int x, int y);
+};
+
+
+void IOHandlerNoHints::setBox(int x, int y) {
+    switch (m_state->get(x, y)) {
+    case Board::Cross: break;
+    case Board::Box: m_state->set(x, y, Board::Nothing); break;
+    case Board::Nothing: m_state->set(x, y, Board::Box); break;
+    default: assert(0);
+    }
+}
+
+class IOHandlerHints : public IOHandler
+{
+public:
+    IOHandlerHints(BoardMap *map, BoardState *state, ElapsedTime *timer) : IOHandler(map, state, timer) { }
+
+protected:
+    void setBox(int x, int y);
+};
+
+
+void IOHandlerHints::setBox(int x, int y) {
+    switch (m_state->get(x, y)) {
+    case Board::Cross: break;
+    case Board::Box: m_state->set(x, y, Board::Nothing); break;
+    case Board::Nothing:
+        if (m_map->get(x, y) == Board::Box) {
+            m_state->set(x, y, Board::Box);
+        } else {
+            m_state->set(x, y, Board::Cross);
+            m_timer->addPenaltyTime();
+        }
+        break;
+    default: assert(0);
+    }
+}
+
 Picmi::Picmi(boost::shared_ptr<Settings> settings)
 {
     m_settings = settings;
     m_map.reset(new BoardMap(settings->width(), settings->height(),
                              settings->boxDensity()));
     m_state.reset(new BoardState(settings->width(), settings->height()));
+
+    if (settings->noHintsMode()) {
+        m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
+    } else {
+        m_io_handler.reset(new IOHandlerHints(m_map.get(), m_state.get(), &m_timer));
+    }
+
     m_timer.start();
 }
 
@@ -167,27 +252,5 @@ std::vector<boost::shared_ptr<struct StreakElement> > Picmi::getColStreak(int x)
 }
 
 void Picmi::setState(int x, int y, Board::State state) {
-    switch (state) {
-    case Board::Cross: setCross(x, y); break;
-    case Board::Box: setBox(x, y); break;
-    default: assert(0);
-    }
-}
-
-void Picmi::setCross(int x, int y) {
-    switch (m_state->get(x, y)) {
-    case Board::Cross: m_state->set(x, y, Board::Nothing); break;
-    case Board::Box: break;
-    case Board::Nothing: m_state->set(x, y, Board::Cross); break;
-    default: assert(0);
-    }
-}
-
-void Picmi::setBox(int x, int y) {
-    switch (m_state->get(x, y)) {
-    case Board::Cross: break;
-    case Board::Box: m_state->set(x, y, Board::Nothing); break;
-    case Board::Nothing: m_state->set(x, y, Board::Box); break;
-    default: assert(0);
-    }
+    m_io_handler->set(x, y, state);
 }

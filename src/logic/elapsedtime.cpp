@@ -18,8 +18,14 @@
 
 #include "elapsedtime.h"
 
-ElapsedTime::ElapsedTime() : m_elapsed(0), m_paused(false), m_stopped(false)
+ElapsedTime::ElapsedTime() : m_elapsed(0), m_paused(false), m_stopped(false),
+    m_next_penalty(10 * 1000), m_penalty_multiplier(2)
 {
+}
+
+void ElapsedTime::addPenaltyTime() {
+    m_elapsed += m_next_penalty;
+    m_next_penalty *= m_penalty_multiplier;
 }
 
 void ElapsedTime::start() {

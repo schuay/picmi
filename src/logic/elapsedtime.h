@@ -31,6 +31,8 @@ public:
     void pause(bool paused);
     void stop();
 
+    void addPenaltyTime();
+
     QTime elapsed() const;
     int elapsedMSecs() const;
     QDateTime starttime() const;
@@ -40,6 +42,9 @@ private:
     QDateTime m_start;
     int m_elapsed;
     bool m_paused, m_stopped;
+
+    int m_next_penalty;
+    const int m_penalty_multiplier;
 };
 
 #endif // ELAPSEDTIME_H

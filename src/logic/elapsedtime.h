@@ -47,13 +47,15 @@ public:
     void addPenaltyTime();
 
     QTime elapsed() const;
-    int elapsedMSecs() const;
-    QDateTime starttime() const;
+    int elapsedSecs() const;
+    QDateTime startDate() const;
 
 private:
-    QTime m_timer;
-    QDateTime m_start;
+    int currentTimesliceSecs() const;
+
+    QDateTime m_start_date;
     int m_elapsed;
+    qint64 m_start;
     bool m_paused, m_stopped;
 
     int m_next_penalty;

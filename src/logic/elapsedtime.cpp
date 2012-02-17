@@ -28,22 +28,31 @@ QString Time::toString(QString format) const {
             .arg(QString::number(seconds), 2, QChar('0'));
 }
 
-ElapsedTime::ElapsedTime() : m_elapsed(0), m_paused(false), m_stopped(false),
-    m_next_penalty(10 * 1000), m_penalty_multiplier(2)
+ElapsedTime::ElapsedTime() : m_elapsed(0), m_start(0),
+    m_paused(false), m_stopped(false),
+    m_next_penalty(10), m_penalty_multiplier(2)
 {
 }
 
 void ElapsedTime::addPenaltyTime() {
+    static const int penalty_cap = 60 * 60; /* 1 hour */
+
     m_elapsed += m_next_penalty;
-    m_next_penalty *= m_penalty_multiplier;
+    if (m_next_penalty < penalty_cap) {
+        m_next_penalty *= m_penalty_multiplier;
+    }
 }
 
 void ElapsedTime::start() {
     if (m_stopped) {
         return;
     }
-    m_start = QDateTime::currentDateTime();
-    m_timer.start();
+    m_start_date = QDateTime::currentDateTime();
+    m_start = QDateTime::currentMSecsSinceEpoch();
+}
+
+int ElapsedTime::currentTimesliceSecs() const {
+    return (QDateTime::currentMSecsSinceEpoch() - m_start) / 1000;
 }
 
 void ElapsedTime::pause(bool paused) {
@@ -52,30 +61,30 @@ void ElapsedTime::pause(bool paused) {
     }
     m_paused = paused;
     if (paused) {
-        m_elapsed += m_timer.elapsed();
+        m_elapsed += currentTimesliceSecs();
     } else {
-        m_timer.restart();
+        m_start = QDateTime::currentMSecsSinceEpoch();
     }
 }
 
 void ElapsedTime::stop() {
-    m_elapsed += m_timer.elapsed();
+    m_elapsed += currentTimesliceSecs();
     m_stopped = true;
 }
 
 QTime ElapsedTime::elapsed() const {
     QTime time(0, 0, 0, 0);
-    return time.addMSecs(elapsedMSecs());
+    return time.addSecs(elapsedSecs());
 }
 
-int ElapsedTime::elapsedMSecs() const {
+int ElapsedTime::elapsedSecs() const {
     int elapsed = m_elapsed;
     if (!m_paused && !m_stopped) {
-        elapsed += m_timer.elapsed();
+        elapsed += currentTimesliceSecs();
     }
     return elapsed;
 }
 
-QDateTime ElapsedTime::starttime() const {
-    return m_start;
+QDateTime ElapsedTime::startDate() const {
+    return m_start_date;
 }

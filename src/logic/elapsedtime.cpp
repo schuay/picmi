@@ -18,6 +18,16 @@
 
 #include "elapsedtime.h"
 
+QString Time::toString(QString format) const {
+    const int hours = m_seconds / m_secs_per_hour;
+    int i = m_seconds % m_secs_per_hour;
+    const int minutes = i / m_secs_per_minute;
+    const int seconds = i % m_secs_per_minute;
+
+    return format.arg(hours).arg(QString::number(minutes), 2, QChar('0'))
+            .arg(QString::number(seconds), 2, QChar('0'));
+}
+
 ElapsedTime::ElapsedTime() : m_elapsed(0), m_paused(false), m_stopped(false),
     m_next_penalty(10 * 1000), m_penalty_multiplier(2)
 {

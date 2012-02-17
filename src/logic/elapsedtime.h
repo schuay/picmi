@@ -22,6 +22,19 @@
 #include <QTime>
 #include <QDateTime>
 
+class Time
+{
+public:
+    Time(int seconds) : m_seconds(seconds) { }
+    QString toString(QString format = "%1:%2:%3") const;
+
+private:
+    const int m_seconds;
+
+    static const int m_secs_per_minute = 60;
+    static const int m_secs_per_hour = 60 * 60;
+};
+
 class ElapsedTime
 {
 public:

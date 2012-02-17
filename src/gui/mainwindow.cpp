@@ -103,6 +103,7 @@ void MainWindow::startGame() {
     m_scene = ui->graphicsView->createScene(m_game);
 
     ui->graphicsView->setEnabled(true);
+    ui->graphicsView->setFocus();
     ui->statusBar->clearMessage();
 
     connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));

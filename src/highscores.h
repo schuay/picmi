@@ -37,7 +37,6 @@ public:
     int width() const { return m_width; }
     int height() const { return m_height; }
     int playedSeconds() const { return m_played_seconds; }
-    QTime played() const { return QTime(0, 0, 0).addSecs(m_played_seconds); }
     double boxDensity() const { return m_box_density; }
     bool noHintsMode() const { return m_no_hints_mode; }
 

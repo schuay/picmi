@@ -18,6 +18,7 @@
 #include "highscorewindow.h"
 #include "ui_highscorewindow.h"
 
+#include "src/logic/elapsedtime.h"
 #include "src/outofboundsexception.h"
 
 ScoreTableModel::ScoreTableModel(QList<boost::shared_ptr<HighScore> > scores) {
@@ -55,7 +56,7 @@ QVariant ScoreTableModel::data(const QModelIndex &index, int role) const {
     }
     boost::shared_ptr<HighScore> score = m_scores[index.row()];
     switch (index.column()) {
-    case Duration: return score->played().toString();
+    case Duration: return Time(score->playedSeconds()).toString();
     case Date: return score->datetime();
     default: assert(0);
     }
@@ -91,8 +92,8 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::sh
     QString s("You placed #%1 out of %2\nTime used: %3\nAverage time used: %4");
     ui->textLabel->setText(s.arg(current_index + 1)
                           .arg(category_scores.size())
-                          .arg(current->played().toString())
-                          .arg(QTime(0, 0, 0).addSecs(average_time).toString()));
+                          .arg(Time(current->playedSeconds()).toString())
+                          .arg(Time(average_time).toString()));
 }
 
 HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent) :

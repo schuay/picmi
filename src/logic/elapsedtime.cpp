@@ -72,11 +72,6 @@ void ElapsedTime::stop() {
     m_stopped = true;
 }
 
-QTime ElapsedTime::elapsed() const {
-    QTime time(0, 0, 0, 0);
-    return time.addSecs(elapsedSecs());
-}
-
 int ElapsedTime::elapsedSecs() const {
     int elapsed = m_elapsed;
     if (!m_paused && !m_stopped) {

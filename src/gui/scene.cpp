@@ -43,7 +43,7 @@ void Scene::loadBackground() {
 }
 
 void Scene::updatePlayedTime() {
-    m_time_banner->setTime(m_game->elapsedTime());
+    m_time_banner->setTime(m_game->elapsedSecs());
 }
 
 void Scene::loadCells() {

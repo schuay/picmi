@@ -20,7 +20,6 @@
 #define PICMI_H
 
 #include <boost/shared_ptr.hpp>
-#include <QTime>
 
 #include "boardmap.h"
 #include "boardstate.h"
@@ -50,7 +49,7 @@ public:
     void setState(int x, int y, Board::State state);
 
     void setPaused(bool paused);
-    QTime elapsedTime() const;
+    int elapsedSecs() const;
 
     bool won() const;
     boost::shared_ptr<HighScore> endGame();

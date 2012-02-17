@@ -165,8 +165,8 @@ void Picmi::setPaused(bool paused) {
     m_timer.pause(paused);
 }
 
-QTime Picmi::elapsedTime() const {
-    return m_timer.elapsed();
+int Picmi::elapsedSecs() const {
+    return m_timer.elapsedSecs();
 }
 
 std::vector<boost::shared_ptr<struct StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {

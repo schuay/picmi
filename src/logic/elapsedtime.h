@@ -19,7 +19,6 @@
 #ifndef ELAPSEDTIME_H
 #define ELAPSEDTIME_H
 
-#include <QTime>
 #include <QDateTime>
 
 class Time
@@ -46,7 +45,6 @@ public:
 
     void addPenaltyTime();
 
-    QTime elapsed() const;
     int elapsedSecs() const;
     QDateTime startDate() const;
 

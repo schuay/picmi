@@ -21,7 +21,6 @@
 
 #include <QGraphicsSimpleTextItem>
 #include <QFont>
-#include <QTime>
 
 #include "reloadableitem.h"
 
@@ -42,7 +41,7 @@ class TimeBannerItem : public TextBannerItem
 public:
     TimeBannerItem(int remaining_boxes, QGraphicsItem *parent = 0);
 
-    void setTime(const QTime &time);
+    void setTime(int seconds);
     void setRemainingBoxes(int remaining_boxes);
     void reload(const QSize &size);
 

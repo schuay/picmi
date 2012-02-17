@@ -18,6 +18,7 @@
 
 #include "textbanneritem.h"
 
+#include "src/logic/elapsedtime.h"
 #include "src/constants.h"
 
 TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
@@ -53,7 +54,7 @@ void PauseBannerItem::reload(const QSize &size) {
 TimeBannerItem::TimeBannerItem(int remaining_boxes, QGraphicsItem *parent) : TextBannerItem(parent)
 {
     m_size = Renderer::Regular;
-    setTime(QTime(0, 0, 0));
+    setTime(0);
     setRemainingBoxes(remaining_boxes);
 }
 
@@ -62,8 +63,9 @@ void TimeBannerItem::setRemainingBoxes(int remaining_boxes) {
     updateText();
 }
 
-void TimeBannerItem::setTime(const QTime &time) {
-    m_time = time.toString("mm:ss");
+void TimeBannerItem::setTime(int time) {
+    Time t(time);
+    m_time = t.toString();
     updateText();
 }
 

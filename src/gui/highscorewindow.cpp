@@ -51,9 +51,14 @@ QVariant ScoreTableModel::headerData(int section, Qt::Orientation orientation, i
 }
 
 QVariant ScoreTableModel::data(const QModelIndex &index, int role) const {
-    if (!index.isValid() || role != Qt::DisplayRole) {
+    if (!index.isValid() || (role != Qt::DisplayRole && role != Qt::TextAlignmentRole)) {
              return QVariant();
     }
+
+    if (role == Qt::TextAlignmentRole) {
+        return Qt::AlignCenter;
+    }
+
     boost::shared_ptr<HighScore> score = m_scores[index.row()];
     switch (index.column()) {
     case Duration: return Time(score->playedSeconds()).toString();

@@ -89,6 +89,8 @@ int Renderer::getFontSize(enum FontSize size) const {
     case Large: return (m_tilesize - 10) * 0.75 + 7;
     default: assert(0); /* not used */
     }
+
+    return 0;
 }
 
 Renderer *Renderer::instance() {

@@ -65,6 +65,8 @@ QVariant ScoreTableModel::data(const QModelIndex &index, int role) const {
     case Date: return score->datetime();
     default: assert(0);
     }
+
+    return QVariant();
 }
 
 static bool durationLessThan(const boost::shared_ptr<HighScore> &p1, const boost::shared_ptr<HighScore> &p2) {

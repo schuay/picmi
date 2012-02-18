@@ -63,4 +63,6 @@ QPoint DragManager::normCoordinates(int x, int y) {
     case Vertical: return QPoint(m_start.x(), y);
     default: assert(0);
     }
+
+    return QPoint();
 }

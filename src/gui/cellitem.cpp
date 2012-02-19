@@ -25,6 +25,82 @@
 #include "renderer.h"
 #include "src/constants.h"
 
+class DragManager
+{
+public:
+    DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start);
+
+    void init(Board::State state);
+    void move(int x, int y);
+
+private:
+    QPoint normCoordinates(int x, int y);
+
+private:
+
+    enum DragDirection {
+        Horizontal,
+        Vertical,
+        Undefined
+    };
+
+    const std::shared_ptr<Picmi> m_game;
+    const QPoint m_start;
+    Scene *m_scene;
+    Board::State m_before, m_after, m_request;
+    DragManager::DragDirection m_direction;
+    bool m_initialized;
+};
+
+DragManager::DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start) :
+    m_game(game), m_start(start), m_scene(scene), m_initialized(false)
+{
+    m_direction = Undefined;
+}
+
+void DragManager::init(Board::State state) {
+    m_before = m_game->stateAt(m_start.x(), m_start.y());
+    m_request = state;
+    m_scene->press(m_start.x(), m_start.y(), state);
+    m_after = m_game->stateAt(m_start.x(), m_start.y());
+    m_initialized = true;
+}
+
+void DragManager::move(int x, int y) {
+    QPoint normed = normCoordinates(x, y);
+    Board::State current = m_game->stateAt(normed.x(), normed.y());
+    if (current == m_before && current != m_after && m_initialized) {
+        m_scene->press(normed.x(), normed.y(), m_request);
+    } else {
+        m_scene->hover(normed.x(), normed.y());
+    }
+}
+
+QPoint DragManager::normCoordinates(int x, int y) {
+    if (m_direction == Undefined) {
+        int abs_dx = abs(m_start.x() - x);
+        int abs_dy = abs(m_start.y() - y);
+
+        if (abs_dx == 0 && abs_dy == 0) {
+            return m_start;
+        }
+
+        if (abs_dx > abs_dy) {
+            m_direction = Horizontal;
+        } else {
+            m_direction = Vertical;
+        }
+    }
+
+    switch (m_direction) {
+    case Horizontal: return QPoint(x, m_start.y());
+    case Vertical: return QPoint(m_start.x(), y);
+    default: assert(0);
+    }
+
+    return QPoint();
+}
+
 CellItem::CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_game(game), m_scene(scene)
 {

@@ -23,7 +23,6 @@
 
 #include "scene.h"
 #include "src/logic/picmi.h"
-#include "dragmanager.h"
 #include "reloadableitem.h"
 
 class Scene;

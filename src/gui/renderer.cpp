@@ -67,9 +67,9 @@ void Renderer::loadResources() {
     }
 }
 
-boost::shared_ptr<QPixmap> Renderer::loadPixmap(QString path)
+std::shared_ptr<QPixmap> Renderer::loadPixmap(QString path)
 {
-    boost::shared_ptr<QPixmap> pixmap(new QPixmap);
+    std::shared_ptr<QPixmap> pixmap(new QPixmap);
     if (!pixmap->load(path)) {
         throw SystemException();
     }

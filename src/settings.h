@@ -21,7 +21,7 @@
 
 #include <QSettings>
 #include <QVector>
-#include "boost/shared_ptr.hpp"
+#include <memory>
 
 class Settings
 {
@@ -47,7 +47,7 @@ public:
     void setNoHintsMode(bool no_hints_mode);
     void setSize(enum GameSize size);
 
-    boost::shared_ptr<QSettings> qSettings();
+    std::shared_ptr<QSettings> qSettings();
 
 private:
     void restore();
@@ -67,7 +67,7 @@ private:
     bool m_no_hints_mode;
     Settings::GameSize m_size;
 
-    boost::shared_ptr<QSettings> m_qsettings;
+    std::shared_ptr<QSettings> m_qsettings;
 };
 
 #endif // SETTINGS_H

@@ -7,7 +7,7 @@ General Information
 Picmi has the following dependencies:
 
 At compile time:
-qt, boost, cmake
+qt, cmake
 
 At run time:
 qt
@@ -73,7 +73,7 @@ All done, execute picmi to run the game.
 Cross Platform Compatibility
 ----------------------------
 
-Picmi should be compatible with any platform supported by Qt and boost. At the
+Picmi should be compatible with any platform supported by Qt. At the
 very least, this means Linux, Mac and Windows installs should work just fine.
 
 To install on another platform than Linux, edit CMakeLists.txt and set picmi_FILEPATH

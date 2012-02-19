@@ -19,6 +19,8 @@
 #include "settingswindow.h"
 #include "ui_settingswindow.h"
 
+#include <assert.h>
+
 SettingsWindow::SettingsWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SettingsWindow)
@@ -79,7 +81,7 @@ void SettingsWindow::saveSettings() {
     m_settings.setNoHintsMode(ui->noHintsModeCheckBox->isChecked());
     m_settings.setSize((Settings::GameSize)ui->gameSizeComboBox->currentIndex());
 
-    boost::shared_ptr<QSettings> qsettings = m_settings.qSettings();
+    std::shared_ptr<QSettings> qsettings = m_settings.qSettings();
     qsettings->sync();
 }
 

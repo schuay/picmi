@@ -18,6 +18,8 @@
 
 #include "picmi.h"
 
+#include <assert.h>
+
 class IOHandler
 {
 public:
@@ -96,7 +98,7 @@ void IOHandlerHints::setBox(int x, int y) {
     }
 }
 
-Picmi::Picmi(boost::shared_ptr<Settings> settings)
+Picmi::Picmi(std::shared_ptr<Settings> settings)
 {
     m_settings = settings;
     m_map.reset(new BoardMap(settings->width(), settings->height(),
@@ -119,7 +121,7 @@ bool Picmi::won() const {
        this by ending the game once all streaks are marked solved. */
 
     for (int x = 0; x < width(); x++) {
-        std::vector<boost::shared_ptr<struct StreakElement> > streak = getColStreak(x);
+        std::vector<std::shared_ptr<struct StreakElement> > streak = getColStreak(x);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -128,7 +130,7 @@ bool Picmi::won() const {
     }
 
     for (int y = 0; y < height(); y++) {
-        std::vector<boost::shared_ptr<struct StreakElement> > streak = getRowStreak(y);
+        std::vector<std::shared_ptr<struct StreakElement> > streak = getRowStreak(y);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -143,9 +145,9 @@ void Picmi::undo() {
     m_state->undo();
 }
 
-boost::shared_ptr<HighScore> Picmi::endGame() {
+std::shared_ptr<HighScore> Picmi::endGame() {
     m_timer.stop();
-    return boost::shared_ptr<HighScore>(new HighScore(
+    return std::shared_ptr<HighScore>(new HighScore(
            *m_settings.get(), m_timer.startDate(), m_timer.elapsedSecs()));
 }
 
@@ -169,10 +171,10 @@ int Picmi::elapsedSecs() const {
     return m_timer.elapsedSecs();
 }
 
-std::vector<boost::shared_ptr<struct StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {
-    std::vector<boost::shared_ptr<struct StreakElement> > streak;
+std::vector<std::shared_ptr<struct StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {
+    std::vector<std::shared_ptr<struct StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
-        boost::shared_ptr<struct StreakElement> element(new struct StreakElement);
+        std::shared_ptr<struct StreakElement> element(new struct StreakElement);
         element->value = map[i];
         element->solved = false;
         streak.push_back(element);
@@ -180,11 +182,11 @@ std::vector<boost::shared_ptr<struct StreakElement> > Picmi::newStreak(const std
     return streak;
 }
 
-std::vector<boost::shared_ptr<struct StreakElement> > Picmi::processStreak(
-        const std::vector<int> &map, boost::shared_ptr<BoardState::LineInfo> state) const {
+std::vector<std::shared_ptr<struct StreakElement> > Picmi::processStreak(
+        const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const {
 
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
-    std::vector<boost::shared_ptr<struct StreakElement> > streak = newStreak(map);
+    std::vector<std::shared_ptr<struct StreakElement> > streak = newStreak(map);
 
     /* line is not completely filled, so state and state_reversed are disjoint. */
     if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
@@ -237,16 +239,16 @@ std::vector<boost::shared_ptr<struct StreakElement> > Picmi::processStreak(
     return streak;
 }
 
-std::vector<boost::shared_ptr<struct StreakElement> > Picmi::getRowStreak(int y) const {
+std::vector<std::shared_ptr<struct StreakElement> > Picmi::getRowStreak(int y) const {
     std::vector<int> map_streak = m_map->getRowStreak(y);
-    boost::shared_ptr<BoardState::LineInfo> state_streak = m_state->getRowStreak(y);
+    std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getRowStreak(y);
 
     return processStreak(map_streak, state_streak);
 }
 
-std::vector<boost::shared_ptr<struct StreakElement> > Picmi::getColStreak(int x) const {
+std::vector<std::shared_ptr<struct StreakElement> > Picmi::getColStreak(int x) const {
     std::vector<int> map_streak = m_map->getColStreak(x);
-    boost::shared_ptr<BoardState::LineInfo> state_streak = m_state->getColStreak(x);
+    std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getColStreak(x);
 
     return processStreak(map_streak, state_streak);
 }

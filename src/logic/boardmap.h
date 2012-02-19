@@ -40,8 +40,8 @@ private:
 
 private:
     const int m_box_count;
-    boost::shared_array<std::vector<int> > m_row_streaks;
-    boost::shared_array<std::vector<int> > m_col_streaks;
+    std::vector<std::vector<int> > m_row_streaks;
+    std::vector<std::vector<int> > m_col_streaks;
 };
 
 #endif // BOARDMAP_H

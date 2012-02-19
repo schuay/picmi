@@ -18,10 +18,12 @@
 #include "highscorewindow.h"
 #include "ui_highscorewindow.h"
 
+#include <assert.h>
+
 #include "src/logic/elapsedtime.h"
 #include "src/outofboundsexception.h"
 
-ScoreTableModel::ScoreTableModel(QList<boost::shared_ptr<HighScore> > scores) {
+ScoreTableModel::ScoreTableModel(QList<std::shared_ptr<HighScore> > scores) {
     m_scores = scores;
 }
 
@@ -59,7 +61,7 @@ QVariant ScoreTableModel::data(const QModelIndex &index, int role) const {
         return Qt::AlignCenter;
     }
 
-    boost::shared_ptr<HighScore> score = m_scores[index.row()];
+    std::shared_ptr<HighScore> score = m_scores[index.row()];
     switch (index.column()) {
     case Duration: return Time(score->playedSeconds()).toString();
     case Date: return score->datetime();
@@ -69,17 +71,17 @@ QVariant ScoreTableModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-static bool durationLessThan(const boost::shared_ptr<HighScore> &p1, const boost::shared_ptr<HighScore> &p2) {
+static bool durationLessThan(const std::shared_ptr<HighScore> &p1, const std::shared_ptr<HighScore> &p2) {
     return (p1->playedSeconds() < p2->playedSeconds());
 }
 
-HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::shared_ptr<HighScore> current, QWidget *parent) :
+HighScoreWindow::HighScoreWindow(std::shared_ptr<HighScores> scores, std::shared_ptr<HighScore> current, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HighScoreWindow)
 {
     ui->setupUi(this);
 
-    QList<boost::shared_ptr<HighScore> > category_scores =
+    QList<std::shared_ptr<HighScore> > category_scores =
             scores->scoresInCategory(current->height(), current->width(),
                                      current->boxDensity(), current->noHintsMode());
     prepareTable(category_scores);
@@ -103,13 +105,13 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::sh
                           .arg(Time(average_time).toString()));
 }
 
-HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent) :
+HighScoreWindow::HighScoreWindow(std::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HighScoreWindow)
 {
     ui->setupUi(this);
 
-    QList<boost::shared_ptr<HighScore> > category_scores = scores->scoresInCategory(
+    QList<std::shared_ptr<HighScore> > category_scores = scores->scoresInCategory(
                 settings.height(), settings.width(), settings.boxDensity(), settings.noHintsMode());
     prepareTable(category_scores);
 
@@ -117,7 +119,7 @@ HighScoreWindow::HighScoreWindow(boost::shared_ptr<HighScores> scores, const Set
     ui->textLabel->hide();
 }
 
-void HighScoreWindow::prepareTable(QList<boost::shared_ptr<HighScore> > &scores) {
+void HighScoreWindow::prepareTable(QList<std::shared_ptr<HighScore> > &scores) {
     qSort(scores.begin(), scores.end(), durationLessThan);
 
     m_model.reset(new ScoreTableModel(scores));

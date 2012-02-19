@@ -22,7 +22,6 @@
 #include <QDateTime>
 #include <QVector>
 #include <QList>
-#include <boost/shared_ptr.hpp>
 
 #include "settings.h"
 
@@ -30,7 +29,7 @@ class HighScore
 {
 public:
     /* settings must be in array processing mode */
-    HighScore(boost::shared_ptr<QSettings> settings, int index);
+    HighScore(std::shared_ptr<QSettings> settings, int index);
     HighScore(const Settings &settings, QDateTime datetime, int played_seconds);
 
     QDateTime datetime() const { return m_datetime; }
@@ -40,7 +39,7 @@ public:
     double boxDensity() const { return m_box_density; }
     bool noHintsMode() const { return m_no_hints_mode; }
 
-    void save(boost::shared_ptr<QSettings> settings) const;
+    void save(std::shared_ptr<QSettings> settings) const;
 
 private:
     void initKeys();
@@ -67,12 +66,12 @@ class HighScores
 public:
     HighScores();
 
-    void add(boost::shared_ptr<HighScore> score);
-    QList<boost::shared_ptr<HighScore> > scoresInCategory(int h, int w, double density, bool no_hints_mode) const;
+    void add(std::shared_ptr<HighScore> score);
+    QList<std::shared_ptr<HighScore> > scoresInCategory(int h, int w, double density, bool no_hints_mode) const;
 
 private:
-    QVector<boost::shared_ptr<HighScore> > m_scores;
-    boost::shared_ptr<QSettings> m_settings;
+    QVector<std::shared_ptr<HighScore> > m_scores;
+    std::shared_ptr<QSettings> m_settings;
     int m_size;
     const QString m_prefix;
 };

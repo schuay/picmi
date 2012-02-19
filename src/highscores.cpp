@@ -26,13 +26,13 @@ HighScores::HighScores() : m_prefix("highscores")
 
     m_size = m_settings->beginReadArray(m_prefix);
     for (int i = 0; i < m_size; i++) {
-        boost::shared_ptr<HighScore> p(new HighScore(m_settings, i));
+        std::shared_ptr<HighScore> p(new HighScore(m_settings, i));
         m_scores.push_back(p);
     }
     m_settings->endArray();
 }
 
-void HighScores::add(boost::shared_ptr<HighScore> score) {
+void HighScores::add(std::shared_ptr<HighScore> score) {
     m_scores.push_back(score);
     m_settings->beginWriteArray(m_prefix);
     m_settings->setArrayIndex(m_size);
@@ -41,8 +41,8 @@ void HighScores::add(boost::shared_ptr<HighScore> score) {
     m_size++;
 }
 
-QList<boost::shared_ptr<HighScore> > HighScores::scoresInCategory(int h, int w, double density, bool no_hints_mode) const {
-    QList<boost::shared_ptr<HighScore> > scores;
+QList<std::shared_ptr<HighScore> > HighScores::scoresInCategory(int h, int w, double density, bool no_hints_mode) const {
+    QList<std::shared_ptr<HighScore> > scores;
     for (int i = 0; i < m_scores.size(); i++) {
         if (m_scores[i]->boxDensity() == density &&
             m_scores[i]->noHintsMode() == no_hints_mode &&
@@ -54,7 +54,7 @@ QList<boost::shared_ptr<HighScore> > HighScores::scoresInCategory(int h, int w, 
     return scores;
 }
 
-HighScore::HighScore(boost::shared_ptr<QSettings> settings, int index)
+HighScore::HighScore(std::shared_ptr<QSettings> settings, int index)
 {
     initKeys();
 
@@ -90,7 +90,7 @@ HighScore::HighScore(const Settings &settings,
     m_no_hints_mode = settings.noHintsMode();
 }
 
-void HighScore::save(boost::shared_ptr<QSettings> settings) const {
+void HighScore::save(std::shared_ptr<QSettings> settings) const {
     settings->setValue(m_keys[DateTime], m_datetime);
     settings->setValue(m_keys[Width], m_width);
     settings->setValue(m_keys[Height], m_height);

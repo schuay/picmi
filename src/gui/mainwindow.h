@@ -21,7 +21,6 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <boost/shared_ptr.hpp>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
@@ -59,9 +58,9 @@ private:
 
     Ui::MainWindow *ui;
 
-    boost::shared_ptr<Picmi> m_game;
-    boost::shared_ptr<Scene> m_scene;
-    boost::shared_ptr<HighScores> m_scores;
+    std::shared_ptr<Picmi> m_game;
+    std::shared_ptr<Scene> m_scene;
+    std::shared_ptr<HighScores> m_scores;
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;

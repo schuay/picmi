@@ -19,11 +19,11 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <boost/shared_ptr.hpp>
 #include <QPixmap>
 #include <QtSvg/QSvgRenderer>
 #include <QString>
 #include <QVector>
+#include <memory>
 
 class Renderer
 {
@@ -68,7 +68,7 @@ public:
 private:
     Renderer();
 
-    static boost::shared_ptr<QPixmap> loadPixmap(QString path);
+    static std::shared_ptr<QPixmap> loadPixmap(QString path);
     QPixmap getCachedPixmap(Renderer::Resource resource, int h, int w) const;
     void loadResources();
 
@@ -77,8 +77,8 @@ private:
     int m_tilesize;
     const int m_streak_grid_count;
 
-    boost::shared_ptr<QSvgRenderer> m_renderer;
-    boost::shared_ptr<QPixmap> m_background;
+    std::shared_ptr<QSvgRenderer> m_renderer;
+    std::shared_ptr<QPixmap> m_background;
 
     QVector<QString> m_names;
 };

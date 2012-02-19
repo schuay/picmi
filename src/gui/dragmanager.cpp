@@ -18,7 +18,9 @@
 
 #include "dragmanager.h"
 
-DragManager::DragManager(boost::shared_ptr<Picmi> game, Scene *scene, QPoint start) :
+#include <assert.h>
+
+DragManager::DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start) :
     m_game(game), m_start(start), m_scene(scene), m_initialized(false)
 {
     m_direction = Undefined;

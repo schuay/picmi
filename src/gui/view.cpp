@@ -34,7 +34,7 @@ void View::resizeEvent(QResizeEvent *event) {
     m_scene->resize(event->size());
 }
 
-boost::shared_ptr<Scene> View::createScene(boost::shared_ptr<Picmi> game) {
+std::shared_ptr<Scene> View::createScene(std::shared_ptr<Picmi> game) {
     m_scene.reset(new Scene(game));
     setScene(m_scene.get());
     m_scene->resize(size());

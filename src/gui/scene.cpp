@@ -20,7 +20,7 @@
 
 #include "src/constants.h"
 
-Scene::Scene(boost::shared_ptr<Picmi> game, QObject *parent) :
+Scene::Scene(std::shared_ptr<Picmi> game, QObject *parent) :
     QGraphicsScene(parent), m_game(game), m_position(0, 0)
 {
     init();

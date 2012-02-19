@@ -21,7 +21,6 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 
 #include "src/logic/picmi.h"
@@ -38,7 +37,7 @@ class Scene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit Scene(boost::shared_ptr<Picmi> game, QObject *parent = 0);
+    explicit Scene(std::shared_ptr<Picmi> game, QObject *parent = 0);
 
     /* 0 <= x < m_game.width(); 0 <= y < m_game.height() */
     void press(int x, int y, Board::State state);
@@ -70,7 +69,7 @@ private:
     int xy_to_i(int x, int y) const;
     int gridSize(const QSize &size) const;
 
-    boost::shared_ptr<Picmi> m_game;
+    std::shared_ptr<Picmi> m_game;
 
     /* The scene automatically deletes registered items */
     TimeBannerItem *m_time_banner;

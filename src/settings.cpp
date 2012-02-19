@@ -83,6 +83,6 @@ void Settings::restore() {
     m_size = (enum GameSize)m_qsettings->value(m_keys[Size], 1).toInt();
 }
 
-boost::shared_ptr<QSettings> Settings::qSettings() {
+std::shared_ptr<QSettings> Settings::qSettings() {
     return m_qsettings;
 }

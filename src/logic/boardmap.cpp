@@ -49,17 +49,14 @@ bool BoardMap::isStreakFiller(enum State state) const {
 }
 
 void BoardMap::calcStreaks() {
-    m_row_streaks.reset(new std::vector<int>[m_height]);
-    m_col_streaks.reset(new std::vector<int>[m_width]);
-
     for (int x = 0; x < m_width; x++) {
         std::vector<enum State> line = colToLine(x);
-        m_col_streaks[x] = lineToStreaks(line);
+        m_col_streaks.push_back(lineToStreaks(line));
     }
 
     for (int y = 0; y < m_height; y++) {
         std::vector<enum State> line = rowToLine(y);
-        m_row_streaks[y] = lineToStreaks(line);
+        m_row_streaks.push_back(lineToStreaks(line));
     }
 }
 

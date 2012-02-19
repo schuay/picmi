@@ -30,14 +30,14 @@ class View : public QGraphicsView
 public:
     explicit View(QWidget *parent);
 
-    boost::shared_ptr<Scene> createScene(boost::shared_ptr<Picmi> game);
+    std::shared_ptr<Scene> createScene(std::shared_ptr<Picmi> game);
     void setPaused(bool paused);
 
 protected:
     void resizeEvent(QResizeEvent *event);
 
 private:
-    boost::shared_ptr<Scene> m_scene;
+    std::shared_ptr<Scene> m_scene;
 };
 
 #endif // VIEW_H

@@ -5,7 +5,6 @@ if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-set(Boost_USE_MULTITHREADED ON)
 set(QT_USE_QTSVG TRUE)
 
 set(picmi_VERSION_MAJOR 1)
@@ -19,7 +18,6 @@ configure_file(
 )
 
 find_package(Qt4 REQUIRED)
-find_package(Boost REQUIRED)
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -D_FORTIFY_SOURCE=2")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -D_FORTIFY_SOURCE=2")
@@ -46,8 +44,7 @@ qt4_wrap_cpp(picmi_QTHEADERS_MOC ${picmi_QTHEADERS})
 
 
 include_directories(
-	${CMAKE_SOURCE_DIR}
-	${Boost_INCLUDE_DIRS}
+        ${CMAKE_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
 )
 aux_source_directory(src/ src_sources)

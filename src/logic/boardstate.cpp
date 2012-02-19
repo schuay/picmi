@@ -90,8 +90,8 @@ void BoardState::calcStreaks() {
     }
 }
 
-boost::shared_ptr<BoardState::LineInfo> BoardState::lineToLineInfo(const std::vector<enum State> &line) const {
-    boost::shared_ptr<LineInfo> lineinfo(new LineInfo);
+std::shared_ptr<BoardState::LineInfo> BoardState::lineToLineInfo(const std::vector<enum State> &line) const {
+    std::shared_ptr<LineInfo> lineinfo(new LineInfo);
     memset(lineinfo.get(), 0, sizeof(struct LineInfo));
 
     lineinfo->line = line;
@@ -112,12 +112,12 @@ boost::shared_ptr<BoardState::LineInfo> BoardState::lineToLineInfo(const std::ve
     return lineinfo;
 }
 
-boost::shared_ptr<BoardState::LineInfo> BoardState::getRowStreak(int y) const {
+std::shared_ptr<BoardState::LineInfo> BoardState::getRowStreak(int y) const {
     assertInbounds(0, y);
     return m_row_infos[y];
 }
 
-boost::shared_ptr<BoardState::LineInfo> BoardState::getColStreak(int x) const {
+std::shared_ptr<BoardState::LineInfo> BoardState::getColStreak(int x) const {
     assertInbounds(x, 0);
     return m_col_infos[x];
 }

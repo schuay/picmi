@@ -22,7 +22,7 @@
 
 #include "src/constants.h"
 
-StreakItem::StreakItem(int x, int y, boost::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
     QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_padding(10), m_color_solved("#555555"), m_color_unsolved("#000000")
 {
     setZValue(ZVALUE_STREAKTEXT);
@@ -30,14 +30,14 @@ StreakItem::StreakItem(int x, int y, boost::shared_ptr<Picmi> game, QGraphicsIte
     setFont(*m_font);
 }
 
-RowStreakItem::RowStreakItem(boost::shared_ptr<Picmi> game, int y, QGraphicsItem *parent) :
+RowStreakItem::RowStreakItem(std::shared_ptr<Picmi> game, int y, QGraphicsItem *parent) :
     StreakItem(0, y, game, parent)
 {
     refresh();
 }
 
 void RowStreakItem::refresh() {
-    std::vector<boost::shared_ptr<struct StreakElement> > streak = m_game->getRowStreak(m_y);
+    std::vector<std::shared_ptr<struct StreakElement> > streak = m_game->getRowStreak(m_y);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {
@@ -71,14 +71,14 @@ void RowStreakItem::reload(const QSize &size) {
     setPos(x, y);
 }
 
-ColStreakItem::ColStreakItem(boost::shared_ptr<Picmi> game, int x, QGraphicsItem *parent) :
+ColStreakItem::ColStreakItem(std::shared_ptr<Picmi> game, int x, QGraphicsItem *parent) :
     StreakItem(x, 0, game, parent)
 {
     refresh();
 }
 
 void ColStreakItem::refresh() {
-    std::vector<boost::shared_ptr<struct StreakElement> > streak = m_game->getColStreak(m_x);
+    std::vector<std::shared_ptr<struct StreakElement> > streak = m_game->getColStreak(m_x);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {

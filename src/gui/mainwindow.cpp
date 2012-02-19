@@ -98,7 +98,7 @@ void MainWindow::startGame() {
     ui->actionPause->setChecked(false);
 
     m_timer.start();
-    boost::shared_ptr<Settings> settings(new Settings());
+    std::shared_ptr<Settings> settings(new Settings());
     m_game.reset(new Picmi(settings));
     m_scene = ui->graphicsView->createScene(m_game);
 
@@ -113,7 +113,7 @@ void MainWindow::startGame() {
 }
 
 void MainWindow::gameWon() {
-    boost::shared_ptr<HighScore> score = m_game->endGame();
+    std::shared_ptr<HighScore> score = m_game->endGame();
     m_scores->add(score);
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);

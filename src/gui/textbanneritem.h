@@ -32,7 +32,7 @@ public:
     void reload(const QSize &size);
 
 protected:
-    boost::shared_ptr<QFont> m_font;
+    std::shared_ptr<QFont> m_font;
     Renderer::FontSize m_size;
 };
 

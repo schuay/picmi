@@ -20,7 +20,6 @@
 #define CELLITEM_H
 
 #include <QGraphicsPixmapItem>
-#include <boost/shared_ptr.hpp>
 
 #include "scene.h"
 #include "src/logic/picmi.h"
@@ -33,7 +32,7 @@ class DragManager;
 class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
 public:
-    CellItem(int x, int y, boost::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
+    CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
     void refresh();
     void reload(const QSize &size);
@@ -51,9 +50,9 @@ private:
 
 private:
 
-    const boost::shared_ptr<Picmi> m_game;
+    const std::shared_ptr<Picmi> m_game;
     Scene *m_scene;
-    boost::shared_ptr<DragManager> m_dragmanager;
+    std::shared_ptr<DragManager> m_dragmanager;
     Qt::MouseButton m_dragbutton;
     QPixmap m_cross;
     QPixmap m_box;

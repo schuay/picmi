@@ -19,8 +19,6 @@
 #ifndef PICMI_H
 #define PICMI_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "boardmap.h"
 #include "boardstate.h"
 #include "src/settings.h"
@@ -37,7 +35,7 @@ class IOHandler;
 class Picmi
 {
 public:
-    Picmi(boost::shared_ptr<Settings> settings);
+    Picmi(std::shared_ptr<Settings> settings);
 
     int width() const;
     int height() const;
@@ -52,23 +50,23 @@ public:
     int elapsedSecs() const;
 
     bool won() const;
-    boost::shared_ptr<HighScore> endGame();
+    std::shared_ptr<HighScore> endGame();
 
     void undo();
 
-    std::vector<boost::shared_ptr<struct StreakElement> > getRowStreak(int y) const;
-    std::vector<boost::shared_ptr<struct StreakElement> > getColStreak(int x) const;
+    std::vector<std::shared_ptr<struct StreakElement> > getRowStreak(int y) const;
+    std::vector<std::shared_ptr<struct StreakElement> > getColStreak(int x) const;
 
 private:
-    std::vector<boost::shared_ptr<struct StreakElement> > newStreak(const std::vector<int> &map) const;
-    std::vector<boost::shared_ptr<struct StreakElement> > processStreak(
-            const std::vector<int> &map, boost::shared_ptr<BoardState::LineInfo> state) const;
+    std::vector<std::shared_ptr<struct StreakElement> > newStreak(const std::vector<int> &map) const;
+    std::vector<std::shared_ptr<struct StreakElement> > processStreak(
+            const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const;
 
 private:
-    boost::shared_ptr<BoardMap> m_map;
-    boost::shared_ptr<BoardState> m_state;
-    boost::shared_ptr<Settings> m_settings;
-    boost::shared_ptr<IOHandler> m_io_handler;
+    std::shared_ptr<BoardMap> m_map;
+    std::shared_ptr<BoardState> m_state;
+    std::shared_ptr<Settings> m_settings;
+    std::shared_ptr<IOHandler> m_io_handler;
 
     ElapsedTime m_timer;
 };

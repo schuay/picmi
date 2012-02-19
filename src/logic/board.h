@@ -19,8 +19,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include <boost/shared_array.hpp>
-#include <boost/shared_ptr.hpp>
 #include <vector>
 
 #include "src/outofboundsexception.h"
@@ -64,7 +62,7 @@ protected:
     int i_to_x(int i) const;
     int i_to_y(int i) const;
 
-    boost::shared_array<enum State> m_state;
+    std::vector<enum State> m_state;
     const int m_width, m_height, m_size;
 };
 

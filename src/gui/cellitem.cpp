@@ -20,11 +20,12 @@
 
 #include <QKeyEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <assert.h>
 
 #include "renderer.h"
 #include "src/constants.h"
 
-CellItem::CellItem(int x, int y, boost::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
+CellItem::CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_game(game), m_scene(scene)
 {
     setZValue(ZVALUE_CELLITEM);

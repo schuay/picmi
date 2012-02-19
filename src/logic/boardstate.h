@@ -21,6 +21,7 @@
 
 #include <QVector>
 #include <QStack>
+#include <memory>
 
 #include "board.h"
 
@@ -42,8 +43,8 @@ public:
 
     void undo();
 
-    boost::shared_ptr<LineInfo> getRowStreak(int y) const;
-    boost::shared_ptr<LineInfo> getColStreak(int x) const;
+    std::shared_ptr<LineInfo> getRowStreak(int y) const;
+    std::shared_ptr<LineInfo> getColStreak(int x) const;
 
     int boxCount() const { return m_box_count; }
 
@@ -56,7 +57,7 @@ private:
 
     void calcBoxCount();
 
-    boost::shared_ptr<LineInfo> lineToLineInfo(const std::vector<enum State> &line) const;
+    std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<enum State> &line) const;
 
 private:
 
@@ -67,8 +68,8 @@ private:
 
     QStack<UndoAction> m_undo_queue;
 
-    QVector<boost::shared_ptr<LineInfo> > m_row_infos;
-    QVector<boost::shared_ptr<LineInfo> > m_col_infos;
+    QVector<std::shared_ptr<LineInfo> > m_row_infos;
+    QVector<std::shared_ptr<LineInfo> > m_col_infos;
 
     int m_box_count;
 };

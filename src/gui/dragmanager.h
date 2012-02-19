@@ -29,7 +29,7 @@ class Scene;
 class DragManager
 {
 public:
-    DragManager(boost::shared_ptr<Picmi> game, Scene *scene, QPoint start);
+    DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start);
 
     void init(Board::State state);
     void move(int x, int y);
@@ -45,7 +45,7 @@ private:
         Undefined
     };
 
-    const boost::shared_ptr<Picmi> m_game;
+    const std::shared_ptr<Picmi> m_game;
     const QPoint m_start;
     Scene *m_scene;
     Board::State m_before, m_after, m_request;

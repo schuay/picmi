@@ -19,7 +19,6 @@
 #define HIGHSCOREWINDOW_H
 
 #include <QDialog>
-#include <boost/shared_ptr.hpp>
 #include <QAbstractTableModel>
 
 #include "src/highscores.h"
@@ -32,7 +31,7 @@ class ScoreTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    ScoreTableModel(QList<boost::shared_ptr<HighScore> > scores);
+    ScoreTableModel(QList<std::shared_ptr<HighScore> > scores);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -45,23 +44,23 @@ private:
         Date
     };
 
-    QList<boost::shared_ptr<HighScore> > m_scores;
+    QList<std::shared_ptr<HighScore> > m_scores;
 };
 
 class HighScoreWindow : public QDialog
 {
     Q_OBJECT
 public:
-    explicit HighScoreWindow(boost::shared_ptr<HighScores> scores, boost::shared_ptr<HighScore> current, QWidget *parent = 0);
-    explicit HighScoreWindow(boost::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent = 0);
+    explicit HighScoreWindow(std::shared_ptr<HighScores> scores, std::shared_ptr<HighScore> current, QWidget *parent = 0);
+    explicit HighScoreWindow(std::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent = 0);
     ~HighScoreWindow();
     
 private:
-    void prepareTable(QList<boost::shared_ptr<HighScore> > &scores);
+    void prepareTable(QList<std::shared_ptr<HighScore> > &scores);
 
     Ui::HighScoreWindow *ui;
 
-    boost::shared_ptr<ScoreTableModel> m_model;
+    std::shared_ptr<ScoreTableModel> m_model;
 };
 
 #endif // HIGHSCOREWINDOW_H

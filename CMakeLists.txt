@@ -19,8 +19,8 @@ configure_file(
 
 find_package(Qt4 REQUIRED)
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -D_FORTIFY_SOURCE=2")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -D_FORTIFY_SOURCE=2")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI__ -D_FORTIFY_SOURCE=2")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI_ -D_FORTIFY_SOURCE=2")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

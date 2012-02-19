@@ -51,7 +51,8 @@ void PauseBannerItem::reload(const QSize &size) {
 }
 
 
-TimeBannerItem::TimeBannerItem(int remaining_boxes, QGraphicsItem *parent) : TextBannerItem(parent)
+TimeBannerItem::TimeBannerItem(int remaining_boxes, QGraphicsItem *parent) :
+    TextBannerItem(parent), m_time(""), m_remaining_boxes(0)
 {
     m_size = Renderer::Regular;
     setTime(0);

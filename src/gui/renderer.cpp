@@ -84,13 +84,19 @@ void Renderer::setTilesize(int tilesize) {
 }
 
 int Renderer::getFontSize(enum FontSize size) const {
+    int pts = 0;
+
     switch (size) {
-    case Regular: return (m_tilesize - 10) * 0.5 + 5;
-    case Large: return (m_tilesize - 10) * 0.75 + 7;
+    case Regular: pts = (m_tilesize - 10) * 0.5 + 5; break;
+    case Large: pts = (m_tilesize - 10) * 0.75 + 7; break;
     default: assert(0); /* not used */
     }
 
-    return 0;
+    if (pts < 5) {
+        pts = 5;
+    }
+
+    return pts;
 }
 
 Renderer *Renderer::instance() {

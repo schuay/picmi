@@ -171,10 +171,10 @@ int Picmi::elapsedSecs() const {
     return m_timer.elapsedSecs();
 }
 
-std::vector<std::shared_ptr<struct StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {
-    std::vector<std::shared_ptr<struct StreakElement> > streak;
+std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {
+    std::vector<std::shared_ptr<Picmi::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
-        std::shared_ptr<struct StreakElement> element(new struct StreakElement);
+        std::shared_ptr<Picmi::StreakElement> element(new Picmi::StreakElement);
         element->value = map[i];
         element->solved = false;
         streak.push_back(element);
@@ -182,11 +182,11 @@ std::vector<std::shared_ptr<struct StreakElement> > Picmi::newStreak(const std::
     return streak;
 }
 
-std::vector<std::shared_ptr<struct StreakElement> > Picmi::processStreak(
+std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::processStreak(
         const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const {
 
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
-    std::vector<std::shared_ptr<struct StreakElement> > streak = newStreak(map);
+    std::vector<std::shared_ptr<Picmi::StreakElement> > streak = newStreak(map);
 
     /* line is not completely filled, so state and state_reversed are disjoint. */
     if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
@@ -239,14 +239,14 @@ std::vector<std::shared_ptr<struct StreakElement> > Picmi::processStreak(
     return streak;
 }
 
-std::vector<std::shared_ptr<struct StreakElement> > Picmi::getRowStreak(int y) const {
+std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getRowStreak(int y) const {
     std::vector<int> map_streak = m_map->getRowStreak(y);
     std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getRowStreak(y);
 
     return processStreak(map_streak, state_streak);
 }
 
-std::vector<std::shared_ptr<struct StreakElement> > Picmi::getColStreak(int x) const {
+std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) const {
     std::vector<int> map_streak = m_map->getColStreak(x);
     std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getColStreak(x);
 

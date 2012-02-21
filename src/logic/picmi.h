@@ -25,16 +25,17 @@
 #include "elapsedtime.h"
 #include "src/highscores.h"
 
-struct StreakElement {
-    int value;
-    bool solved;
-};
-
 class IOHandler;
 
 class Picmi
 {
 public:
+
+    struct StreakElement {
+        int value;
+        bool solved;
+    };
+
     Picmi(std::shared_ptr<Settings> settings);
 
     int width() const;
@@ -60,12 +61,12 @@ public:
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */
-    std::vector<std::shared_ptr<struct StreakElement> > getRowStreak(int y) const;
-    std::vector<std::shared_ptr<struct StreakElement> > getColStreak(int x) const;
+    std::vector<std::shared_ptr<Picmi::StreakElement> > getRowStreak(int y) const;
+    std::vector<std::shared_ptr<Picmi::StreakElement> > getColStreak(int x) const;
 
 private:
-    std::vector<std::shared_ptr<struct StreakElement> > newStreak(const std::vector<int> &map) const;
-    std::vector<std::shared_ptr<struct StreakElement> > processStreak(
+    std::vector<std::shared_ptr<Picmi::StreakElement> > newStreak(const std::vector<int> &map) const;
+    std::vector<std::shared_ptr<Picmi::StreakElement> > processStreak(
             const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const;
 
 private:

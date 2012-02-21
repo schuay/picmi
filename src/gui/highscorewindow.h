@@ -31,6 +31,7 @@ class ScoreTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
+    /* scores: list of scores to display */
     ScoreTableModel(QList<std::shared_ptr<HighScore> > scores);
 
     int rowCount(const QModelIndex &parent) const;
@@ -51,7 +52,12 @@ class HighScoreWindow : public QDialog
 {
     Q_OBJECT
 public:
+    /* high score windows display a list of scores in a particular game category.
+      this can be either determined by passing a particular score current (additional infos will be displayed
+      about current */
     explicit HighScoreWindow(std::shared_ptr<HighScores> scores, std::shared_ptr<HighScore> current, QWidget *parent = 0);
+
+    /* or by settings, in which case no additional information is displayed */
     explicit HighScoreWindow(std::shared_ptr<HighScores> scores, const Settings &settings, QWidget *parent = 0);
     ~HighScoreWindow();
     

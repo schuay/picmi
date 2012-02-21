@@ -50,6 +50,8 @@ public:
 
     static Renderer *instance();
 
+    /* returns the pixmap representing the given resource at the
+      current tilesize */
     QPixmap getPixmap(Renderer::Resource res) const;
 
     int getTilesize() const;

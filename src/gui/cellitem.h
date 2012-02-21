@@ -31,9 +31,13 @@ class DragManager;
 class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
 public:
+    /* creates the item with field coordinates (x,y) and the specified
+      game and scene */
     CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
+    /* updates displayed pixmap according to current cell state */
     void refresh();
+
     void reload(const QSize &size);
 
 protected:

@@ -26,6 +26,7 @@
 class ReloadableItem
 {
 public:
+    /* constructs item with field coordinates (x,y) */
     ReloadableItem(int x, int y);
 
     /* Called with view dimensions when window has been resized and

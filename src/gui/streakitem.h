@@ -30,7 +30,9 @@ class StreakItem : public QGraphicsTextItem, public ReloadableItem
 public:
     StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
 
+    /* update displayed streak */
     virtual void refresh() = 0;
+
     virtual void reload(const QSize &size) = 0;
 
 protected:

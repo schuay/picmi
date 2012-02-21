@@ -39,14 +39,21 @@ class Scene : public QGraphicsScene
 public:
     explicit Scene(std::shared_ptr<Picmi> game, QObject *parent = 0);
 
-    /* 0 <= x < m_game.width(); 0 <= y < m_game.height() */
+    /* 0 <= x < m_game.width(); 0 <= y < m_game.height()
+      handles a request to (un)mark (x,y) as a box or cross */
     void press(int x, int y, Board::State state);
+    /* sets focus and highlights to a specific cell,
+      either specified using absolute coordinates (x,y)
+      or relative coordinates (dx,dy) */
     void hover(int x, int y);
     void move(int dx, int dy);
+
+    /* resize scene to view size */
     void resize(const QSize &size);
 
     void setPaused(bool paused);
 
+    /* refresh display of all dynamic graphics elements */
     void refresh();
     
 signals:

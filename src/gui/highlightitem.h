@@ -24,7 +24,11 @@
 class HighlightItem : public PixmapItem
 {
 public:
+    /* creates a highlight at field coordinates (x,y) */
     HighlightItem(Renderer::Resource resource, int x, int y, QGraphicsItem *parent = 0);
+
+    /* switches current highlight on/off according to the currently
+      focused point p */
     void highlight(const QPoint &p);
 };
 

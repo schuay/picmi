@@ -37,7 +37,8 @@ public:
 private:
     enum ScoreColumn {
         Duration = 0,
-        Date
+        Date,
+        ColumnCount
     };
 
     QList<std::shared_ptr<HighScore> > m_scores;
@@ -58,7 +59,7 @@ int ScoreTableModel::columnCount(const QModelIndex &parent) const {
     if (parent.isValid()) {
         return 0;
     }
-    return 2; /* datetime, played time */
+    return ColumnCount;
 }
 
 QVariant ScoreTableModel::headerData(int section, Qt::Orientation orientation, int role) const {

@@ -39,12 +39,15 @@ class ElapsedTime
 public:
     ElapsedTime();
 
+    /* start, stop, or (un)pause the timer */
     void start();
     void pause(bool paused);
     void stop();
 
+    /* adds penalty time and increases the next penalty amount */
     void addPenaltyTime();
 
+    /* return elapsed seconds the the datetime when start() was called */
     int elapsedSecs() const;
     QDateTime startDate() const;
 

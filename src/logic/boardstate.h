@@ -36,16 +36,25 @@ public:
         std::vector<State> line;
     };
 
+    /* initializes an empty field of given width and height,
+      and creates initial (empty) streaks.
+      width, height > 0 */
     BoardState(int width, int height);
 
-    /* 0 <= x < m_width; 0 <= y < m_height */
+    /* 0 <= x < m_width; 0 <= y < m_height
+      sets point (x, y) to state */
     void set(int x, int y, enum State state);
 
+    /* undo the last stored action. if none are left, nothing occurs */
     void undo();
 
+    /* gets the specified row/column streak. these can be different after
+      each player action.
+      (x, y) is inbounds */
     std::shared_ptr<LineInfo> getRowStreak(int y) const;
     std::shared_ptr<LineInfo> getColStreak(int x) const;
 
+    /* returns the count of player-set boxes */
     int boxCount() const { return m_box_count; }
 
 private:

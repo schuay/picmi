@@ -49,11 +49,17 @@ public:
     void setPaused(bool paused);
     int elapsedSecs() const;
 
+    /* returns true if the game has been won */
     bool won() const;
+
+    /* ends the current game and returns the current high score object */
     std::shared_ptr<HighScore> endGame();
 
     void undo();
 
+    /* returns the request row/col streak. these contain the least information required by
+      the frontend, which is (for each position within a streak): "which number is this",
+      and "is this position solved" */
     std::vector<std::shared_ptr<struct StreakElement> > getRowStreak(int y) const;
     std::vector<std::shared_ptr<struct StreakElement> > getColStreak(int x) const;
 

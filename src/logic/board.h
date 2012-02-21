@@ -39,6 +39,7 @@ public:
     /* 0 <= x < m_width; 0 <= y < m_height */
     enum State get(int x, int y) const;
 
+    /* returns whether (x, y) is outside the playing area */
     bool outOfBounds(int x, int y) const;
 
 protected:
@@ -58,6 +59,7 @@ protected:
     /* throws OutOfBoundsException if x,y are not located in bounds */
     void assertInbounds(int x, int y) const;
 
+    /* convert between (x,y) coordinates and the flat list index */
     int xy_to_i(int x, int y) const;
     int i_to_x(int i) const;
     int i_to_y(int i) const;

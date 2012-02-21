@@ -27,9 +27,12 @@ public:
     /* 0 < width, height; 0.0 < box_ratio < 1.0 */
     BoardMap(int width, int height, double box_ratio);
 
+    /* returns the actual streak for the given row/column;
+      0 <= y < height, 0 <= x < width */
     std::vector<int> getRowStreak(int y) const;
     std::vector<int> getColStreak(int x) const;
 
+    /* returns the total box count */
     int boxCount() const { return m_box_count; }
 
 private:

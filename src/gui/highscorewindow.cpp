@@ -23,6 +23,26 @@
 #include "src/logic/elapsedtime.h"
 #include "src/outofboundsexception.h"
 
+class ScoreTableModel : public QAbstractTableModel
+{
+public:
+    /* scores: list of scores to display */
+    ScoreTableModel(QList<std::shared_ptr<HighScore> > scores);
+
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+private:
+    enum ScoreColumn {
+        Duration = 0,
+        Date
+    };
+
+    QList<std::shared_ptr<HighScore> > m_scores;
+};
+
 ScoreTableModel::ScoreTableModel(QList<std::shared_ptr<HighScore> > scores) {
     m_scores = scores;
 }

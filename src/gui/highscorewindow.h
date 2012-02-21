@@ -27,26 +27,7 @@ namespace Ui {
 class HighScoreWindow;
 }
 
-class ScoreTableModel : public QAbstractTableModel
-{
-    Q_OBJECT
-public:
-    /* scores: list of scores to display */
-    ScoreTableModel(QList<std::shared_ptr<HighScore> > scores);
-
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-
-private:
-    enum ScoreColumn {
-        Duration = 0,
-        Date
-    };
-
-    QList<std::shared_ptr<HighScore> > m_scores;
-};
+class ScoreTableModel;
 
 class HighScoreWindow : public QDialog
 {

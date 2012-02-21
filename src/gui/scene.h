@@ -25,11 +25,11 @@
 
 #include "src/logic/picmi.h"
 #include "renderer.h"
-#include "cellitem.h"
-#include "streakitem.h"
-#include "pixmapitem.h"
-#include "highlightitem.h"
-#include "textbanneritem.h"
+#include "graphicsitems/cellitem.h"
+#include "graphicsitems/streakitem.h"
+#include "graphicsitems/pixmapitem.h"
+#include "graphicsitems/highlightitem.h"
+#include "graphicsitems/textbanneritem.h"
 
 class CellItem;
 

@@ -22,7 +22,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <assert.h>
 
-#include "renderer.h"
+#include "src/gui/renderer.h"
 #include "src/constants.h"
 
 class DragManager

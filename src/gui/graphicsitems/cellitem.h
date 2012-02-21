@@ -16,24 +16,50 @@
  ************************************************************************* */
 
 
-#ifndef RELOADABLEITEM_H
-#define RELOADABLEITEM_H
+#ifndef CELLITEM_H
+#define CELLITEM_H
 
-#include <QSize>
+#include <QGraphicsPixmapItem>
 
-#include "renderer.h"
+#include "src/gui/scene.h"
+#include "src/logic/picmi.h"
+#include "reloadableitem.h"
 
-class ReloadableItem
+class Scene;
+class DragManager;
+
+class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
 public:
-    /* constructs item with field coordinates (x,y) */
-    ReloadableItem(int x, int y);
+    /* creates the item with field coordinates (x,y) and the specified
+      game and scene */
+    CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
-    /* Called with view dimensions when window has been resized and
-       item needs to reload and reposition itself correctly. */
-    virtual void reload(const QSize &size) = 0;
+    /* updates displayed pixmap according to current cell state */
+    void refresh();
+
+    void reload(const QSize &size);
+
 protected:
-    const int m_x, m_y;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+
+private:
+
+    int drag_offset(int pos) const;
+
+private:
+
+    const std::shared_ptr<Picmi> m_game;
+    Scene *m_scene;
+    std::shared_ptr<DragManager> m_dragmanager;
+    Qt::MouseButton m_dragbutton;
+    QPixmap m_cross;
+    QPixmap m_box;
+    QPixmap m_transparent;
 };
 
-#endif // RELOADABLEITEM_H
+#endif // CELLITEM_H

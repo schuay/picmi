@@ -22,7 +22,7 @@
 #include <QGraphicsTextItem>
 
 #include "src/logic/picmi.h"
-#include "renderer.h"
+#include "src/gui/renderer.h"
 #include "reloadableitem.h"
 
 class StreakItem : public QGraphicsTextItem, public ReloadableItem

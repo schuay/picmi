@@ -49,11 +49,13 @@ include_directories(
 )
 aux_source_directory(src/ src_sources)
 aux_source_directory(src/gui src_gui_sources)
+aux_source_directory(src/gui/graphicsitems src_gui_graphicsitems_sources)
 aux_source_directory(src/logic src_logic_sources)
 
 add_executable(picmi
 	${src_sources}
 	${src_gui_sources}
+        ${src_gui_graphicsitems_sources}
 	${src_logic_sources}
 	${picmi_FORMS_HEADERS}
 	${picmi_QTHEADERS_MOC}

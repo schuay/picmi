@@ -211,10 +211,7 @@ void Scene::move(int dx, int dy) {
     while (y < 0) {
         y += m_game->height();
     }
-    m_position.setX(x % m_game->width());
-    m_position.setY(y % m_game->height());
-    m_cells[xy_to_i(m_position.x(), m_position.y())]->setFocus();
-    updateHighlights();
+    hover(x % m_game->width(), y % m_game->height());
 }
 
 int Scene::xy_to_i(int x, int y) const {

@@ -19,6 +19,7 @@
 #include "ui_highscorewindow.h"
 
 #include <assert.h>
+#include <klocalizedstring.h>
 
 #include "src/logic/elapsedtime.h"
 #include "src/outofboundsexception.h"
@@ -65,8 +66,8 @@ int ScoreTableModel::columnCount(const QModelIndex &parent) const {
 QVariant ScoreTableModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-        case Duration: return QVariant("Time played");
-        case Date: return QVariant("Date");
+        case Duration: return QVariant(ki18n("Time played").toString());
+        case Date: return QVariant(ki18n("Date").toString());
         default: assert(0);
         }
     }
@@ -119,7 +120,7 @@ HighScoreWindow::HighScoreWindow(std::shared_ptr<HighScores> scores, std::shared
     }
     int average_time = total_time / category_scores.size();
 
-    QString s("You placed #%1 out of %2\nTime used: %3\nAverage time used: %4");
+    QString s = ki18n("You placed #%1 out of %2\nTime used: %3\nAverage time used: %4").toString();
     ui->textLabel->setText(s.arg(current_index + 1)
                           .arg(category_scores.size())
                           .arg(Time(current->playedSeconds()).toString())
@@ -136,7 +137,7 @@ HighScoreWindow::HighScoreWindow(std::shared_ptr<HighScores> scores, const Setti
                 settings.height(), settings.width(), settings.boxDensity(), settings.noHintsMode());
     prepareTable(category_scores);
 
-    ui->titleLabel->setText("High Scores");
+    ui->titleLabel->setText(ki18n("High Scores").toString());
     ui->textLabel->hide();
 }
 

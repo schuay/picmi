@@ -18,6 +18,8 @@
 
 #include "textbanneritem.h"
 
+#include <klocalizedstring.h>
+
 #include "src/logic/elapsedtime.h"
 #include "src/constants.h"
 
@@ -39,7 +41,7 @@ void TextBannerItem::reload(const QSize &size) {
 
 PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)
 {
-    setPlainText("PAUSED");
+    setPlainText(ki18n("PAUSED").toString());
     setVisible(false);
 }
 
@@ -71,8 +73,9 @@ void TimeBannerItem::setTime(int time) {
 }
 
 void TimeBannerItem::updateText() {
-    QString text("<p align=\"center\">Elapsed time<br>%1"
-                 "<p align=\"center\">Boxes left<br>%2");
+    QString text("<p align=\"center\">%1<br>%3"
+                 "<p align=\"center\">%2<br>%4");
+    text = text.arg(i18n("Elapsed time")).arg(i18n("Remaining boxes"));
     setHtml(text.arg(m_time).arg(m_remaining_boxes));
 }
 

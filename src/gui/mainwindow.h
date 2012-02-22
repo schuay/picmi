@@ -19,24 +19,21 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <kxmlguiwindow.h>
 #include <QTimer>
 #include <highscore/kscoredialog.h>
+#include <kaction.h>
+#include <ktoggleaction.h>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
 #include "view.h"
 
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+class MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -56,9 +53,11 @@ private:
     void saveWindowState();
     void pauseGame();
     std::shared_ptr<KScoreDialog> createScoreDialog();
+    void setupActions();
 
-    Ui::MainWindow *ui;
-
+    KAction *m_action_undo;
+    KToggleAction *m_action_pause;
+    View m_view;
     std::shared_ptr<Picmi> m_game;
     std::shared_ptr<Scene> m_scene;
     QTimer m_timer;

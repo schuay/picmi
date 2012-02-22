@@ -23,6 +23,8 @@
 #include <QGraphicsSimpleTextItem>
 #include <QMessageBox>
 #include <klocalizedstring.h>
+#include <kstandardgameaction.h>
+#include <kactioncollection.h>
 
 #include "helpwindow.h"
 #include "settingswindow.h"
@@ -30,37 +32,38 @@
 #include "src/constants.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow), m_key_size("window/size"), m_key_pos("window/position"), m_in_progress(false)
+    KXmlGuiWindow(parent), m_key_size("window/size"),
+    m_key_pos("window/position"), m_in_progress(false)
 {
-    ui->setupUi(this);
-
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
 
     setWindowIcon(QIcon(QString(FILEPATH) + "icon.png"));
 
-    /* hide the status bar for now until we find a use for it */
-    ui->statusBar->hide();
-
-    restoreWindowState();
-
-    connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(startGame()));
-    connect(ui->actionHelp, SIGNAL(triggered()), this, SLOT(help()));
-    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
-    connect(ui->actionPause, SIGNAL(triggered(bool)), this, SLOT(togglePaused(bool)));
-    connect(ui->actionUndo, SIGNAL(triggered()), this, SLOT(undo()));
-    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
-    connect(ui->actionHigh_Scores, SIGNAL(triggered()), this, SLOT(highscores()));
-
     m_timer.setInterval(1000);
+
+    setCentralWidget(&m_view);
+
+    setupActions();
+    restoreWindowState();
 
     startGame();
 }
 
+void MainWindow::setupActions() {
+    KStandardGameAction::gameNew(this, SLOT(startGame()), actionCollection());
+    KStandardGameAction::highscores(this, SLOT(highscores()), actionCollection());
+    KStandardGameAction::quit(this, SLOT(close()), actionCollection());
+    KStandardAction::preferences(this, SLOT(settings()), actionCollection());
+    m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
+    m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
+
+    setupGUI();
+}
+
 void MainWindow::closeEvent(QCloseEvent *event) {
     saveWindowState();
-    QMainWindow::closeEvent(event);
+    KXmlGuiWindow::closeEvent(event);
 }
 
 void MainWindow::saveWindowState() {
@@ -91,18 +94,17 @@ void MainWindow::startGame() {
         disconnect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     }
 
-    ui->actionUndo->setEnabled(true);
-    ui->actionPause->setEnabled(true);
-    ui->actionPause->setChecked(false);
+    m_action_undo->setEnabled(true);
+    m_action_pause->setEnabled(true);
+    m_action_pause->setChecked(false);
 
     m_timer.start();
     std::shared_ptr<Settings> settings(new Settings());
     m_game.reset(new Picmi(settings));
-    m_scene = ui->graphicsView->createScene(m_game);
+    m_scene = m_view.createScene(m_game);
 
-    ui->graphicsView->setEnabled(true);
-    ui->graphicsView->setFocus();
-    ui->statusBar->clearMessage();
+    m_view.setEnabled(true);
+    m_view.setFocus();
 
     connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
@@ -122,9 +124,9 @@ std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {
 
 void MainWindow::gameWon() {
     KScoreDialog::FieldInfo score = m_game->endGame();
-    ui->graphicsView->setEnabled(false);
-    ui->actionPause->setEnabled(false);
-    ui->actionUndo->setEnabled(false);
+    m_view.setEnabled(false);
+    m_action_pause->setEnabled(false);
+    m_action_undo->setEnabled(false);
     m_timer.stop();
     m_in_progress = false;
 
@@ -133,7 +135,7 @@ void MainWindow::gameWon() {
         scoreDialog->exec();
     }
 
-    ui->graphicsView->setFocus();
+    m_view.setFocus();
 }
 
 void MainWindow::highscores() {
@@ -142,12 +144,12 @@ void MainWindow::highscores() {
     std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
     scoreDialog->exec();
 
-    ui->graphicsView->setFocus();
+    m_view.setFocus();
 }
 
 void MainWindow::togglePaused(bool paused) {
-    ui->graphicsView->setPaused(paused);
-    ui->actionUndo->setEnabled(!paused);
+    m_view.setPaused(paused);
+    m_action_undo->setEnabled(!paused);
 
     if (paused) {
         m_timer.stop();
@@ -169,11 +171,11 @@ void MainWindow::about() {
 }
 
 void MainWindow::pauseGame() {
-    if (ui->actionPause->isChecked() || !m_in_progress) {
+    if (m_action_pause->isChecked() || !m_in_progress) {
         return;
     }
 
-    ui->actionPause->setChecked(true);
+    m_action_pause->setChecked(true);
     togglePaused(true);
 }
 
@@ -189,9 +191,4 @@ void MainWindow::settings() {
 
     SettingsWindow w(this);
     w.exec();
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }

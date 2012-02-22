@@ -70,5 +70,6 @@ target_link_libraries(picmi
 install(TARGETS picmi DESTINATION bin)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION share/picmi)
 install(FILES ${CMAKE_SOURCE_DIR}/picmi.desktop DESTINATION share/applications/)
+install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${DATA_INSTALL_DIR}/picmi)
 
 # vim:set ts=4 sw=4 et:

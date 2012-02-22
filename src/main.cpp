@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &about);
     KApplication app;
 
-    MainWindow w;
-    w.show();
+    MainWindow *w = new MainWindow;
+    w->show();
     
     return app.exec();
 }

@@ -18,9 +18,10 @@ configure_file(
 )
 
 find_package(Qt4 REQUIRED)
+find_package(KDE4 REQUIRED)
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI__ -D_FORTIFY_SOURCE=2")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI_ -D_FORTIFY_SOURCE=2")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI__ -D_FORTIFY_SOURCE=2 -fexceptions")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI_ -D_FORTIFY_SOURCE=2 -fexceptions")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
@@ -45,7 +46,7 @@ qt4_wrap_cpp(picmi_QTHEADERS_MOC ${picmi_QTHEADERS})
 
 include_directories(
         ${CMAKE_SOURCE_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
 )
 aux_source_directory(src/ src_sources)
 aux_source_directory(src/gui src_gui_sources)
@@ -62,6 +63,8 @@ add_executable(picmi
 )
 
 target_link_libraries(picmi
+        ${KDE4_KDEUI_LIBS}
+        ${KDE4_KDECORE_LIBS}
 	${QT_LIBRARIES}
 )
 

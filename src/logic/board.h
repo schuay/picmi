@@ -36,6 +36,8 @@ public:
     /* 0 < width, height */
     Board(int width, int height);
 
+    virtual ~Board() { }
+
     /* 0 <= x < m_width; 0 <= y < m_height */
     enum State get(int x, int y) const;
 

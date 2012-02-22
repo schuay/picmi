@@ -29,6 +29,8 @@ public:
     /* constructs item with field coordinates (x,y) */
     ReloadableItem(int x, int y);
 
+    virtual ~ReloadableItem() { }
+
     /* Called with view dimensions when window has been resized and
        item needs to reload and reposition itself correctly. */
     virtual void reload(const QSize &size) = 0;

@@ -24,6 +24,7 @@ class IOHandler
 {
 public:
     IOHandler(BoardMap *map, BoardState *state, ElapsedTime *timer) : m_map(map), m_state(state), m_timer(timer) { }
+    virtual ~IOHandler() { }
 
     void set(int x, int y, Board::State state);
 

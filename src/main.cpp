@@ -16,14 +16,31 @@
  ************************************************************************* */
 
 
-#include <QtGui/QApplication>
+#include <kapplication.h>
+#include <kcmdlineargs.h>
+#include <kaboutdata.h>
+
 #include "gui/mainwindow.h"
+#include "config.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    KAboutData about ("picmi",
+                      0,
+                      ki18n("Picmi"),
+                      QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH).toAscii(),
+                      ki18n("Picmi - a nonogram puzzle game"),
+                      KAboutData::License_GPL_V2,
+                      ki18n("(c) 2012 The Picmi Authors"),
+                      KLocalizedString(),
+                      "http://www.github.com/schuay/picmi-rewrite");
+    about.addAuthor(ki18n("Jakob Gruber"), ki18n("Picmi Author"), "jakob.gruber@gmail.com");
+
+    KCmdLineArgs::init(argc, argv, &about);
+    KApplication app;
+
     MainWindow w;
     w.show();
     
-    return a.exec();
+    return app.exec();
 }

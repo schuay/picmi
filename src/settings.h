@@ -22,31 +22,24 @@
 #include <QSettings>
 #include <QVector>
 #include <memory>
+#include <kgamedifficulty.h>
 
 class Settings
 {
 public:
     Settings();
 
-    enum GameSize {
-        Small,
-        Medium,
-        Large,
-        Custom
-    };
-
     int width() const;
     int height() const;
     double boxDensity() const;
-    bool noHintsMode() const;
-    enum GameSize size() const;
-    QString sizeString() const;
+    bool preventMistakes() const;
+    KGameDifficulty::standardLevel level() const;
 
     void setWidth(int width);
     void setHeight(int height);
     void setBoxDensity(double box_density);
-    void setNoHintsMode(bool no_hints_mode);
-    void setSize(enum GameSize size);
+    void setPreventMistakes(bool prevent_mistakes);
+    void setLevel(KGameDifficulty::standardLevel level);
 
     std::shared_ptr<QSettings> qSettings();
 
@@ -57,16 +50,16 @@ private:
         Width = 0,
         Height,
         BoxDensity,
-        NoHintsMode,
-        Size
+        PreventMistakes,
+        Level
     };
 
     QVector<QString> m_keys;
 
     int m_width, m_height;
     double m_box_density;
-    bool m_no_hints_mode;
-    Settings::GameSize m_size;
+    bool m_prevent_mistakes;
+    KGameDifficulty::standardLevel m_level;
 
     std::shared_ptr<QSettings> m_qsettings;
 };

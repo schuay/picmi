@@ -47,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setupActions();
     restoreWindowState();
 
+    Settings settings;
+    KGameDifficulty::setLevel(settings.level());
+
     startGame();
 }
 
@@ -58,7 +61,25 @@ void MainWindow::setupActions() {
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
 
+    KGameDifficulty::init(this, this, SLOT(levelChanged(KGameDifficulty::standardLevel)), SLOT(customLevelChanged(int)));
+    KGameDifficulty::setRestartOnChange(KGameDifficulty::RestartOnChange);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Easy);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Medium);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Hard);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Configurable);
+
     setupGUI();
+}
+
+void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {
+    Settings settings;
+    settings.setLevel(level);
+    settings.qSettings()->sync();
+    startGame();
+}
+
+void MainWindow::customLevelChanged(int level) {
+    Q_UNUSED(level);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -97,9 +118,10 @@ void MainWindow::startGame() {
     m_action_undo->setEnabled(true);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
+    KGameDifficulty::setRunning(true);
 
     m_timer.start();
-    std::shared_ptr<Settings> settings(new Settings());
+    std::shared_ptr<Settings> settings(new Settings);
     m_game.reset(new Picmi(settings));
     m_scene = m_view.createScene(m_game);
 
@@ -116,7 +138,15 @@ std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {
     Settings settings;
 
     std::shared_ptr<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time, this));
-    p->setConfigGroup(qMakePair(QByteArray(settings.sizeString().toLocal8Bit()), settings.sizeString()));
+
+    p->addLocalizedConfigGroupNames(KGameDifficulty::localizedLevelStrings());
+    p->setConfigGroupWeights(KGameDifficulty::levelWeights());
+    QPair<QByteArray, QString> group = KGameDifficulty::localizedLevelString();
+    if(group.first.isEmpty()) {
+        group = qMakePair(QByteArray("Custom"), i18n("Custom"));
+    }
+    p->setConfigGroup(group);
+
     p->hideField(KScoreDialog::Score);
 
     return p;
@@ -127,6 +157,7 @@ void MainWindow::gameWon() {
     m_view.setEnabled(false);
     m_action_pause->setEnabled(false);
     m_action_undo->setEnabled(false);
+    KGameDifficulty::setRunning(false);
     m_timer.stop();
     m_in_progress = false;
 

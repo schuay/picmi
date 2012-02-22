@@ -29,8 +29,6 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 
     setFixedSize(400, 300);
 
-    connect(ui->gameSizeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(gameSizeChanged(int)));
-
     restoreSettings();
 }
 
@@ -39,47 +37,23 @@ SettingsWindow::~SettingsWindow()
     delete ui;
 }
 
-void SettingsWindow::gameSizeChanged(int size) {
-    switch (size) {
-    case 0: /* small */
-        setValues(10, 10, 0.55, true); enableControls(false); break;
-    case 1: /* medium */
-        setValues(10, 15, 0.55, true); enableControls(false); break;
-    case 2: /* large */
-        setValues(15, 15, 0.55, true); enableControls(false); break;
-    case 3: /* custom */
-         enableControls(true); break;
-    default: assert(0);
-    }
-}
-
-void SettingsWindow::enableControls(bool enabled) {
-    ui->heightSpinBox->setEnabled(enabled);
-    ui->widthSpinBox->setEnabled(enabled);
-    ui->densitySlider->setEnabled(enabled);
-    ui->noHintsModeCheckBox->setEnabled(enabled);
-}
-
-void SettingsWindow::setValues(int height, int width, double density, bool no_hints_mode) {
+void SettingsWindow::setValues(int height, int width, double density, bool prevent_mistakes) {
     ui->heightSpinBox->setValue(height);
     ui->widthSpinBox->setValue(width);
     ui->densitySlider->setValue(density * 100.0);
-    ui->noHintsModeCheckBox->setChecked(no_hints_mode);
+    ui->preventMistakesCheckBox->setChecked(prevent_mistakes);
 }
 
 void SettingsWindow::restoreSettings() {
     setValues(m_settings.height(), m_settings.width(),
-              m_settings.boxDensity(), m_settings.noHintsMode());
-    ui->gameSizeComboBox->setCurrentIndex(m_settings.size());
-    gameSizeChanged(m_settings.size());
+              m_settings.boxDensity(), m_settings.preventMistakes());
 }
 
 void SettingsWindow::saveSettings() {
     m_settings.setHeight(ui->heightSpinBox->value());
     m_settings.setWidth(ui->widthSpinBox->value());
     m_settings.setBoxDensity(ui->densitySlider->value() / 100.0);
-    m_settings.setNoHintsMode(ui->noHintsModeCheckBox->isChecked());
-    m_settings.setSize((Settings::GameSize)ui->gameSizeComboBox->currentIndex());
+    m_settings.setPreventMistakes(ui->preventMistakesCheckBox->isChecked());
 
     std::shared_ptr<QSettings> qsettings = m_settings.qSettings();
     qsettings->sync();

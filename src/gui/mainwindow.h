@@ -24,6 +24,7 @@
 #include <highscore/kscoredialog.h>
 #include <kaction.h>
 #include <ktoggleaction.h>
+#include <kgamedifficulty.h>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
@@ -47,6 +48,8 @@ private slots:
     void undo();
     void about();
     void highscores();
+    void levelChanged(KGameDifficulty::standardLevel level);
+    void customLevelChanged(int level);
 
 private:
     void restoreWindowState();

@@ -23,8 +23,8 @@ Settings::Settings() {
     m_keys << "game/width"
            << "game/height"
            << "game/box_ratio"
-           << "game/no_hints_mode"
-           << "game/size";
+           << "game/prevent_mistakes"
+           << "game/level";
 
     m_qsettings.reset(new QSettings);
     restore();
@@ -42,21 +42,12 @@ double Settings::boxDensity() const {
     return m_box_density;
 }
 
-bool Settings::noHintsMode() const {
-    return m_no_hints_mode;
+bool Settings::preventMistakes() const {
+    return m_prevent_mistakes;
 }
 
-Settings::GameSize Settings::size() const {
-    return m_size;
-}
-
-QString Settings::sizeString() const {
-    switch(m_size) {
-    case Small: return "Small";
-    case Medium: return "Medium";
-    case Large: return "Large";
-    default: return "Custom";
-    }
+KGameDifficulty::standardLevel Settings::level() const {
+    return m_level;
 }
 
 void Settings::setWidth(int width) {
@@ -74,22 +65,23 @@ void Settings::setBoxDensity(double box_density) {
     m_qsettings->setValue(m_keys[BoxDensity], box_density);
 }
 
-void Settings::setNoHintsMode(bool no_hints_mode) {
-    m_no_hints_mode = no_hints_mode;
-    m_qsettings->setValue(m_keys[NoHintsMode], no_hints_mode);
+void Settings::setPreventMistakes(bool prevent_mistakes) {
+    m_prevent_mistakes = prevent_mistakes;
+    m_qsettings->setValue(m_keys[PreventMistakes], prevent_mistakes);
 }
 
-void Settings::setSize(Settings::GameSize size) {
-    m_size = size;
-    m_qsettings->setValue(m_keys[Size], size);
+void Settings::setLevel(KGameDifficulty::standardLevel level) {
+    m_level = level;
+    m_qsettings->setValue(m_keys[Level], level);
 }
 
 void Settings::restore() {
     m_width = m_qsettings->value(m_keys[Width], 15).toInt();
     m_height = m_qsettings->value(m_keys[Height], 10).toInt();
     m_box_density = m_qsettings->value(m_keys[BoxDensity], 0.55).toDouble();
-    m_no_hints_mode = m_qsettings->value(m_keys[NoHintsMode], true).toBool();
-    m_size = (enum GameSize)m_qsettings->value(m_keys[Size], 1).toInt();
+    m_prevent_mistakes = m_qsettings->value(m_keys[PreventMistakes], false).toBool();
+    m_level = (KGameDifficulty::standardLevel)m_qsettings->value(m_keys[Level],
+        KGameDifficulty::Medium).toInt();
 }
 
 std::shared_ptr<QSettings> Settings::qSettings() {

@@ -101,15 +101,26 @@ void IOHandlerHints::setBox(int x, int y) {
 
 Picmi::Picmi(std::shared_ptr<Settings> settings)
 {
-    m_settings = settings;
-    m_map.reset(new BoardMap(settings->width(), settings->height(),
-                             settings->boxDensity()));
-    m_state.reset(new BoardState(settings->width(), settings->height()));
+    int width, height;
+    double density;
+    bool prevent_mistakes;
+    switch (settings->level()) {
+    case KGameDifficulty::Easy: width = height = 10; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Medium: width = 15; height = 10; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Hard: width = height = 15; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Configurable: width = settings->width(); height = settings->height();
+        density = settings->boxDensity(); prevent_mistakes = settings->preventMistakes(); break;
+    default: assert(0);
+    }
 
-    if (settings->noHintsMode()) {
-        m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
-    } else {
+    m_settings = settings;
+    m_map.reset(new BoardMap(width, height, density));
+    m_state.reset(new BoardState(width, height));
+
+    if (prevent_mistakes) {
         m_io_handler.reset(new IOHandlerHints(m_map.get(), m_state.get(), &m_timer));
+    } else {
+        m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
     }
 
     m_timer.start();
@@ -158,11 +169,11 @@ KScoreDialog::FieldInfo Picmi::endGame() {
 }
 
 int Picmi::height() const {
-    return m_settings->height();
+    return m_map->height();
 }
 
 int Picmi::width() const {
-    return m_settings->width();
+    return m_map->width();
 }
 
 bool Picmi::outOfBounds(int x, int y) const {

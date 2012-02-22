@@ -44,6 +44,9 @@ public:
     /* returns whether (x, y) is outside the playing area */
     bool outOfBounds(int x, int y) const;
 
+    int width() const { return m_width; }
+    int height() const { return m_height; }
+
 protected:
 
     /* 0 <= x < m_width; 0 <= y < m_height;

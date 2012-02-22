@@ -38,14 +38,11 @@ public:
 public slots:
     void accept();
 
-private slots:
-    void gameSizeChanged(int size);
-
 private:
     void restoreSettings();
     void saveSettings();
     void enableControls(bool enabled);
-    void setValues(int height, int width, double density, bool no_hints_mode);
+    void setValues(int height, int width, double density, bool prevent_mistakes);
 
     Settings m_settings;
 

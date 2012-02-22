@@ -146,10 +146,15 @@ void Picmi::undo() {
     m_state->undo();
 }
 
-std::shared_ptr<HighScore> Picmi::endGame() {
+KScoreDialog::FieldInfo Picmi::endGame() {
     m_timer.stop();
-    return std::shared_ptr<HighScore>(new HighScore(
-           *m_settings.get(), m_timer.startDate(), m_timer.elapsedSecs()));
+
+    KScoreDialog::FieldInfo score;
+    score[KScoreDialog::Score].setNum(m_timer.elapsedSecs());
+    score[KScoreDialog::Time] = Time(m_timer.elapsedSecs()).toString();
+    score[KScoreDialog::Date] = m_timer.startDate().toString();
+
+    return score;
 }
 
 int Picmi::height() const {

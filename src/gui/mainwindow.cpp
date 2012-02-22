@@ -22,8 +22,8 @@
 #include <QHBoxLayout>
 #include <QGraphicsSimpleTextItem>
 #include <QMessageBox>
+#include <klocalizedstring.h>
 
-#include "highscorewindow.h"
 #include "helpwindow.h"
 #include "settingswindow.h"
 #include "config.h"
@@ -44,8 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->hide();
 
     restoreWindowState();
-
-    m_scores.reset(new HighScores);
 
     connect(ui->actionNew, SIGNAL(triggered()), this, SLOT(startGame()));
     connect(ui->actionHelp, SIGNAL(triggered()), this, SLOT(help()));
@@ -112,17 +110,28 @@ void MainWindow::startGame() {
     m_in_progress = true;
 }
 
+std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {
+    Settings settings;
+
+    std::shared_ptr<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time, this));
+    p->setConfigGroup(qMakePair(QByteArray(settings.sizeString().toLocal8Bit()), settings.sizeString()));
+    p->hideField(KScoreDialog::Score);
+
+    return p;
+}
+
 void MainWindow::gameWon() {
-    std::shared_ptr<HighScore> score = m_game->endGame();
-    m_scores->add(score);
+    KScoreDialog::FieldInfo score = m_game->endGame();
     ui->graphicsView->setEnabled(false);
     ui->actionPause->setEnabled(false);
     ui->actionUndo->setEnabled(false);
     m_timer.stop();
     m_in_progress = false;
 
-    HighScoreWindow w(m_scores, score, this);
-    w.exec();
+    std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
+    if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
+        scoreDialog->exec();
+    }
 
     ui->graphicsView->setFocus();
 }
@@ -130,9 +139,8 @@ void MainWindow::gameWon() {
 void MainWindow::highscores() {
     pauseGame();
 
-    Settings s;
-    HighScoreWindow w(m_scores, s, this);
-    w.exec();
+    std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
+    scoreDialog->exec();
 
     ui->graphicsView->setFocus();
 }

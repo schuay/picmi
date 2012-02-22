@@ -50,6 +50,15 @@ Settings::GameSize Settings::size() const {
     return m_size;
 }
 
+QString Settings::sizeString() const {
+    switch(m_size) {
+    case Small: return "Small";
+    case Medium: return "Medium";
+    case Large: return "Large";
+    default: return "Custom";
+    }
+}
+
 void Settings::setWidth(int width) {
     m_width = width;
     m_qsettings->setValue(m_keys[Width], width);

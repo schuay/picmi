@@ -21,11 +21,11 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <highscore/kscoredialog.h>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
 #include "view.h"
-#include "src/highscores.h"
 
 namespace Ui {
 class MainWindow;
@@ -55,12 +55,12 @@ private:
     void restoreWindowState();
     void saveWindowState();
     void pauseGame();
+    std::shared_ptr<KScoreDialog> createScoreDialog();
 
     Ui::MainWindow *ui;
 
     std::shared_ptr<Picmi> m_game;
     std::shared_ptr<Scene> m_scene;
-    std::shared_ptr<HighScores> m_scores;
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;

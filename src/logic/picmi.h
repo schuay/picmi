@@ -19,11 +19,12 @@
 #ifndef PICMI_H
 #define PICMI_H
 
+#include <highscore/kscoredialog.h>
+
 #include "boardmap.h"
 #include "boardstate.h"
 #include "src/settings.h"
 #include "elapsedtime.h"
-#include "src/highscores.h"
 
 class IOHandler;
 
@@ -54,7 +55,7 @@ public:
     bool won() const;
 
     /* ends the current game and returns the current high score object */
-    std::shared_ptr<HighScore> endGame();
+    KScoreDialog::FieldInfo endGame();
 
     void undo();
 

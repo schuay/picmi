@@ -28,7 +28,6 @@ add_definitions(${QT_DEFINITIONS})
 
 set(picmi_FORMS
 	${CMAKE_SOURCE_DIR}/src/gui/helpwindow.ui
-	${CMAKE_SOURCE_DIR}/src/gui/highscorewindow.ui
 	${CMAKE_SOURCE_DIR}/src/gui/mainwindow.ui
 	${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui
 )
@@ -36,7 +35,6 @@ qt4_wrap_ui(picmi_FORMS_HEADERS ${picmi_FORMS})
 
 set(picmi_QTHEADERS
 	${CMAKE_SOURCE_DIR}/src/gui/helpwindow.h
-	${CMAKE_SOURCE_DIR}/src/gui/highscorewindow.h
 	${CMAKE_SOURCE_DIR}/src/gui/mainwindow.h
 	${CMAKE_SOURCE_DIR}/src/gui/settingswindow.h
 	${CMAKE_SOURCE_DIR}/src/gui/scene.h
@@ -63,6 +61,7 @@ add_executable(picmi
 )
 
 target_link_libraries(picmi
+    kdegames
         ${KDE4_KDEUI_LIBS}
         ${KDE4_KDECORE_LIBS}
 	${QT_LIBRARIES}

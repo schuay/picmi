@@ -40,6 +40,7 @@ public:
     double boxDensity() const;
     bool noHintsMode() const;
     enum GameSize size() const;
+    QString sizeString() const;
 
     void setWidth(int width);
     void setHeight(int height);

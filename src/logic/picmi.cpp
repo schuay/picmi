@@ -108,9 +108,9 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
     case KGameDifficulty::Easy: width = height = 10; density = 0.55; prevent_mistakes = false; break;
     case KGameDifficulty::Medium: width = 15; height = 10; density = 0.55; prevent_mistakes = false; break;
     case KGameDifficulty::Hard: width = height = 15; density = 0.55; prevent_mistakes = false; break;
-    case KGameDifficulty::Configurable: width = settings->width(); height = settings->height();
-        density = settings->boxDensity(); prevent_mistakes = settings->preventMistakes(); break;
-    default: assert(0);
+    case KGameDifficulty::Configurable:
+    default: width = settings->width(); height = settings->height(); density = settings->boxDensity();
+        prevent_mistakes = settings->preventMistakes(); break;
     }
 
     m_settings = settings;

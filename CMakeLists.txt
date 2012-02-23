@@ -28,7 +28,6 @@ add_definitions(${QT_DEFINITIONS})
 
 set(picmi_FORMS
     ${CMAKE_SOURCE_DIR}/src/gui/helpwindow.ui
-    ${CMAKE_SOURCE_DIR}/src/gui/mainwindow.ui
     ${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui
 )
 qt4_wrap_ui(picmi_FORMS_HEADERS ${picmi_FORMS})

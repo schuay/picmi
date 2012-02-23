@@ -17,11 +17,11 @@
 
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 #include <QHBoxLayout>
 #include <QGraphicsSimpleTextItem>
 #include <QMessageBox>
+#include <QCoreApplication>
 #include <klocalizedstring.h>
 #include <kstandardgameaction.h>
 #include <kactioncollection.h>

@@ -70,7 +70,6 @@ public:
 private:
     Renderer();
 
-    static std::shared_ptr<QPixmap> loadPixmap(QString path);
     QPixmap getCachedPixmap(Renderer::Resource resource, int h, int w) const;
     void loadResources();
 
@@ -80,7 +79,6 @@ private:
     const int m_streak_grid_count;
 
     std::shared_ptr<QSvgRenderer> m_renderer;
-    std::shared_ptr<QPixmap> m_background;
 
     QVector<QString> m_names;
 };

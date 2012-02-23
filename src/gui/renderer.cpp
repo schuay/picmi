@@ -51,29 +51,13 @@ void Renderer::loadResources() {
     /* try loading first from working directory, then the system directory */
     for (int i = 0; i < paths.size(); i++) {
         const QString filenameSvg = QDir::toNativeSeparators(paths[i] + "picmi.svg");
-        const QString filenameBg = QDir::toNativeSeparators(paths[i] + "background.jpg");
 
-        if (!QFile::exists(filenameSvg) ||
-                !QFile::exists(filenameBg)) {
+        if (!QFile::exists(filenameSvg)) {
             continue;
         }
         m_renderer.reset(new QSvgRenderer(filenameSvg));
-        m_background = loadPixmap(filenameBg);
         break;
     }
-
-    if (!m_background) {
-        throw SystemException();
-    }
-}
-
-std::shared_ptr<QPixmap> Renderer::loadPixmap(QString path)
-{
-    std::shared_ptr<QPixmap> pixmap(new QPixmap);
-    if (!pixmap->load(path)) {
-        throw SystemException();
-    }
-    return pixmap;
 }
 
 void Renderer::setTilesize(int tilesize) {
@@ -106,7 +90,7 @@ Renderer *Renderer::instance() {
 
 QPixmap Renderer::getPixmap(Renderer::Resource resource) const {
     switch (resource) {
-    case Background: return *m_background.get();
+    case Background: return getCachedPixmap(resource, 1200, 1920);
     case Streak1:
     case Streak2: return getCachedPixmap(resource, m_tilesize, m_tilesize * m_streak_grid_count);
     default: return getCachedPixmap(resource, m_tilesize, m_tilesize);

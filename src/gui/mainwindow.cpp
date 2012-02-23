@@ -38,8 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
 
-    setWindowIcon(QIcon(QString(FILEPATH) + "icon.png"));
-
     m_timer.setInterval(1000);
 
     setCentralWidget(&m_view);

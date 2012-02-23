@@ -2,9 +2,9 @@
 Name=picmi
 GenericName=Logic Game
 Comment=A number logic game
-Exec=/usr/bin/picmi
-Icon=/usr/share/picmi/gfx/icon.png
+Exec=picmi
+Icon=picmi
 Terminal=false
 Type=Application
-Categories=Game;LogicGame;
-
+X-KDE-StartupNotify=true
+Categories=Qt;KDE;Game;LogicGame;

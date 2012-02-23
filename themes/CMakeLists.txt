@@ -1,4 +1,5 @@
 set(picmi_THEME_SRCS
+	picmi.desktop
 	picmi.svg
 	picmi.png
 )

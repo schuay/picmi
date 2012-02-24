@@ -30,7 +30,6 @@ add_subdirectory(themes)
 add_subdirectory(icons)
 
 set(picmi_FORMS
-    ${CMAKE_SOURCE_DIR}/src/gui/helpwindow.ui
     ${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui
 )
 qt4_wrap_ui(picmi_FORMS_HEADERS ${picmi_FORMS})
@@ -51,7 +50,6 @@ kde4_add_executable(picmi
     ${src_gui_graphicsitems_sources}
     ${src_logic_sources}
     ${picmi_FORMS_HEADERS}
-    ${picmi_QTHEADERS_MOC}
 )
 
 target_link_libraries(picmi

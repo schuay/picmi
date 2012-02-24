@@ -26,7 +26,6 @@
 #include <kstandardgameaction.h>
 #include <kactioncollection.h>
 
-#include "helpwindow.h"
 #include "settingswindow.h"
 #include "config.h"
 #include "src/constants.h"
@@ -206,13 +205,6 @@ void MainWindow::pauseGame() {
 
     m_action_pause->setChecked(true);
     togglePaused(true);
-}
-
-void MainWindow::help() {
-    pauseGame();
-
-    HelpWindow w(this);
-    w.exec();
 }
 
 void MainWindow::settings() {

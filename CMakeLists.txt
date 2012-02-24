@@ -28,6 +28,7 @@ add_definitions(${QT_DEFINITIONS})
 
 add_subdirectory(themes)
 add_subdirectory(icons)
+add_subdirectory(doc)
 
 set(picmi_FORMS
     ${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui

@@ -261,9 +261,7 @@ Toggles on and off the display of the statusbar.
 </row>
 <row>
 <entry>Pause</entry>
-<entry>
-<keycombo action="simul"><keysym>P</keysym></keycombo>
-</entry>
+<entry><keycap>P</keycap></entry>
 </row>
 <row>
 <entry>Show High Scores</entry>

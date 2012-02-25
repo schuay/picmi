@@ -73,7 +73,6 @@ private:
 private:
     std::shared_ptr<BoardMap> m_map;
     std::shared_ptr<BoardState> m_state;
-    std::shared_ptr<Settings> m_settings;
     std::shared_ptr<IOHandler> m_io_handler;
 
     ElapsedTime m_timer;

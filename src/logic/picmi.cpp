@@ -113,7 +113,6 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
         prevent_mistakes = settings->preventMistakes(); break;
     }
 
-    m_settings = settings;
     m_map.reset(new BoardMap(width, height, density));
     m_state.reset(new BoardState(width, height));
 

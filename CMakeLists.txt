@@ -13,7 +13,7 @@ find_package(KDE4 REQUIRED)
 set(picmi_VERSION_MAJOR 1)
 set(picmi_VERSION_MINOR 9)
 set(picmi_VERSION_PATCH 95)
-set(picmi_FILEPATH \"${DATA_INSTALL_DIR}/picmi/themes/\")
+set(picmi_FILEPATH \"${DATA_INSTALL_DIR}/picmi/\")
 
 configure_file(
     "${PROJECT_SOURCE_DIR}/src/config.h.in"

@@ -46,7 +46,7 @@ Renderer::Renderer() : m_streak_grid_count(6)
 
 void Renderer::loadResources() {
     QList<QString> paths;
-    paths << QString("themes/") << QString(FILEPATH);
+    paths << QString("themes/") << QString(FILEPATH "themes/");
 
     /* try loading first from working directory, then the system directory */
     for (int i = 0; i < paths.size(); i++) {

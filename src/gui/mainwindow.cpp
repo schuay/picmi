@@ -25,6 +25,7 @@
 #include <klocalizedstring.h>
 #include <kstandardgameaction.h>
 #include <kactioncollection.h>
+#include <kstatusbar.h>
 
 #include "settingswindow.h"
 #include "config.h"
@@ -32,12 +33,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent), m_key_size("window/size"),
-    m_key_pos("window/position"), m_in_progress(false)
+    m_key_pos("window/position"), m_statusbar_time_id(1),
+    m_in_progress(false)
 {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
 
-    m_timer.setInterval(1000);
+    m_timer.setInterval(500);
 
     setCentralWidget(&m_view);
 
@@ -57,6 +59,8 @@ void MainWindow::setupActions() {
     KStandardAction::preferences(this, SLOT(settings()), actionCollection());
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
+
+    this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
 
     KGameDifficulty::init(this, this, SLOT(levelChanged(KGameDifficulty::standardLevel)), SLOT(customLevelChanged(int)));
     KGameDifficulty::setRestartOnChange(KGameDifficulty::RestartOnChange);
@@ -110,6 +114,7 @@ void MainWindow::startGame() {
     if (m_scene) {
         disconnect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
         disconnect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
+        disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
 
     m_action_undo->setEnabled(true);
@@ -121,14 +126,22 @@ void MainWindow::startGame() {
     std::shared_ptr<Settings> settings(new Settings);
     m_game.reset(new Picmi(settings));
     m_scene = m_view.createScene(m_game);
+    updatePlayedTime();
 
     m_view.setEnabled(true);
     m_view.setFocus();
 
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;
+}
+
+void MainWindow::updatePlayedTime() {
+    this->statusBar()->changeItem(
+                i18n("Elapsed time") + QString(": %1").arg(Time(m_game->elapsedSecs()).toString()),
+                m_statusbar_time_id);
 }
 
 std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {

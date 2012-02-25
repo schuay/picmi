@@ -48,6 +48,7 @@ private slots:
     void highscores();
     void levelChanged(KGameDifficulty::standardLevel level);
     void customLevelChanged(int level);
+    void updatePlayedTime();
 
 private:
     void restoreWindowState();
@@ -64,6 +65,7 @@ private:
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;
+    const int m_statusbar_time_id;
 
     bool m_in_progress;
 };

@@ -45,7 +45,6 @@ private slots:
     void settings();
     void gameWon();
     void undo();
-    void about();
     void highscores();
     void levelChanged(KGameDifficulty::standardLevel level);
     void customLevelChanged(int level);

@@ -186,18 +186,6 @@ void MainWindow::togglePaused(bool paused) {
     }
 }
 
-void MainWindow::about() {
-    pauseGame();
-
-    QString text = QString("Picmi %1.%2.%3\nBuilt on %4 at %5\n\nCopyright 2012 Jakob Gruber\n\n"
-                           "This program is distributed in the hope that it will be useful,\n"
-                           "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-                           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.")
-            .arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH)
-            .arg(__DATE__).arg(__TIME__);
-    QMessageBox::about(this, "About Picmi", text);
-}
-
 void MainWindow::pauseGame() {
     if (m_action_pause->isChecked() || !m_in_progress) {
         return;

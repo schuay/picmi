@@ -60,7 +60,7 @@ The object of the game is to color cells according to numbers given at the side 
 <title>How to Play</title>
 
 <para>
-The player is presented with a blank board, and a list of numbers for each row and column. These numbers represent how runs are organized within any given row or column. For example, a number sequence of "4 8 3" would mean there are sets of four, eight, and three filled cells, in that order, with at least one blank cell between successive groups. The objective of the game is to use these hints to uncover the actual solution, and do this as quickly as possible.
+  The player is presented with a blank board, and a list of numbers for each row and column. These numbers represent how runs are organized within any given row or column. For example, a number sequence of <quote>4 8 3</quote> would mean there are sets of four, eight, and three filled cells, in that order, with at least one blank cell between successive groups. The objective of the game is to use these hints to uncover the actual solution, and do this as quickly as possible.
 </para>
 
 <para>

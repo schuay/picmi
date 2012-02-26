@@ -1,7 +1,22 @@
 [Desktop Entry]
 Name=picmi
+Name[nl]=picmi
+Name[pt]=picmi
+Name[pt_BR]=picmi
+Name[uk]=picmi
+Name[x-test]=xxpicmixx
 GenericName=Logic Game
+GenericName[nl]=Logisch spel
+GenericName[pt]=Jogo de Lógica
+GenericName[pt_BR]=jogo de lógica
+GenericName[uk]=Гра на логіку
+GenericName[x-test]=xxLogic Gamexx
 Comment=A number logic game
+Comment[nl]=Een logisch spel met nummers
+Comment[pt]=Um jogo lógico com números
+Comment[pt_BR]=Um jogo de lógica com números
+Comment[uk]=Гра з числами на логіку
+Comment[x-test]=xxA number logic gamexx
 Exec=picmi
 Icon=picmi
 Terminal=false

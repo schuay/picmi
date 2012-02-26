@@ -1,6 +1,11 @@
 [KGameTheme]
 VersionFormat=1
 Name=Picmi
+Name[nl]=Picmi
+Name[pt]=Picmi
+Name[pt_BR]=Picmi
+Name[uk]=Picmi
+Name[x-test]=xxPicmixx
 FileName=picmi.svg
 Author=Jakob Gruber
 AuthorEmail=jakob.gruber@gmail.com

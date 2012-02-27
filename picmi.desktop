@@ -1,11 +1,13 @@
 [Desktop Entry]
 Name=picmi
+Name[nds]=Picmi
 Name[nl]=picmi
 Name[pt]=picmi
 Name[pt_BR]=picmi
 Name[uk]=picmi
 Name[x-test]=xxpicmixx
 GenericName=Logic Game
+GenericName[nds]=Logikspeel
 GenericName[nl]=Logisch spel
 GenericName[pt]=Jogo de Lógica
 GenericName[pt_BR]=jogo de lógica

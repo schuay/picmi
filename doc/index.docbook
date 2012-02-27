@@ -123,7 +123,7 @@ Pauses the game time. Click on the menu item again to make the game resume. Note
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>H</keycap></keycombo>
 </shortcut>
 <guimenu>Game</guimenu>
 <guimenuitem>Show High Scores</guimenuitem></menuchoice></term>
@@ -333,7 +333,7 @@ Toggles on and off the display of the statusbar.
 <title>Credits and License</title>
 
 <para>
-&kdiamond;
+&picmi;
 </para>
 <para>
 Program copyright 2012 by Jakob Gruber <email>jakob.gruber@gmail.com</email>

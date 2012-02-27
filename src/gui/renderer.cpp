@@ -29,7 +29,8 @@
 #include "src/outofboundsexception.h"
 #include "config.h"
 
-Renderer::Renderer() : m_tilesize(47), m_streak_grid_count(6)
+Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
+    m_streak_grid_count(6)
 {
     loadResources();
 
@@ -75,6 +76,18 @@ void Renderer::setSize(const QSize &size, int board_width, int board_height) {
         throw OutOfBoundsException();
     }
     m_tilesize = gridSize(size, board_width, board_height);
+
+    /* the overview is a square area at the top left of the field with dimensions
+       getXOffset() x getYOffset(). using the same logic as for calculating the
+       main tilesize, get the overview tilesize such that the entire board fits */
+
+    const int buffer = 15;
+    QSize overview_size(getXOffset() - buffer, getYOffset() - buffer);
+    m_overview_tilesize = gridSize(overview_size, board_width, board_height);
+}
+
+int Renderer::getOverviewTilesize() const {
+    return m_overview_tilesize;
 }
 
 int Renderer::getFontSize(enum FontSize size) const {

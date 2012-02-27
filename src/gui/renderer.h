@@ -55,6 +55,7 @@ public:
     QPixmap getPixmap(Renderer::Resource res) const;
 
     int getTilesize() const;
+    int getOverviewTilesize() const;
     int getFontSize(enum FontSize) const;
 
     /* returns the width of streak areas in pixels */
@@ -80,6 +81,7 @@ private:
 private:
 
     int m_tilesize;
+    int m_overview_tilesize;
     const int m_streak_grid_count;
 
     std::shared_ptr<QSvgRenderer> m_renderer;

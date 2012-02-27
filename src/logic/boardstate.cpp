@@ -30,6 +30,10 @@ void BoardState::set(int x, int y, State state) {
 
     const int i = xy_to_i(x, y);
 
+    if (m_state[i] == state) {
+        return;
+    }
+
     UndoAction undo;
     undo.x = x;
     undo.y = y;

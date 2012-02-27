@@ -21,7 +21,6 @@
 
 #include <QGraphicsPixmapItem>
 
-#include "src/gui/scene.h"
 #include "src/logic/picmi.h"
 #include "reloadableitem.h"
 

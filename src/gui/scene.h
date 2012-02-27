@@ -31,8 +31,6 @@
 #include "graphicsitems/highlightitem.h"
 #include "graphicsitems/textbanneritem.h"
 
-class GameCellItem;
-
 class Scene : public QGraphicsScene
 {
     Q_OBJECT

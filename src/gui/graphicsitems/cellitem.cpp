@@ -24,6 +24,7 @@
 
 #include "src/gui/renderer.h"
 #include "src/constants.h"
+#include "src/gui/scene.h"
 
 class DragManager
 {

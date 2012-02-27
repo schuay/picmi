@@ -74,7 +74,7 @@ A left-click (un)marks a cell as occupied, while a right click (un)marks a cell 
 
 <sect1 id="rules">
 <title>Rules</title>
-<para>The number sequence in a row or column gives provides certain information about the count of occupied cells and their arrangement within a row or column.</para>
+<para>The number sequence in a row or column provides certain information about the count of occupied cells and their arrangement within a row or column.</para>
 <itemizedlist>
 <listitem><para>A number represents the length of a connected run of occupied cells on the board. This run either has at least one empty cell on each side or is located directly on the board edge.</para></listitem>
 <listitem><para>Additionally, a number sequence shows the order of these runs within a row or column.</para></listitem>

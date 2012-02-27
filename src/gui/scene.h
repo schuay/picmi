@@ -53,6 +53,8 @@ public:
 
     /* refresh display of all dynamic graphics elements */
     void refresh();
+
+    void forwardKeyPressEvent(QKeyEvent *event);
     
 signals:
     void gameWon();

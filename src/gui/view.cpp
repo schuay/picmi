@@ -34,6 +34,15 @@ void View::resizeEvent(QResizeEvent *event) {
     m_scene->resize(event->size());
 }
 
+void View::keyPressEvent(QKeyEvent *event) {
+    /* make sure all key presses go to the currently selected cell item.
+       without this, clicking on other areas of the scene causes cell items
+       to lose focus.
+       this seems like a hackish solution, please replace if there is
+       a better way. */
+    m_scene->forwardKeyPressEvent(event);
+}
+
 std::shared_ptr<Scene> View::createScene(std::shared_ptr<Picmi> game) {
     m_scene.reset(new Scene(game));
     setScene(m_scene.get());

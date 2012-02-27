@@ -36,6 +36,7 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     std::shared_ptr<Scene> m_scene;

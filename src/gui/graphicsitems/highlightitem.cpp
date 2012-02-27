@@ -23,6 +23,7 @@
 HighlightItem::HighlightItem(Renderer::Resource resource, int x, int y, QGraphicsItem *parent) :
     PixmapItem(resource, x, y, parent)
 {
+    setEnabled(false);
     setZValue(ZVALUE_HIGHLIGHT);
 }
 

@@ -23,6 +23,7 @@
 PixmapItem::PixmapItem(Renderer::Resource resource, int x, int y, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_resource(resource)
 {
+    setEnabled(false);
     reload(QSize());
 }
 

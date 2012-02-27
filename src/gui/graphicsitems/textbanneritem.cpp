@@ -25,6 +25,7 @@
 TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
     QGraphicsTextItem(parent), ReloadableItem(0, 0)
 {
+    setEnabled(false);
     m_font.reset(new QFont(FONT_NAME, 24));
     setFont(*m_font);
     setZValue(ZVALUE_BANNER);

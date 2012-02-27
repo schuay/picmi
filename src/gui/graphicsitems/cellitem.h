@@ -63,12 +63,13 @@ public:
       game and scene */
     GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
+    void keyPressEvent(QKeyEvent *event);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void keyPressEvent(QKeyEvent *event);
 
     virtual int getTilesize() const;
     virtual QPixmap getPixmap() const;

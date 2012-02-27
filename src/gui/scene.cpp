@@ -26,6 +26,10 @@ Scene::Scene(std::shared_ptr<Picmi> game, QObject *parent) :
     init();
 }
 
+void Scene::forwardKeyPressEvent(QKeyEvent *event) {
+    m_cells[xy_to_i(m_position.x(), m_position.y())]->keyPressEvent(event);
+}
+
 void Scene::loadBanners() {
     m_pause_banner = new PauseBannerItem();
     m_items.push_back(m_pause_banner);
@@ -61,6 +65,7 @@ void Scene::loadCells() {
 
 void Scene::loadOverView() {
     m_overview_group = new QGraphicsItemGroup;
+    m_overview_group->setEnabled(false);
     for (int y = 0; y < m_game->height(); y++) {
         for (int x = 0; x < m_game->width(); x++) {
             OverviewCellItem *q = new OverviewCellItem(x, y, m_game);

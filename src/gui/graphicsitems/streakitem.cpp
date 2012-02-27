@@ -25,6 +25,7 @@
 StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
     QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_padding(10), m_color_solved("#555555"), m_color_unsolved("#000000")
 {
+    setEnabled(false);
     setZValue(ZVALUE_STREAKTEXT);
     m_font.reset(new QFont(FONT_NAME, 24));
     setFont(*m_font);

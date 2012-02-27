@@ -124,6 +124,7 @@ void CellItem::reload(const QSize &size) {
 OverviewCellItem::OverviewCellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
     CellItem(x, y, game, parent)
 {
+    setEnabled(false);
     reload(QSize());
 }
 

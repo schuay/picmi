@@ -64,14 +64,18 @@ public:
     /* returns the width of streak areas in tiles */
     int getStreakGridCount() const;
 
-    /* 0 < tilesize */
-    void setTilesize(int tilesize);
+    /* 0 < board_width, board_height */
+    void setSize(const QSize &size, int board_width, int board_height);
 
 private:
     Renderer();
 
     QPixmap getCachedPixmap(Renderer::Resource resource, int h, int w) const;
     void loadResources();
+
+    /* calculates the largest tile size such that the entire game area fits
+      into the provided window size */
+    int gridSize(const QSize &size, int board_width, int board_height) const;
 
 private:
 

@@ -70,11 +70,11 @@ private:
     void loadCells();
     void loadDividers();
     void loadBanners();
+    void setGroupPos(const QSize &size);
 
     void updateHighlights();
     void hideHighlights();
     int xy_to_i(int x, int y) const;
-    int gridSize(const QSize &size) const;
 
     std::shared_ptr<Picmi> m_game;
 

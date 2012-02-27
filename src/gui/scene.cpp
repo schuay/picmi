@@ -113,8 +113,6 @@ void Scene::loadDividers() {
 }
 
 void Scene::init() {
-    Renderer::instance()->setTilesize(47);
-
     const int tilesize = Renderer::instance()->getTilesize();
     const int x_offset = Renderer::instance()->getXOffset();
     const int y_offset = Renderer::instance()->getYOffset();
@@ -218,31 +216,32 @@ int Scene::xy_to_i(int x, int y) const {
     return y * m_game->width() + x;
 }
 
+void Scene::setGroupPos(const QSize &size) {
+    int grid = Renderer::instance()->getTilesize();
+    int streak_width = Renderer::instance()->getXOffset();
+    int streak_height = Renderer::instance()->getYOffset();
+
+    /* dimensions of cell area + streaks */
+    int height = grid * m_game->height() + streak_height;
+    int width = grid * m_game->width() + streak_width;
+
+    int xoffset = (size.width() - width) / 2;
+    int yoffset = (size.height() - height) / 2;
+
+    /* m_group contains all elements of the playing field. (0,0) is located
+       at the left upper corner of the cells area, meaning streaks are located
+       at negative coordinates.
+       center the entire area within the available window size */
+    m_group->setPos(xoffset + streak_width, yoffset + streak_height);
+
+}
+
 void Scene::resize(const QSize &size) {
-    const int grid = gridSize(size);
-
-    Renderer::instance()->setTilesize(grid);
+    Renderer::instance()->setSize(size, m_game->width(), m_game->height());
     setSceneRect(QRectF(0, 0, size.width(), size.height()));
-
-    const int height = grid * m_game->height() + Renderer::instance()->getYOffset();
-    const int width = grid * m_game->width() + Renderer::instance()->getXOffset();
-    const int xoffset = (size.width() - width) / 2;
-    const int yoffset = (size.height() - height) / 2;
-
-    m_group->setPos(xoffset + Renderer::instance()->getXOffset(), yoffset + Renderer::instance()->getYOffset());
+    setGroupPos(size);
 
     for (int i = 0; i < (int)m_items.size(); i++) {
         m_items[i]->reload(size);
     }
-}
-
-int Scene::gridSize(const QSize &size) const {
-    const int streak_grid_count = Renderer::instance()->getStreakGridCount();
-    int grid = size.width() / (m_game->width() + streak_grid_count);
-
-    if ((m_game->height() + streak_grid_count) * grid > size.height()) {
-        grid = size.height() / (m_game->height() + streak_grid_count);
-    }
-
-    return grid;
 }

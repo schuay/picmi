@@ -29,7 +29,7 @@
 #include "src/outofboundsexception.h"
 #include "config.h"
 
-Renderer::Renderer() : m_streak_grid_count(6)
+Renderer::Renderer() : m_tilesize(47), m_streak_grid_count(6)
 {
     loadResources();
 
@@ -60,11 +60,21 @@ void Renderer::loadResources() {
     }
 }
 
-void Renderer::setTilesize(int tilesize) {
-    if (tilesize < 0) {
+int Renderer::gridSize(const QSize &size, int board_width, int board_height) const {
+    int grid = size.width() / (board_width + m_streak_grid_count);
+
+    if ((board_height + m_streak_grid_count) * grid > size.height()) {
+        grid = size.height() / (board_height + m_streak_grid_count);
+    }
+
+    return grid;
+}
+
+void Renderer::setSize(const QSize &size, int board_width, int board_height) {
+    if (board_width < 0 || board_height < 0) {
         throw OutOfBoundsException();
     }
-    m_tilesize = tilesize;
+    m_tilesize = gridSize(size, board_width, board_height);
 }
 
 int Renderer::getFontSize(enum FontSize size) const {

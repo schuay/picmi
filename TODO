@@ -1,11 +1,8 @@
-* figure out a way to use the left upper area
 * f11 maximize
 * refactoring
-    remove duplicate code between HighScore and Settings
     improve streak calculation
     ...
 * don't depend on Ubuntu Mono font
 * predefined level sets
 * color nonograms
-* use libkdegames (KScoreDialog, KHighscore, KgDifficulty, KgDifficultyGUI)
 * graphics themes (KGameThemeSelector)

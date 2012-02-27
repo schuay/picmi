@@ -6,21 +6,24 @@ General Information
 
 Picmi has the following dependencies:
 
-At compile time:
-qt, cmake
-
 At run time:
-qt
+qt, kdelibs, libkdegames
+
+Additionally, at compile time:
+cmake, automoc4
 
 
 The default installation directories are
 
-$prefix/share/picmi        (graphics)
-$prefix/bin                (executable)
-$prefix/share/applications (.desktop file)
-~/.config/picmi/           (user configurations and highscores, created at runtime)
+$prefix/bin                     (executable)
+$prefix/share/apps/picmi        (graphics and levels)
+$prefix/share/applications/kde4 (.desktop file)
+$prefix/share/doc/kde/          (documentation)
+$prefix/share/icons/            (icons)
+~/.config/picmi/                (user configurations and highscores, created at runtime)
 
 $prefix can be configured by setting the CMAKE_INSTALL_PREFIX variable when running cmake and defaults to /usr/local/ if not set.
+
 
 
 Installation from AUR (Archlinux)
@@ -28,26 +31,9 @@ Installation from AUR (Archlinux)
 
 Install using your favorite AUR helper or manually with wget && makepkg && pacman -U.
 
-Package Name: picmi
-URL: https://aur.archlinux.org/packages.php?ID=36179
+Package Name: picmi-git
+URL: https://aur.archlinux.org/packages.php?ID=56720
 
-
-
-Installation on Ubuntu
--------------------
-
-Packages are now available from my personal package archive, located at
-
-ppa:jakob-gruber/picmi
-
-To install, open a terminal and enter:
-
-sudo add-apt-repository ppa:jakob-gruber/picmi
-sudo apt-get update
-sudo apt-get install picmi
-
-For more information on adding ppas to your source list, 
-see https://launchpad.net/+help/soyuz/ppa-sources-list.html
 
 
 Manual Installation
@@ -73,7 +59,7 @@ All done, execute picmi to run the game.
 Cross Platform Compatibility
 ----------------------------
 
-Picmi should be compatible with any platform supported by Qt. At the
+Picmi should be compatible with any platform supported by Qt and KDE4. At the
 very least, this means Linux, Mac and Windows installs should work just fine.
 
 To install on another platform than Linux, edit CMakeLists.txt and set picmi_FILEPATH

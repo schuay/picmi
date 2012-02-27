@@ -182,6 +182,8 @@ void Scene::press(int x, int y, Board::State state) {
 
     if (m_game->won()) {
         hideHighlights();
+        m_game->expose();
+        refresh();
 
         emit gameWon();
     }

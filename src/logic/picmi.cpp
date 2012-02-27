@@ -272,3 +272,13 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) c
 void Picmi::setState(int x, int y, Board::State state) {
     m_io_handler->set(x, y, state);
 }
+
+void Picmi::expose() {
+    for (int x = 0; x < width(); x++) {
+        for (int y = 0; y < height(); y++) {
+            if (m_state->get(x, y) == Board::Nothing) {
+                m_state->set(x, y, Board::Cross);
+            }
+        }
+    }
+}

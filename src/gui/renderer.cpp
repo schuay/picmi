@@ -34,15 +34,10 @@ Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
 {
     loadResources();
 
-    m_names << "transparent";
-    m_names << "background";
-    m_names << "cellframe";
-    m_names << "box";
-    m_names << "cross";
-    m_names << "highlight";
-    m_names << "streak1";
-    m_names << "streak2";
-    m_names << "divider";
+    m_names << "transparent" << "background" << "cellframe"
+            << "box" << "cross" << "highlight" << "streak1"
+            << "streak2" << "divider" << "overview_box"
+            << "overview_cross";
 }
 
 void Renderer::loadResources() {
@@ -116,6 +111,8 @@ QPixmap Renderer::getPixmap(Renderer::Resource resource) const {
     case Background: return getCachedPixmap(resource, 1200, 1920);
     case Streak1:
     case Streak2: return getCachedPixmap(resource, m_tilesize, m_tilesize * m_streak_grid_count);
+    case OverviewBox:
+    case OverviewCross: return getCachedPixmap(resource, m_overview_tilesize, m_overview_tilesize);
     default: return getCachedPixmap(resource, m_tilesize, m_tilesize);
     }
 }

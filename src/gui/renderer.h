@@ -37,7 +37,9 @@ public:
         Highlight,
         Streak1,
         Streak2,
-        Divider
+        Divider,
+        OverviewBox,
+        OverviewCross
     };
 
     enum FontSize {

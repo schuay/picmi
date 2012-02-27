@@ -54,7 +54,7 @@ void Scene::loadCells() {
             m_items.push_back(p);
             m_group->addToGroup(p);
 
-            CellItem *q = new CellItem(x, y, m_game, this);
+            GameCellItem *q = new GameCellItem(x, y, m_game, this);
             m_items.push_back(q);
             m_cells.push_back(q);
             m_group->addToGroup(q);

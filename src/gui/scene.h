@@ -31,7 +31,7 @@
 #include "graphicsitems/highlightitem.h"
 #include "graphicsitems/textbanneritem.h"
 
-class CellItem;
+class GameCellItem;
 
 class Scene : public QGraphicsScene
 {
@@ -82,7 +82,7 @@ private:
     TimeBannerItem *m_time_banner;
     PauseBannerItem *m_pause_banner;
     std::vector<ReloadableItem*> m_items;
-    std::vector<CellItem*> m_cells;
+    std::vector<GameCellItem*> m_cells;
     std::vector<StreakItem*> m_row_streaks;
     std::vector<StreakItem*> m_col_streaks;
     std::vector<HighlightItem*> m_highlights;

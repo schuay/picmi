@@ -31,14 +31,26 @@ class DragManager;
 class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
 public:
-    /* creates the item with field coordinates (x,y) and the specified
-      game and scene */
-    CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
+    CellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
 
     /* updates displayed pixmap according to current cell state */
-    void refresh();
+    virtual void refresh();
 
-    void reload(const QSize &size);
+    virtual void reload(const QSize &size);
+
+protected:
+    virtual int getTilesize() const = 0;
+    virtual QPixmap getPixmap() const = 0;
+
+    const std::shared_ptr<Picmi> m_game;
+};
+
+class GameCellItem : public CellItem
+{
+public:
+    /* creates the item with field coordinates (x,y) and the specified
+      game and scene */
+    GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -47,19 +59,17 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
+    virtual int getTilesize() const;
+    virtual QPixmap getPixmap() const;
+
 private:
 
     int drag_offset(int pos) const;
 
 private:
-
-    const std::shared_ptr<Picmi> m_game;
     Scene *m_scene;
     std::shared_ptr<DragManager> m_dragmanager;
     Qt::MouseButton m_dragbutton;
-    QPixmap m_cross;
-    QPixmap m_box;
-    QPixmap m_transparent;
 };
 
 #endif // CELLITEM_H

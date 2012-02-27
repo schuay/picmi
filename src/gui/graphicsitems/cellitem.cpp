@@ -101,39 +101,50 @@ QPoint DragManager::normCoordinates(int x, int y) {
     return QPoint();
 }
 
-CellItem::CellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
-    QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_game(game), m_scene(scene)
+CellItem::CellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+    QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_game(game)
 {
     setZValue(ZVALUE_CELLITEM);
     setShapeMode(QGraphicsPixmapItem::BoundingRectShape);
+}
+
+void CellItem::refresh() {
+    setPixmap(getPixmap());
+}
+
+void CellItem::reload(const QSize &size) {
+    Q_UNUSED(size);
+    const int tilesize = getTilesize();
+    setPos(m_x * tilesize, m_y * tilesize);
+
+    refresh();
+}
+
+GameCellItem::GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
+    CellItem(x, y, game, parent), m_scene(scene)
+{
     setFlag(QGraphicsItem::ItemIsFocusable);
     setAcceptHoverEvents(true);
 
     reload(QSize());
 }
 
-void CellItem::refresh() {
+QPixmap GameCellItem::getPixmap() const {
     switch(m_game->stateAt(m_x, m_y)) {
-    case Board::Nothing: setPixmap(m_transparent); break;
-    case Board::Box: setPixmap(m_box); break;
-    case Board::Cross: setPixmap(m_cross); break;
+    case Board::Nothing: return Renderer::instance()->getPixmap(Renderer::Transparent);
+    case Board::Box: return Renderer::instance()->getPixmap(Renderer::Box);
+    case Board::Cross: return Renderer::instance()->getPixmap(Renderer::Cross);
     default: assert(0);
     }
+
+    throw OutOfBoundsException();
 }
 
-void CellItem::reload(const QSize &size) {
-    Q_UNUSED(size);
-    const int tilesize = Renderer::instance()->getTilesize();
-    setPos(m_x * tilesize, m_y * tilesize);
-
-    m_cross = Renderer::instance()->getPixmap(Renderer::Cross);
-    m_box = Renderer::instance()->getPixmap(Renderer::Box);
-    m_transparent = Renderer::instance()->getPixmap(Renderer::Transparent);
-
-    refresh();
+int GameCellItem::getTilesize() const {
+    return Renderer::instance()->getTilesize();
 }
 
-void CellItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+void GameCellItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     if (m_dragmanager) {
         /* a second button was clicked during a drag; ignored */
         return;
@@ -142,23 +153,18 @@ void CellItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     m_dragmanager.reset(new DragManager(m_game, m_scene, QPoint(m_x, m_y)));
     m_dragbutton = event->button();
     switch (m_dragbutton) {
-    case Qt::LeftButton:
-        m_dragmanager->init(Board::Box);
-        break;
-    case Qt::RightButton:
-        m_dragmanager->init(Board::Cross);
-        break;
-    default:    /* for example, middle mouse button */
-        break;
+    case Qt::LeftButton: m_dragmanager->init(Board::Box); break;
+    case Qt::RightButton: m_dragmanager->init(Board::Cross); break;
+    default: break;    /* for example, middle mouse button */
     }
 }
 
-void CellItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
+void GameCellItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     Q_UNUSED(event);
     m_scene->hover(m_x, m_y);
 }
 
-int CellItem::drag_offset(int pos) const {
+int GameCellItem::drag_offset(int pos) const {
     const int tilesize = Renderer::instance()->getTilesize();
     int offset = pos / tilesize;
     if (pos < 0) {
@@ -167,7 +173,7 @@ int CellItem::drag_offset(int pos) const {
     return offset;
 }
 
-void CellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+void GameCellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if (!m_dragmanager) {
         return;
     }
@@ -182,13 +188,13 @@ void CellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     m_dragmanager->move(m_x + dx, m_y + dy);
 }
 
-void CellItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+void GameCellItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if (event->button() == m_dragbutton) {
         m_dragmanager.reset();
     }
 }
 
-void CellItem::keyPressEvent(QKeyEvent *event) {
+void GameCellItem::keyPressEvent(QKeyEvent *event) {
     switch (event->key()) {
     case Qt::Key_H:
     case Qt::Key_Left: m_scene->move(-1, 0); break;

@@ -65,7 +65,9 @@ private:
     void loadCells();
     void loadDividers();
     void loadBanners();
+    void loadOverView();
     void setGroupPos(const QSize &size);
+    void setOverviewPos();
 
     void updateHighlights();
     void hideHighlights();
@@ -77,10 +79,12 @@ private:
     PauseBannerItem *m_pause_banner;
     std::vector<ReloadableItem*> m_items;
     std::vector<GameCellItem*> m_cells;
+    std::vector<OverviewCellItem*> m_overview_cells;
     std::vector<StreakItem*> m_row_streaks;
     std::vector<StreakItem*> m_col_streaks;
     std::vector<HighlightItem*> m_highlights;
     QGraphicsItemGroup *m_group;
+    QGraphicsItemGroup *m_overview_group;
 
     /* current position on board */
     QPoint m_position;

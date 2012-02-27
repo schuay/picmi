@@ -44,6 +44,18 @@ protected:
     const std::shared_ptr<Picmi> m_game;
 };
 
+class OverviewCellItem : public CellItem
+{
+public:
+    /* creates the item with field coordinates (x,y) and the specified
+      game and scene */
+    OverviewCellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
+
+protected:
+    virtual int getTilesize() const;
+    virtual QPixmap getPixmap() const;
+};
+
 class GameCellItem : public CellItem
 {
 public:

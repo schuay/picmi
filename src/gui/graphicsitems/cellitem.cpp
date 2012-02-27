@@ -121,6 +121,27 @@ void CellItem::reload(const QSize &size) {
     refresh();
 }
 
+OverviewCellItem::OverviewCellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+    CellItem(x, y, game, parent)
+{
+    reload(QSize());
+}
+
+QPixmap OverviewCellItem::getPixmap() const {
+    switch(m_game->stateAt(m_x, m_y)) {
+    case Board::Nothing: return Renderer::instance()->getPixmap(Renderer::Transparent);
+    case Board::Box: return Renderer::instance()->getPixmap(Renderer::OverviewBox);
+    case Board::Cross: return Renderer::instance()->getPixmap(Renderer::OverviewCross);
+    default: assert(0);
+    }
+
+    throw OutOfBoundsException();
+}
+
+int OverviewCellItem::getTilesize() const {
+    return Renderer::instance()->getOverviewTilesize();
+}
+
 GameCellItem::GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
     CellItem(x, y, game, parent), m_scene(scene)
 {

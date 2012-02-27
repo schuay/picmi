@@ -59,6 +59,19 @@ void Scene::loadCells() {
     }
 }
 
+void Scene::loadOverView() {
+    m_overview_group = new QGraphicsItemGroup;
+    for (int y = 0; y < m_game->height(); y++) {
+        for (int x = 0; x < m_game->width(); x++) {
+            OverviewCellItem *q = new OverviewCellItem(x, y, m_game);
+            m_items.push_back(q);
+            m_overview_cells.push_back(q);
+            m_overview_group->addToGroup(q);
+        }
+    }
+    m_group->addToGroup(m_overview_group);
+}
+
 void Scene::loadStreaks() {
     for (int x = 0; x < m_game->width(); x++) {
         StreakVBackgroundItem *p = new StreakVBackgroundItem((x % 2) ? Renderer::Streak1 : Renderer::Streak2, x);
@@ -117,6 +130,7 @@ void Scene::init() {
     loadBanners();
     loadBackground();
     loadCells();
+    loadOverView();
     loadStreaks();
     loadDividers();
 
@@ -131,6 +145,7 @@ void Scene::init() {
 void Scene::refresh() {
     for (int i = 0; i < (int)m_cells.size(); i++) {
         m_cells[i]->refresh();
+        m_overview_cells[i]->refresh();
     }
     for (int i = 0; i < (int)m_row_streaks.size(); i++) {
         m_row_streaks[i]->refresh();
@@ -156,6 +171,7 @@ void Scene::press(int x, int y, Board::State state) {
     m_game->setState(x, y, state);
 
     m_cells[xy_to_i(x, y)]->refresh();
+    m_overview_cells[xy_to_i(x, y)]->refresh();
     m_row_streaks[y]->refresh();
     m_col_streaks[x]->refresh();
 
@@ -203,6 +219,23 @@ int Scene::xy_to_i(int x, int y) const {
     return y * m_game->width() + x;
 }
 
+void Scene::setOverviewPos() {
+    int grid = Renderer::instance()->getOverviewTilesize();
+    int streak_width = Renderer::instance()->getXOffset();
+    int streak_height = Renderer::instance()->getYOffset();
+
+    /* dimensions of overview */
+    int height = grid * m_game->height();
+    int width = grid * m_game->width();
+
+    int xoffset = (streak_width - width) / 2;
+    int yoffset = (streak_height - height) / 2;
+
+    /*  */
+    m_overview_group->setPos(xoffset - streak_width, yoffset - streak_height);
+
+}
+
 void Scene::setGroupPos(const QSize &size) {
     int grid = Renderer::instance()->getTilesize();
     int streak_width = Renderer::instance()->getXOffset();
@@ -227,6 +260,7 @@ void Scene::resize(const QSize &size) {
     Renderer::instance()->setSize(size, m_game->width(), m_game->height());
     setSceneRect(QRectF(0, 0, size.width(), size.height()));
     setGroupPos(size);
+    setOverviewPos();
 
     for (int i = 0; i < (int)m_items.size(); i++) {
         m_items[i]->reload(size);

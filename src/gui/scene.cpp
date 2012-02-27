@@ -30,20 +30,12 @@ void Scene::loadBanners() {
     m_pause_banner = new PauseBannerItem();
     m_items.push_back(m_pause_banner);
     addItem(m_pause_banner);
-
-    m_time_banner = new TimeBannerItem(m_game->remainingBoxCount());
-    m_group->addToGroup(m_time_banner);
-    m_items.push_back(m_time_banner);
 }
 
 void Scene::loadBackground() {
     PixmapItem *p = new PixmapItem(Renderer::Background, 0, 0);
     m_items.push_back(p);
     addItem(p);
-}
-
-void Scene::updatePlayedTime() {
-    m_time_banner->setTime(m_game->elapsedSecs());
 }
 
 void Scene::loadCells() {
@@ -146,13 +138,11 @@ void Scene::refresh() {
     for (int i = 0; i < (int)m_col_streaks.size(); i++) {
         m_col_streaks[i]->refresh();
     }
-    m_time_banner->setRemainingBoxes(m_game->remainingBoxCount());
 }
 
 void Scene::setPaused(bool paused) {
     m_game->setPaused(paused);
     m_group->setVisible(!paused);
-    m_time_banner->setVisible(!paused);
     m_pause_banner->setVisible(paused);
 }
 
@@ -169,10 +159,7 @@ void Scene::press(int x, int y, Board::State state) {
     m_row_streaks[y]->refresh();
     m_col_streaks[x]->refresh();
 
-    m_time_banner->setRemainingBoxes(m_game->remainingBoxCount());
-
     if (m_game->won()) {
-        updatePlayedTime(); /* make sure we display the same time as in high score */
         hideHighlights();
 
         emit gameWon();

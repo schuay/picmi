@@ -36,22 +36,6 @@ protected:
     Renderer::FontSize m_size;
 };
 
-class TimeBannerItem : public TextBannerItem
-{
-public:
-    TimeBannerItem(int remaining_boxes, QGraphicsItem *parent = 0);
-
-    void setTime(int seconds);
-    void setRemainingBoxes(int remaining_boxes);
-    void reload(const QSize &size);
-
-private:
-    void updateText();
-
-    QString m_time;
-    int m_remaining_boxes;
-};
-
 class PauseBannerItem : public TextBannerItem
 {
 public:

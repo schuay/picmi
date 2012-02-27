@@ -113,7 +113,6 @@ void MainWindow::startGame() {
 
     if (m_scene) {
         disconnect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
-        disconnect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
         disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
 
@@ -132,7 +131,6 @@ void MainWindow::startGame() {
     m_view.setFocus();
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
-    connect(&m_timer, SIGNAL(timeout()), m_scene.get(), SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;

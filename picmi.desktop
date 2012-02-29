@@ -1,5 +1,7 @@
 [Desktop Entry]
 Name=picmi
+Name[es]=picmi
+Name[ga]=picmi
 Name[nds]=Picmi
 Name[nl]=picmi
 Name[pt]=picmi
@@ -7,6 +9,7 @@ Name[pt_BR]=picmi
 Name[uk]=picmi
 Name[x-test]=xxpicmixx
 GenericName=Logic Game
+GenericName[es]=Juego de lógica
 GenericName[nds]=Logikspeel
 GenericName[nl]=Logisch spel
 GenericName[pt]=Jogo de Lógica
@@ -14,6 +17,7 @@ GenericName[pt_BR]=jogo de lógica
 GenericName[uk]=Гра на логіку
 GenericName[x-test]=xxLogic Gamexx
 Comment=A number logic game
+Comment[es]=Juego de lógica con números
 Comment[nl]=Een logisch spel met nummers
 Comment[pt]=Um jogo lógico com números
 Comment[pt_BR]=Um jogo de lógica com números

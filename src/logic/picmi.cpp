@@ -125,6 +125,13 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
     m_timer.start();
 }
 
+Picmi::Picmi(std::shared_ptr<BoardMap> board) {
+    m_map = board;
+    m_state.reset(new BoardState(board->width(), board->height()));
+    m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
+    m_timer.start();
+}
+
 bool Picmi::won() const {
     /* detect a win by comparing streaks.
        the reason we don't use the raw map and state is because we can't guarantee

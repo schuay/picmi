@@ -30,6 +30,8 @@
 #include "scene.h"
 #include "view.h"
 
+class Level;
+
 class MainWindow : public KXmlGuiWindow
 {
     Q_OBJECT
@@ -40,7 +42,7 @@ protected:
     void closeEvent(QCloseEvent *event);
     
 private slots:
-    void startGame();
+    void startRandomGame();
     void togglePaused(bool paused);
     void settings();
     void gameWon();
@@ -49,8 +51,17 @@ private slots:
     void levelChanged(KGameDifficulty::standardLevel level);
     void customLevelChanged(int level);
     void updatePlayedTime();
+    void loadBoard();
 
 private:
+    enum Mode {
+        Random, /* board is randomly generated, highscores enabled */
+        Preset  /* board is fixed, highscores disabled */
+    };
+
+    void startGame();
+    void startPresetGame(std::shared_ptr<Level> board);
+
     void restoreWindowState();
     void saveWindowState();
     void pauseGame();
@@ -68,6 +79,7 @@ private:
     const int m_statusbar_time_id;
 
     bool m_in_progress;
+    enum Mode m_mode;
 };
 
 #endif // MAINWINDOW_H

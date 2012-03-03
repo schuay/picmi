@@ -1,0 +1,111 @@
+<picmi name="Default">
+
+    <board name="Screw" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>111111111111111</row>
+        <row>11111111---1111</row>
+        <row>1111111-----111</row>
+        <row>1111111------11</row>
+        <row>1111111-------1</row>
+        <row>11111111------1</row>
+        <row>111111-11-----1</row>
+        <row>11111---11---11</row>
+        <row>1111-----111111</row>
+        <row>111-----1111111</row>
+        <row>11-----11111111</row>
+        <row>11----111111111</row>
+        <row>11---1111111111</row>
+        <row>111111111111111</row>
+        <row>111111111111111</row>
+    </board>
+
+    <board name="Cup of coffee" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>111111111111111</row>
+        <row>111111111111111</row>
+        <row>11111-------111</row>
+        <row>1111-1111111-11</row>
+        <row>111-111---111-1</row>
+        <row>111-11---1111-1</row>
+        <row>1----1111111--1</row>
+        <row>1-1-----------1</row>
+        <row>1-11---------11</row>
+        <row>11-1---------11</row>
+        <row>11111-------111</row>
+        <row>11--11-----11--</row>
+        <row>11---1111111---</row>
+        <row>111-----------1</row>
+        <row>11111-------111</row>
+    </board>
+
+    <board name="Lion" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>---11111111----</row>
+        <row>-11111111111---</row>
+        <row>-1-1-11----11--</row>
+        <row>111-1--1--111--</row>
+        <row>111-1--1--1111-</row>
+        <row>11--1111---111-</row>
+        <row>11-1-1--1--111-</row>
+        <row>11-11-111-1111-</row>
+        <row>111------1111--</row>
+        <row>-111111111111--</row>
+        <row>--1111111111-1-</row>
+        <row>-11----1-1----1</row>
+        <row>11---111-111--1</row>
+        <row>1---1----1----1</row>
+        <row>111111111111111</row>
+    </board>
+
+    <board name="Gas Lamp" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>-----11111-----</row>
+        <row>-----1---1-----</row>
+        <row>---111111111---</row>
+        <row>--11111111111--</row>
+        <row>-1111111111111-</row>
+        <row>----1-----1----</row>
+        <row>---1---1---1---</row>
+        <row>---1--111--1---</row>
+        <row>---1--111--1---</row>
+        <row>---1--1-1--1---</row>
+        <row>----1-1-1-1----</row>
+        <row>---111111111---</row>
+        <row>--11111111111--</row>
+        <row>--11111111111--</row>
+        <row>--11111111111--</row>
+    </board>
+
+    <board name="Monkey" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>----11111------</row>
+        <row>---1111111-----</row>
+        <row>--111111111----</row>
+        <row>--1--11--11-111</row>
+        <row>--1------11-1-1</row>
+        <row>-11-1--1-111--1</row>
+        <row>-1---------1--1</row>
+        <row>-1-1-1-1---11-1</row>
+        <row>-1111-11-1111-1</row>
+        <row>--1-----1111111</row>
+        <row>111111111111111</row>
+        <row>1--1-1--1--111-</row>
+        <row>1---1111---111-</row>
+        <row>11--1111--1111-</row>
+        <row>-111111111111--</row>
+    </board>
+
+    <board name="Teddy Bear" author="Zack Rusin" rows="15" columns="15" difficulty="2">
+        <row>111111111111111</row>
+        <row>111---111---111</row>
+        <row>11-11-----11-11</row>
+        <row>11-1-1--1--1-11</row>
+        <row>11---1--1----11</row>
+        <row>111--111----111</row>
+        <row>111-1-1--1--111</row>
+        <row>1-1--1111---1-1</row>
+        <row>1--1-------1--1</row>
+        <row>11-11111111-111</row>
+        <row>1-11-1111-11--1</row>
+        <row>---1-1--1-1----</row>
+        <row>---1------1----</row>
+        <row>1--11----11---1</row>
+        <row>111111111111111</row>
+    </board>
+
+</picmi>

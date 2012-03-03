@@ -38,6 +38,7 @@ public:
     };
 
     Picmi(std::shared_ptr<Settings> settings);
+    Picmi(std::shared_ptr<BoardMap> board);
 
     int width() const;
     int height() const;

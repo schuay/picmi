@@ -6,6 +6,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 set(QT_USE_QTSVG TRUE)
+set(QT_USE_QTXML TRUE)
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
@@ -29,6 +30,7 @@ add_definitions(${QT_DEFINITIONS})
 add_subdirectory(themes)
 add_subdirectory(icons)
 add_subdirectory(doc)
+add_subdirectory(levels)
 
 set(picmi_FORMS
     ${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui

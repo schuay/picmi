@@ -30,11 +30,12 @@
 #include "settingswindow.h"
 #include "config.h"
 #include "src/constants.h"
+#include "src/logic/levelloader.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent), m_key_size("window/size"),
     m_key_pos("window/position"), m_statusbar_time_id(1),
-    m_in_progress(false)
+    m_in_progress(false), m_mode(Random)
 {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
@@ -49,11 +50,12 @@ MainWindow::MainWindow(QWidget *parent) :
     Settings settings;
     KGameDifficulty::setLevel(settings.level());
 
-    startGame();
+    startRandomGame();
 }
 
 void MainWindow::setupActions() {
-    KStandardGameAction::gameNew(this, SLOT(startGame()), actionCollection());
+    KStandardGameAction::gameNew(this, SLOT(startRandomGame()), actionCollection());
+    KStandardGameAction::load(this, SLOT(loadBoard()), actionCollection());
     KStandardGameAction::highscores(this, SLOT(highscores()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
     KStandardAction::preferences(this, SLOT(settings()), actionCollection());
@@ -72,11 +74,18 @@ void MainWindow::setupActions() {
     setupGUI();
 }
 
+void MainWindow::loadBoard() {
+    LevelLoader ll("/home/jakob/src/picmi-rewrite/levels/default.xml");
+    QList<std::shared_ptr<Level> > l = ll.loadLevels();
+
+    startPresetGame(l[0]);
+}
+
 void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {
     Settings settings;
     settings.setLevel(level);
     settings.qSettings()->sync();
-    startGame();
+    startRandomGame();
 }
 
 void MainWindow::customLevelChanged(int level) {
@@ -109,6 +118,22 @@ void MainWindow::undo() {
     m_scene->refresh();
 }
 
+void MainWindow::startRandomGame() {
+    std::shared_ptr<Settings> settings(new Settings);
+    m_game.reset(new Picmi(settings));
+    m_mode = Random;
+
+    startGame();
+}
+
+void MainWindow::startPresetGame(std::shared_ptr<Level> board) {
+    std::shared_ptr<BoardMap> p(new BoardMap(board->width(), board->height(), board->map()));
+    m_game.reset(new Picmi(p));
+    m_mode = Preset;
+
+    startGame();
+}
+
 void MainWindow::startGame() {
 
     if (m_scene) {
@@ -122,8 +147,6 @@ void MainWindow::startGame() {
     KGameDifficulty::setRunning(true);
 
     m_timer.start();
-    std::shared_ptr<Settings> settings(new Settings);
-    m_game.reset(new Picmi(settings));
     m_scene = m_view.createScene(m_game);
     updatePlayedTime();
 
@@ -169,9 +192,11 @@ void MainWindow::gameWon() {
     m_timer.stop();
     m_in_progress = false;
 
-    std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
-    if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
-        scoreDialog->exec();
+    if (m_mode == Random) {
+        std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
+        if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
+            scoreDialog->exec();
+        }
     }
 
     m_view.setFocus();

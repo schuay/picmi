@@ -19,14 +19,23 @@
 #ifndef SYSTEMEXCEPTION_H
 #define SYSTEMEXCEPTION_H
 
+#include <QString>
 #include <exception>
 
 class SystemException : public std::exception
 {
 public:
+    SystemException() { m_msg = "system error"; }
+    SystemException(const QString &msg) { m_msg = msg; }
+
+    ~SystemException() throw() { }
+
     virtual const char *what() const throw() {
-        return "system error";
+        return m_msg.toStdString().c_str();
     }
+
+private:
+    QString m_msg;
 };
 
 #endif // SYSTEMEXCEPTION_H

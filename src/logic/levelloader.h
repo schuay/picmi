@@ -39,7 +39,13 @@ public:
     int height() const { return m_height; }
     QList<Board::State> map() const { return m_map; }
 
+    QString visibleName() const { if (solved()) return name(); return "???"; }
+    bool solved() const { return false; }
+    int solvedTime() const { return 0; }
+
 private:
+    void retrieveSolvedState();
+
     QString m_name, m_author, m_levelset;
     int m_difficulty;
     int m_width, m_height;

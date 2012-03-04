@@ -79,7 +79,7 @@ QVariant LevelTableModel::data(const QModelIndex &index, int role) const {
 
     std::shared_ptr<Level> level= m_levels[index.row()];
     switch (index.column()) {
-    case Name: return level->name();
+    case Name: return level->visibleName();
     case LevelSet: return level->levelset();
     case Difficulty: return level->difficulty();
     case Size: return QString("%1x%2").arg(level->width()).arg(level->height());
@@ -138,11 +138,15 @@ void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const Q
 }
 
 void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
-    ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->name()));
+    ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->visibleName()));
     ui->labelAuthor->setText(QString("%1: %2").arg(ki18n("Author").toString(), level->author()));
     ui->labelSize->setText(QString("%1: %2x%3").arg(ki18n("Size").toString()).arg(level->width()).arg(level->height()));
     ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(level->difficulty()));
-    ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "No"));
+    if (level->solved()) {
+        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString()).arg(level->solvedTime()));
+    } else {
+        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "-"));
+    }
 }
 
 std::shared_ptr<Level> SelectBoardWindow::selectedBoard() const {

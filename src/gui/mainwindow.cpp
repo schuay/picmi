@@ -31,6 +31,7 @@
 #include "config.h"
 #include "src/constants.h"
 #include "src/logic/levelloader.h"
+#include "selectboardwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent), m_key_size("window/size"),
@@ -75,10 +76,10 @@ void MainWindow::setupActions() {
 }
 
 void MainWindow::loadBoard() {
-    LevelLoader ll("/home/jakob/src/picmi-rewrite/levels/default.xml");
-    QList<std::shared_ptr<Level> > l = ll.loadLevels();
-
-    startPresetGame(l[0]);
+    SelectBoardWindow w(this);
+    if (w.exec() == QDialog::Accepted) {
+        startPresetGame(w.selectedBoard());
+    }
 }
 
 void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {

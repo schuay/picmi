@@ -34,6 +34,7 @@ add_subdirectory(levels)
 
 set(picmi_FORMS
     ${CMAKE_SOURCE_DIR}/src/gui/settingswindow.ui
+    ${CMAKE_SOURCE_DIR}/src/gui/selectboardwindow.ui
 )
 qt4_wrap_ui(picmi_FORMS_HEADERS ${picmi_FORMS})
 

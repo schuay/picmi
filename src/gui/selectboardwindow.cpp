@@ -123,11 +123,26 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     } else {
         QModelIndex index = m_model->index(0, 0);
         ui->listView->selectionModel()->select(index, QItemSelectionModel::Select);
+        connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
+        updateDetails(m_levels[0]);
     }
 }
 
 SelectBoardWindow::~SelectBoardWindow() {
     delete ui;
+}
+
+void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous) {
+    Q_UNUSED(previous);
+    updateDetails(m_levels[current.row()]);
+}
+
+void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
+    ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->name()));
+    ui->labelAuthor->setText(QString("%1: %2").arg(ki18n("Author").toString(), level->author()));
+    ui->labelSize->setText(QString("%1: %2x%3").arg(ki18n("Size").toString()).arg(level->width()).arg(level->height()));
+    ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(level->difficulty()));
+    ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "No"));
 }
 
 std::shared_ptr<Level> SelectBoardWindow::selectedBoard() const {

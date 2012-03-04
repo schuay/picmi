@@ -40,9 +40,11 @@ public:
 
     std::shared_ptr<Level> selectedBoard() const;
 
-protected:
+private slots:
+    void selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
+    void updateDetails(std::shared_ptr<Level> level);
     Ui::LevelSelectUi *ui;
 
     QList<std::shared_ptr<Level> > m_levels;

@@ -26,6 +26,7 @@
 #include <QAbstractTableModel>
 #include <assert.h>
 
+#include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"
 
 class LevelTableModel : public QAbstractTableModel
@@ -137,13 +138,27 @@ void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const Q
     updateDetails(m_levels[current.row()]);
 }
 
+QString SelectBoardWindow::diffString(int difficulty) const {
+    switch (difficulty) {
+    case 0: return ki18n("RidiculouslyEasy").toString();
+    case 1: return ki18n("VeryEasy").toString();
+    case 2: return ki18n("Easy").toString();
+    case 3: return ki18n("Medium").toString();
+    case 4: return ki18n("Hard").toString();
+    case 5: return ki18n("VeryHard").toString();
+    case 6: return ki18n("ExtremelyHard").toString();
+    case 7: return ki18n("Impossible").toString();
+    default: throw OutOfBoundsException();
+    }
+}
+
 void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
     ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->visibleName()));
     ui->labelAuthor->setText(QString("%1: %2").arg(ki18n("Author").toString(), level->author()));
     ui->labelSize->setText(QString("%1: %2x%3").arg(ki18n("Size").toString()).arg(level->width()).arg(level->height()));
-    ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(level->difficulty()));
+    ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(diffString(level->difficulty())));
     if (level->solved()) {
-        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString()).arg(level->solvedTime()));
+        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString()).arg(Time(level->solvedTime()).toString()));
     } else {
         ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "-"));
     }

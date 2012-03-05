@@ -45,6 +45,8 @@ private slots:
 
 private:
     void updateDetails(std::shared_ptr<Level> level);
+    QString diffString(int difficulty) const;
+
     Ui::LevelSelectUi *ui;
 
     QList<std::shared_ptr<Level> > m_levels;

@@ -131,6 +131,7 @@ void MainWindow::startPresetGame(std::shared_ptr<Level> board) {
     std::shared_ptr<BoardMap> p(new BoardMap(board->width(), board->height(), board->map()));
     m_game.reset(new Picmi(p));
     m_mode = Preset;
+    m_current_level = board;
 
     startGame();
 }
@@ -198,6 +199,8 @@ void MainWindow::gameWon() {
         if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
             scoreDialog->exec();
         }
+    } else if (m_mode == Preset) {
+        m_current_level->setSolved(m_game->elapsedSecs());
     }
 
     m_view.setFocus();

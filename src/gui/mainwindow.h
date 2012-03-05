@@ -80,6 +80,8 @@ private:
 
     bool m_in_progress;
     enum Mode m_mode;
+
+    std::shared_ptr<Level> m_current_level;
 };
 
 #endif // MAINWINDOW_H

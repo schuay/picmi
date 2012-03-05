@@ -20,9 +20,43 @@
 #include <QDomDocument>
 #include <QFile>
 #include <QDir>
+#include <QSettings>
 
 #include "src/systemexception.h"
 #include "config.h"
+
+Level::Level() : m_solved(false), m_solved_time(0) { }
+
+QString Level::key() const {
+    return QString("preset_scores/%1_%2").arg(m_levelset, m_name);
+}
+
+void Level::writeSettings(int seconds) {
+    QSettings settings;
+    QString k = key();
+
+    settings.setValue(k, seconds);
+    settings.sync();
+}
+
+void Level::readSettings() {
+    QSettings settings;
+    QString k = key();
+
+    if (settings.contains(k)) {
+        m_solved = true;
+        m_solved_time = settings.value(k).toInt();
+    }
+}
+
+void Level::setSolved(int seconds) {
+    if (m_solved_time > 0 && seconds >= m_solved_time) {
+        return;
+    }
+    m_solved = true;
+    m_solved_time = seconds;
+    writeSettings(seconds);
+}
 
 QList<std::shared_ptr<Level> > LevelLoader::load() {
     QList<QString> paths;
@@ -122,6 +156,8 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
     if (i != p->height()) {
         throw SystemException("Invalid row count");
     }
+
+    p->readSettings();
 
     return p;
 }

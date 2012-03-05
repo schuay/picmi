@@ -31,6 +31,8 @@ class Level
 {
     friend class LevelLoader;
 public:
+    Level();
+
     QString name() const { return m_name; }
     QString author() const { return m_author; }
     QString levelset() const { return m_levelset; }
@@ -40,16 +42,21 @@ public:
     QList<Board::State> map() const { return m_map; }
 
     QString visibleName() const { if (solved()) return name(); return "???"; }
-    bool solved() const { return false; }
-    int solvedTime() const { return 0; }
+    bool solved() const { return m_solved; }
+    int solvedTime() const { return m_solved_time; }
+    void setSolved(int seconds);
 
 private:
-    void retrieveSolvedState();
+    void readSettings(); /* needs to be called by loader when done constructing */
+    void writeSettings(int seconds);
+    QString key() const;
 
     QString m_name, m_author, m_levelset;
     int m_difficulty;
     int m_width, m_height;
     QList<Board::State> m_map;
+    bool m_solved;
+    int m_solved_time;
 };
 
 class LevelLoader

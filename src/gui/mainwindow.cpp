@@ -151,6 +151,7 @@ void MainWindow::startGame() {
 
     m_view.setEnabled(true);
     m_view.setFocus();
+    m_view.setPaused(false);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));

@@ -22,7 +22,7 @@
 #include <QSettings>
 #include <QVector>
 #include <memory>
-#include <kgamedifficulty.h>
+#include <kgdifficulty.h>
 
 class Settings
 {
@@ -33,13 +33,13 @@ public:
     int height() const;
     double boxDensity() const;
     bool preventMistakes() const;
-    KGameDifficulty::standardLevel level() const;
+    KgDifficultyLevel::StandardLevel level() const;
 
     void setWidth(int width);
     void setHeight(int height);
     void setBoxDensity(double box_density);
     void setPreventMistakes(bool prevent_mistakes);
-    void setLevel(KGameDifficulty::standardLevel level);
+    void setLevel(KgDifficultyLevel::StandardLevel level);
 
     std::shared_ptr<QSettings> qSettings();
 
@@ -59,7 +59,7 @@ private:
     int m_width, m_height;
     double m_box_density;
     bool m_prevent_mistakes;
-    KGameDifficulty::standardLevel m_level;
+    KgDifficultyLevel::StandardLevel m_level;
 
     std::shared_ptr<QSettings> m_qsettings;
 };

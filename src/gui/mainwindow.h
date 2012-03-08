@@ -24,7 +24,7 @@
 #include <highscore/kscoredialog.h>
 #include <kaction.h>
 #include <ktoggleaction.h>
-#include <kgamedifficulty.h>
+#include <kgdifficulty.h>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
@@ -48,8 +48,7 @@ private slots:
     void gameWon();
     void undo();
     void highscores();
-    void levelChanged(KGameDifficulty::standardLevel level);
-    void customLevelChanged(int level);
+    void levelChanged(const KgDifficultyLevel* level);
     void updatePlayedTime();
     void loadBoard();
 

@@ -10,6 +10,7 @@ set(QT_USE_QTXML TRUE)
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
+find_package(LibKDEGames REQUIRED)
 
 set(picmi_VERSION_MAJOR 1)
 set(picmi_VERSION_MINOR 9)
@@ -42,6 +43,7 @@ qt4_wrap_ui(picmi_FORMS_HEADERS ${picmi_FORMS})
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${KDEGAMES_INCLUDE_DIR}
 )
 aux_source_directory(src/ src_sources)
 aux_source_directory(src/gui src_gui_sources)
@@ -57,7 +59,7 @@ kde4_add_executable(picmi
 )
 
 target_link_libraries(picmi
-    kdegames
+    ${KDEGAMES_LIBRARY}
     ${KDE4_KDEUI_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${QT_LIBRARIES}

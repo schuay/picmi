@@ -22,7 +22,8 @@ configure_file(
     "${PROJECT_BINARY_DIR}/config.h"
 )
 
-add_definitions("-std=c++0x -fexceptions")
+add_definitions("-std=c++0x")
+add_definitions(${KDE4_ENABLE_EXCEPTIONS})
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

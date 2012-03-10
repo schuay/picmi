@@ -22,8 +22,7 @@ configure_file(
     "${PROJECT_BINARY_DIR}/config.h"
 )
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2 -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI__ -D_FORTIFY_SOURCE=2 -fexceptions")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall -Wextra -pedantic -fPIC -std=c++0x -U__STRICT_ANSI_ -D_FORTIFY_SOURCE=2 -fexceptions")
+add_definitions("-std=c++0x -fexceptions")
 
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})

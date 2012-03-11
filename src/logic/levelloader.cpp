@@ -76,8 +76,6 @@ QList<std::shared_ptr<Level> > LevelLoader::load() {
             LevelLoader loader(paths[i] + files[j]);
             list.append(loader.loadLevels());
         }
-
-        break;
     }
 
     return list;

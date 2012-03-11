@@ -12,10 +12,12 @@ find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
 find_package(LibKDEGames REQUIRED)
 
-set(picmi_VERSION_MAJOR 1)
-set(picmi_VERSION_MINOR 9)
-set(picmi_VERSION_PATCH 95)
-set(picmi_FILEPATH \"${DATA_INSTALL_DIR}/picmi/\")
+set(PICMI_VERSION_MAJOR 1)
+set(PICMI_VERSION_MINOR 9)
+set(PICMI_VERSION_PATCH 95)
+if (NOT PICMI_FILEPATH)
+    set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
+endif ()
 
 configure_file(
     "${PROJECT_SOURCE_DIR}/src/config.h.in"

@@ -74,6 +74,8 @@ private:
 
     std::shared_ptr<QDomDocument> m_levelset;
     QString m_levelsetname;
+
+    bool m_valid;
 };
 
 #endif // LEVELLOADER_H

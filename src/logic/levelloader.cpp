@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QDir>
 #include <QSettings>
+#include <QDebug>
 
 #include "src/systemexception.h"
 #include "config.h"
@@ -81,7 +82,7 @@ QList<std::shared_ptr<Level> > LevelLoader::load() {
     return list;
 }
 
-LevelLoader::LevelLoader(const QString &filename)
+LevelLoader::LevelLoader(const QString &filename) : m_valid(true)
 {
     setLevelset(filename);
 }
@@ -102,23 +103,33 @@ void LevelLoader::setLevelset(const QString& filename)
 
     file.close();
     if (!success) {
-        throw SystemException(QString("Can't read levelset from %1 \nError: %2 in Line %3, Column %4")
-                              .arg(filename, errorString).arg(errorLine).arg(errorColumn));
+        qDebug() << QString("Can't read levelset from %1 \nError: %2 in Line %3, Column %4")
+                              .arg(filename, errorString).arg(errorLine).arg(errorColumn);
+        m_valid = false;
     }
 }
 
 QList<std::shared_ptr<Level> > LevelLoader::loadLevels() {
-    QDomElement levels = m_levelset->documentElement();
+    QList<std::shared_ptr<Level> > l;
 
+    if (!m_valid) {
+        return l;
+    }
+
+    QDomElement levels = m_levelset->documentElement();
     if (!levels.hasAttribute("name")) {
-        throw SystemException("No levelset name specified");
+        qDebug() << "Loading level failed: no levelset name specified";
+        return l;
     }
     m_levelsetname = levels.attribute("name");
 
-    QList<std::shared_ptr<Level> > l;
     QDomNodeList childNodes = levels.childNodes();
     for (int i = 0; i < childNodes.size(); i++) {
-        l.append(loadLevel(childNodes.at(i).toElement()));
+        try {
+            l.append(loadLevel(childNodes.at(i).toElement()));
+        } catch (const SystemException &e) {
+            qDebug() << "Loading level failed: " << e.what();
+        }
     }
     return l;
 }

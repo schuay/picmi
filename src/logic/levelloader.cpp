@@ -28,6 +28,33 @@
 #include "src/systemexception.h"
 #include "config.h"
 
+class LevelList : public QList<std::shared_ptr<Level> >
+{
+public:
+    LevelList() : QList<std::shared_ptr<Level> >() { }
+    void append(const QList<std::shared_ptr<Level> > &t);
+private:
+    bool containsLevel(std::shared_ptr<Level> level) const;
+};
+
+void LevelList::append(const QList<std::shared_ptr<Level> > &t) {
+    for (int i = 0; i < t.size(); i++) {
+        std::shared_ptr<Level> level = t[i];
+        if (!containsLevel(level)) {
+            QList::append(level);
+        }
+    }
+}
+
+bool LevelList::containsLevel(std::shared_ptr<Level> level) const {
+    for (int i = 0; i < size(); i++) {
+        if (at(i)->name() == level->name() && at(i)->author() == level->author()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Level::Level() : m_solved(false), m_solved_time(0) { }
 
 QString Level::key() const {
@@ -68,7 +95,7 @@ QList<std::shared_ptr<Level> > LevelLoader::load() {
           << QString(FILEPATH "/" + prefix)
           << KGlobal::dirs()->findResourceDir("appdata", prefix) + prefix;
 
-    QList<std::shared_ptr<Level> > list;
+    LevelList list;
 
     for (int i = 0; i < paths.size(); i++) {
         QDir dir(paths[i]);
@@ -79,7 +106,7 @@ QList<std::shared_ptr<Level> > LevelLoader::load() {
         QStringList files = dir.entryList(QStringList("*.xml"));
 
         for (int j = 0; j < files.size(); j++) {
-            LevelLoader loader(paths[i] + files[j]);
+            LevelLoader loader(dir.absoluteFilePath(files[j]));
             list.append(loader.loadLevels());
         }
     }

@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QFile>
 #include <QDir>
+#include <kglobal.h>
+#include <kstandarddirs.h>
 
 #include "src/systemexception.h"
 #include "src/outofboundsexception.h"
@@ -41,10 +43,13 @@ Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
 }
 
 void Renderer::loadResources() {
+    const QString prefix = "themes/";
     QList<QString> paths;
-    paths << QString("themes/") << QString(FILEPATH "themes/");
+    paths << QString(prefix)
+          << QString(FILEPATH "/" + prefix)
+          << KGlobal::dirs()->findResourceDir("appdata", prefix) + prefix;
 
-    /* try loading first from working directory, then the system directory */
+    /* try loading first from working directory, then the system directories */
     for (int i = 0; i < paths.size(); i++) {
         const QString filenameSvg = QDir::toNativeSeparators(paths[i] + "picmi.svg");
 

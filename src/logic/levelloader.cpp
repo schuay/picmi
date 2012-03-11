@@ -22,6 +22,8 @@
 #include <QDir>
 #include <QSettings>
 #include <QDebug>
+#include <kglobal.h>
+#include <kstandarddirs.h>
 
 #include "src/systemexception.h"
 #include "config.h"
@@ -60,8 +62,11 @@ void Level::setSolved(int seconds) {
 }
 
 QList<std::shared_ptr<Level> > LevelLoader::load() {
+    const QString prefix = "levels/";
     QList<QString> paths;
-    paths << QString("levels/") << QString(FILEPATH "levels/");
+    paths << QString(prefix)
+          << QString(FILEPATH "/" + prefix)
+          << KGlobal::dirs()->findResourceDir("appdata", prefix) + prefix;
 
     QList<std::shared_ptr<Level> > list;
 

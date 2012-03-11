@@ -57,8 +57,10 @@ void Renderer::loadResources() {
             continue;
         }
         m_renderer.reset(new QSvgRenderer(filenameSvg));
-        break;
+        return;
     }
+
+    throw SystemException("Resources not found");
 }
 
 int Renderer::gridSize(const QSize &size, int board_width, int board_height) const {

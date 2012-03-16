@@ -169,7 +169,7 @@ KScoreDialog::FieldInfo Picmi::endGame() {
     KScoreDialog::FieldInfo score;
     score[KScoreDialog::Score].setNum(m_timer.elapsedSecs());
     score[KScoreDialog::Time] = Time(m_timer.elapsedSecs()).toString();
-    score[KScoreDialog::Date] = m_timer.startDate().toString();
+    score[KScoreDialog::Date] = m_timer.startDate().toString("dd MMM yyyy hh:mm");
 
     return score;
 }

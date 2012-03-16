@@ -73,6 +73,15 @@ void MainWindow::setupActions() {
     dump_action->setShortcut(Qt::Key_D);
     connect(dump_action, SIGNAL(triggered()), this, SLOT(dumpBoard()));
 
+    m_action_save_state = actionCollection()->addAction("save-position");
+    m_action_save_state->setText(i18n("Save Position"));
+    m_action_save_state->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    connect(m_action_save_state, SIGNAL(triggered()), this, SLOT(saveState()));
+
+    m_action_load_state = actionCollection()->addAction("load-position");
+    m_action_load_state->setText(i18n("Load Position"));
+    m_action_load_state->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
+    connect(m_action_load_state, SIGNAL(triggered()), this, SLOT(loadState()));
 
     this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
 
@@ -168,6 +177,15 @@ void MainWindow::undo() {
     m_scene->refresh(p);
 }
 
+void MainWindow::saveState() {
+    m_game->saveState();
+}
+
+void MainWindow::loadState() {
+    m_game->loadState();
+    m_scene->refresh();
+}
+
 void MainWindow::startRandomGame() {
     std::shared_ptr<Settings> settings(new Settings);
     m_game.reset(new Picmi(settings));
@@ -193,6 +211,8 @@ void MainWindow::startGame() {
     }
 
     m_action_undo->setEnabled(true);
+    m_action_save_state->setEnabled(true);
+    m_action_load_state->setEnabled(true);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
 #ifdef HAVE_KGDIFFICULTY
@@ -247,6 +267,8 @@ void MainWindow::gameWon() {
     m_view.setEnabled(false);
     m_action_pause->setEnabled(false);
     m_action_undo->setEnabled(false);
+    m_action_save_state->setEnabled(false);
+    m_action_load_state->setEnabled(false);
 #ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->setGameRunning(false);
 #else
@@ -283,6 +305,8 @@ void MainWindow::highscores() {
 void MainWindow::togglePaused(bool paused) {
     m_view.setPaused(paused);
     m_action_undo->setEnabled(!paused);
+    m_action_save_state->setEnabled(!paused);
+    m_action_load_state->setEnabled(!paused);
 
     if (paused) {
         m_timer.stop();

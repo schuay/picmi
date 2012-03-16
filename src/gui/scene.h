@@ -52,6 +52,8 @@ public:
     /* refresh display of all dynamic graphics elements
        related to p. */
     void refresh(const QPoint &p);
+    /* refresh display of all dynamic graphics elements */
+    void refresh();
 
     void setPaused(bool paused);
 
@@ -72,8 +74,6 @@ private:
     void setGroupPos(const QSize &size);
     void setOverviewPos();
 
-    /* refresh display of all dynamic graphics elements */
-    void refresh();
     void updateHighlights();
     void hideHighlights();
     int xy_to_i(int x, int y) const;

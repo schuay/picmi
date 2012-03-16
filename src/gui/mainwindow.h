@@ -53,6 +53,8 @@ private slots:
     void settings();
     void gameWon();
     void undo();
+    void saveState();
+    void loadState();
     void highscores();
 #ifdef HAVE_KGDIFFICULTY
     void levelChanged(const KgDifficultyLevel* level);
@@ -80,7 +82,7 @@ private:
     std::shared_ptr<KScoreDialog> createScoreDialog();
     void setupActions();
 
-    KAction *m_action_undo;
+    KAction *m_action_undo, *m_action_save_state, *m_action_load_state;
     KToggleAction *m_action_pause;
     View m_view;
     std::shared_ptr<Picmi> m_game;

@@ -19,6 +19,7 @@
 #include "boardstate.h"
 
 #include <algorithm>
+#include <assert.h>
 
 BoardState::BoardState(int width, int height) : Board(width, height), m_box_count(0)
 {
@@ -55,7 +56,43 @@ QPoint BoardState::undo() {
     calcBoxCount();
     calcStreaks(undo.x, undo.y);
 
+    /* if we undo past a saved state, remove it */
+
+    if (!m_saved_states.isEmpty()
+            && m_undo_queue.size() < m_saved_states.top()) {
+        (void)m_saved_states.pop();
+    }
+
     return QPoint(undo.x, undo.y);
+}
+
+void BoardState::saveState() {
+
+    /* a saved state consists only of the size of
+       the undo queue to rewind to to restore a specific state */
+
+    int size = m_undo_queue.size();
+    if (!m_saved_states.isEmpty() && m_saved_states.top() == size) {
+        return;
+    }
+    m_saved_states.push(size);
+}
+
+void BoardState::loadState() {
+
+    if (m_saved_states.isEmpty()) {
+        return;
+    }
+
+    /* rewind the undo queue until its size equals
+       the saved queue size */
+
+    int size = m_saved_states.pop();
+    assert(size <= m_undo_queue.size());
+
+    while (size < m_undo_queue.size()) {
+        (void)undo();
+    }
 }
 
 bool BoardState::isStreakFiller(enum State state) const {

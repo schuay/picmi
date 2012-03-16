@@ -66,6 +66,10 @@ public:
     /* undo last action (if it exists) and return the changed coordinate. */
     QPoint undo();
 
+    /* if a saved state exists, load it. otherwise, do nothing */
+    void loadState() { m_state->loadState(); }
+    void saveState() { m_state->saveState(); }
+
     /* returns the current state of the board in a format suitable for
        preset level creation */
     QString dump() const;

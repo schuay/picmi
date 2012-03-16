@@ -50,6 +50,13 @@ public:
        if none are left, nothing occurs and QPoint() is returned*/
     QPoint undo();
 
+    /* save the current state and push it onto the state stack. */
+    void saveState();
+
+    /* pop and load a state if state stack is non-empty.
+       otherwise, do nothing */
+    void loadState();
+
     /* gets the specified row/column streak. these can be different after
       each player action.
       (x, y) is inbounds */
@@ -78,6 +85,7 @@ private:
     };
 
     QStack<UndoAction> m_undo_queue;
+    QStack<int> m_saved_states;     /* size of m_undo_queue when state was saved */
 
     QVector<std::shared_ptr<LineInfo> > m_row_infos;
     QVector<std::shared_ptr<LineInfo> > m_col_infos;

@@ -190,6 +190,10 @@ void Picmi::setPaused(bool paused) {
     m_timer.pause(paused);
 }
 
+QString Picmi::dump() const {
+    return m_state->toXml();
+}
+
 int Picmi::elapsedSecs() const {
     return m_timer.elapsedSecs();
 }

@@ -65,6 +65,10 @@ public:
 
     void undo();
 
+    /* returns the current state of the board in a format suitable for
+       preset level creation */
+    QString dump() const;
+
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */

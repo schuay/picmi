@@ -26,6 +26,7 @@
 #include <kstandardgameaction.h>
 #include <kactioncollection.h>
 #include <kstatusbar.h>
+#include <iostream>
 
 #include "settingswindow.h"
 #include "config.h"
@@ -60,6 +61,11 @@ void MainWindow::setupActions() {
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
 
+    KAction *dump_action = actionCollection()->addAction("dump-to-console");
+    dump_action->setText(i18n("Dump board to console"));
+    dump_action->setShortcut(Qt::Key_D);
+    connect(dump_action, SIGNAL(triggered()), this, SLOT(dumpBoard()));
+
     this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
 
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Easy);
@@ -81,6 +87,10 @@ void MainWindow::loadBoard() {
     if (w.exec() == QDialog::Accepted) {
         startPresetGame(w.selectedBoard());
     }
+}
+
+void MainWindow::dumpBoard() const {
+    std::cout << m_game->dump().toStdString() << std::endl;
 }
 
 void MainWindow::levelChanged(const KgDifficultyLevel* level) {

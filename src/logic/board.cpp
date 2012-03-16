@@ -95,3 +95,19 @@ std::vector<int> Board::lineToStreaks(const std::vector<Board::State> &line) con
 
     return streaks;
 }
+
+QString Board::toXml() const {
+    QString xml;
+
+    xml.append(QString("<board name=\"\" author=\"\" rows=\"%1\" columns=\"%2\" difficulty=\"2\">\n").arg(height()).arg(width()));
+    for (int y = 0; y < height(); y++) {
+        xml.append("    <row>");
+        for (int x = 0; x < width(); x++) {
+            QChar c(get(x, y) == Board::Box ? '1' : '-');
+            xml.append(c);
+        }
+        xml.append("</row>\n");
+    }
+    xml.append("</board>\n");
+    return xml;
+}

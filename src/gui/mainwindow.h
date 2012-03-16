@@ -51,6 +51,7 @@ private slots:
     void levelChanged(const KgDifficultyLevel* level);
     void updatePlayedTime();
     void loadBoard();
+    void dumpBoard() const;
 
 private:
     enum Mode {

@@ -1,8 +1,15 @@
 * f11 maximize
+* display board in selection window if solved
+* explicit save states in addition to undo (called 'trackers' in gnome sudoku)
 * refactoring
     improve streak calculation
+    undo is slow on netbooks (probably because of global refresh())
     ...
-* don't depend on Ubuntu Mono font
-* predefined level sets
+* read preset levels from xpm files
+* drag + drop xpm into main window
+* display statistics: highscores should be displayed at the end of each game,
+  listing the current position (#123 out of 323 played), # of game completed,
+  # of games incomplete, average time, current time. the score window should
+  display all scores instead of just the top 10
 * color nonograms
 * graphics themes (KGameThemeSelector)

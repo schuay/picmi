@@ -136,13 +136,13 @@ void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const Q
 
 QString SelectBoardWindow::diffString(int difficulty) const {
     switch (difficulty) {
-    case 0: return ki18n("RidiculouslyEasy").toString();
-    case 1: return ki18n("VeryEasy").toString();
+    case 0: return ki18n("Ridiculously Easy").toString();
+    case 1: return ki18n("Very Easy").toString();
     case 2: return ki18n("Easy").toString();
     case 3: return ki18n("Medium").toString();
     case 4: return ki18n("Hard").toString();
-    case 5: return ki18n("VeryHard").toString();
-    case 6: return ki18n("ExtremelyHard").toString();
+    case 5: return ki18n("Very Hard").toString();
+    case 6: return ki18n("Extremely Hard").toString();
     case 7: return ki18n("Impossible").toString();
     default: throw OutOfBoundsException();
     }

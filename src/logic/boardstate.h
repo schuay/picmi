@@ -19,6 +19,7 @@
 #ifndef BOARDSTATE_H
 #define BOARDSTATE_H
 
+#include <QPoint>
 #include <QVector>
 #include <QStack>
 #include <memory>
@@ -45,8 +46,9 @@ public:
       sets point (x, y) to state */
     void set(int x, int y, enum State state);
 
-    /* undo the last stored action. if none are left, nothing occurs */
-    void undo();
+    /* undo the last stored action and return the changed coordinate.
+       if none are left, nothing occurs and QPoint() is returned*/
+    QPoint undo();
 
     /* gets the specified row/column streak. these can be different after
       each player action.

@@ -168,8 +168,8 @@ bool Picmi::won() const {
     return true;
 }
 
-void Picmi::undo() {
-    m_state->undo();
+QPoint Picmi::undo() {
+    return m_state->undo();
 }
 
 KScoreDialog::FieldInfo Picmi::endGame() {

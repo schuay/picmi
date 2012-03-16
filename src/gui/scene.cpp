@@ -160,6 +160,15 @@ void Scene::refresh() {
     }
 }
 
+void Scene::refresh(const QPoint &p) {
+    const int index = xy_to_i(p.x(), p.y());
+
+    m_cells[index]->refresh();
+    m_overview_cells[index]->refresh();
+    m_row_streaks[p.y()]->refresh();
+    m_col_streaks[p.x()]->refresh();
+}
+
 void Scene::setPaused(bool paused) {
     m_game->setPaused(paused);
     m_group->setVisible(!paused);
@@ -175,10 +184,7 @@ void Scene::press(int x, int y, Board::State state) {
 
     m_game->setState(x, y, state);
 
-    m_cells[xy_to_i(x, y)]->refresh();
-    m_overview_cells[xy_to_i(x, y)]->refresh();
-    m_row_streaks[y]->refresh();
-    m_col_streaks[x]->refresh();
+    refresh(QPoint(x, y));
 
     if (m_game->won()) {
         hideHighlights();

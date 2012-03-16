@@ -63,7 +63,8 @@ public:
     /* ends the current game and returns the current high score object */
     KScoreDialog::FieldInfo endGame();
 
-    void undo();
+    /* undo last action (if it exists) and return the changed coordinate. */
+    QPoint undo();
 
     /* returns the current state of the board in a format suitable for
        preset level creation */

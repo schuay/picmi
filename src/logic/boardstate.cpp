@@ -45,15 +45,17 @@ void BoardState::set(int x, int y, State state) {
     calcStreaks(x, y);
 }
 
-void BoardState::undo() {
+QPoint BoardState::undo() {
     if (m_undo_queue.empty()) {
-        return;
+        return QPoint();
     }
 
     UndoAction undo = m_undo_queue.pop();
     m_state[xy_to_i(undo.x, undo.y)] = undo.state;
     calcBoxCount();
     calcStreaks(undo.x, undo.y);
+
+    return QPoint(undo.x, undo.y);
 }
 
 bool BoardState::isStreakFiller(enum State state) const {

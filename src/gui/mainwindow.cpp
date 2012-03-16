@@ -164,8 +164,8 @@ void MainWindow::restoreWindowState() {
 }
 
 void MainWindow::undo() {
-    m_game->undo();
-    m_scene->refresh();
+    QPoint p = m_game->undo();
+    m_scene->refresh(p);
 }
 
 void MainWindow::startRandomGame() {

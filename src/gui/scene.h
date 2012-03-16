@@ -49,10 +49,11 @@ public:
     /* resize scene to view size */
     void resize(const QSize &size);
 
-    void setPaused(bool paused);
+    /* refresh display of all dynamic graphics elements
+       related to p. */
+    void refresh(const QPoint &p);
 
-    /* refresh display of all dynamic graphics elements */
-    void refresh();
+    void setPaused(bool paused);
 
     void forwardKeyPressEvent(QKeyEvent *event);
     
@@ -71,6 +72,8 @@ private:
     void setGroupPos(const QSize &size);
     void setOverviewPos();
 
+    /* refresh display of all dynamic graphics elements */
+    void refresh();
     void updateHighlights();
     void hideHighlights();
     int xy_to_i(int x, int y) const;

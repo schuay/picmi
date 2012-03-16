@@ -2,7 +2,6 @@
 * explicit save states in addition to undo (called 'trackers' in gnome sudoku)
 * refactoring
     improve streak calculation
-    undo is slow on netbooks (probably because of global refresh())
     ...
 * read preset levels from xpm files
 * drag + drop xpm into main window

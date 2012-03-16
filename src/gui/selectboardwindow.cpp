@@ -135,6 +135,12 @@ void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const Q
 }
 
 QString SelectBoardWindow::diffString(int difficulty) const {
+    if (difficulty < 0) {
+        return diffString(0);
+    } else if (difficulty > 7) {
+        return diffString(7);
+    }
+
     switch (difficulty) {
     case 0: return ki18n("Ridiculously Easy").toString();
     case 1: return ki18n("Very Easy").toString();

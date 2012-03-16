@@ -24,11 +24,17 @@
 #include <highscore/kscoredialog.h>
 #include <kaction.h>
 #include <ktoggleaction.h>
-#include <kgdifficulty.h>
 
 #include "src/logic/picmi.h"
 #include "scene.h"
 #include "view.h"
+#include "config.h"
+
+#ifdef HAVE_KGDIFFICULTY
+#include <kgdifficulty.h>
+#else
+#include <kgamedifficulty.h>
+#endif
 
 class Level;
 
@@ -48,7 +54,12 @@ private slots:
     void gameWon();
     void undo();
     void highscores();
+#ifdef HAVE_KGDIFFICULTY
     void levelChanged(const KgDifficultyLevel* level);
+#else
+    void levelChanged(KGameDifficulty::standardLevel level);
+    void customLevelChanged(int level);
+#endif
     void updatePlayedTime();
     void loadBoard();
     void dumpBoard() const;

@@ -20,6 +20,8 @@
 
 #include <assert.h>
 
+#include "config.h"
+
 class IOHandler
 {
 public:
@@ -105,10 +107,17 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
     double density;
     bool prevent_mistakes;
     switch (settings->level()) {
+#ifdef HAVE_KGDIFFICULTY
     case KgDifficultyLevel::Easy: width = height = 10; density = 0.55; prevent_mistakes = false; break;
     case KgDifficultyLevel::Medium: width = 15; height = 10; density = 0.55; prevent_mistakes = false; break;
     case KgDifficultyLevel::Hard: width = height = 15; density = 0.55; prevent_mistakes = false; break;
     case KgDifficultyLevel::Custom:
+#else
+    case KGameDifficulty::Easy: width = height = 10; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Medium: width = 15; height = 10; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Hard: width = height = 15; density = 0.55; prevent_mistakes = false; break;
+    case KGameDifficulty::Configurable:
+#endif
     default: width = settings->width(); height = settings->height(); density = settings->boxDensity();
         prevent_mistakes = settings->preventMistakes(); break;
     }

@@ -29,7 +29,6 @@
 #include <iostream>
 
 #include "settingswindow.h"
-#include "config.h"
 #include "src/constants.h"
 #include "src/logic/levelloader.h"
 #include "selectboardwindow.h"
@@ -48,6 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupActions();
     restoreWindowState();
+
+#ifndef HAVE_KGDIFFICULTY
+    Settings settings;
+    KGameDifficulty::setLevel(settings.level());
+#endif
 
     startRandomGame();
 }
@@ -68,6 +72,7 @@ void MainWindow::setupActions() {
 
     this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
 
+#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Easy);
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Medium, true);
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Hard);
@@ -78,6 +83,14 @@ void MainWindow::setupActions() {
     KgDifficultyGUI::init(this);
     connect(Kg::difficulty(), SIGNAL(currentLevelChanged(const KgDifficultyLevel*)), this,
             SLOT(levelChanged(const KgDifficultyLevel*)));
+#else
+    KGameDifficulty::init(this, this, SLOT(levelChanged(KGameDifficulty::standardLevel)), SLOT(customLevelChanged(int)));
+    KGameDifficulty::setRestartOnChange(KGameDifficulty::RestartOnChange);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Easy);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Medium);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Hard);
+    KGameDifficulty::addStandardLevel(KGameDifficulty::Configurable);
+#endif
 
     setupGUI();
 }
@@ -93,12 +106,26 @@ void MainWindow::dumpBoard() const {
     std::cout << m_game->dump().toStdString() << std::endl;
 }
 
+#ifdef HAVE_KGDIFFICULTY
 void MainWindow::levelChanged(const KgDifficultyLevel* level) {
+#else
+void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {
+#endif
     Settings settings;
+#ifdef HAVE_KGDIFFICULTY
     settings.setLevel(level->standardLevel());
+#else
+    settings.setLevel(level);
+#endif
     settings.qSettings()->sync();
     startRandomGame();
 }
+
+#ifndef HAVE_KGDIFFICULTY
+void MainWindow::customLevelChanged(int level) {
+    Q_UNUSED(level);
+}
+#endif
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     saveWindowState();
@@ -153,7 +180,11 @@ void MainWindow::startGame() {
     m_action_undo->setEnabled(true);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
+#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->setGameRunning(true);
+#else
+    KGameDifficulty::setRunning(true);
+#endif
 
     m_timer.start();
     m_scene = m_view.createScene(m_game);
@@ -178,7 +209,19 @@ void MainWindow::updatePlayedTime() {
 std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {
     std::shared_ptr<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time, this));
 
+#ifdef HAVE_KGDIFFICULTY
     p->initFromDifficulty(Kg::difficulty());
+#else
+    Settings settings;
+
+    p->addLocalizedConfigGroupNames(KGameDifficulty::localizedLevelStrings());
+    p->setConfigGroupWeights(KGameDifficulty::levelWeights());
+    QPair<QByteArray, QString> group = KGameDifficulty::localizedLevelString();
+    if(group.first.isEmpty()) {
+        group = qMakePair(QByteArray("Custom"), i18n("Custom"));
+    }
+    p->setConfigGroup(group);
+#endif
     p->hideField(KScoreDialog::Score);
 
     return p;
@@ -189,11 +232,19 @@ void MainWindow::gameWon() {
     m_view.setEnabled(false);
     m_action_pause->setEnabled(false);
     m_action_undo->setEnabled(false);
+#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->setGameRunning(false);
+#else
+    KGameDifficulty::setRunning(false);
+#endif
     m_timer.stop();
     m_in_progress = false;
 
+#ifdef HAVE_KGDIFFICULTY
     if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
+#else
+    if (m_mode == Random) {
+#endif
         std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
         if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
             scoreDialog->exec();

@@ -46,7 +46,11 @@ bool Settings::preventMistakes() const {
     return m_prevent_mistakes;
 }
 
+#ifdef HAVE_KGDIFFICULTY
 KgDifficultyLevel::StandardLevel Settings::level() const {
+#else
+KGameDifficulty::standardLevel Settings::level() const {
+#endif
     return m_level;
 }
 
@@ -70,7 +74,11 @@ void Settings::setPreventMistakes(bool prevent_mistakes) {
     m_qsettings->setValue(m_keys[PreventMistakes], prevent_mistakes);
 }
 
+#ifdef HAVE_KGDIFFICULTY
 void Settings::setLevel(KgDifficultyLevel::StandardLevel level) {
+#else
+void Settings::setLevel(KGameDifficulty::standardLevel level) {
+#endif
     m_level = level;
     m_qsettings->setValue(m_keys[Level], level);
 }
@@ -80,8 +88,13 @@ void Settings::restore() {
     m_height = m_qsettings->value(m_keys[Height], 10).toInt();
     m_box_density = m_qsettings->value(m_keys[BoxDensity], 0.55).toDouble();
     m_prevent_mistakes = m_qsettings->value(m_keys[PreventMistakes], false).toBool();
+#ifdef HAVE_KGDIFFICULTY
     m_level = (KgDifficultyLevel::StandardLevel)m_qsettings->value(m_keys[Level],
         KgDifficultyLevel::Medium).toInt();
+#else
+    m_level = (KGameDifficulty::standardLevel)m_qsettings->value(m_keys[Level],
+        KGameDifficulty::Medium).toInt();
+#endif
 }
 
 std::shared_ptr<QSettings> Settings::qSettings() {

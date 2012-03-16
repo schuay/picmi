@@ -5,16 +5,19 @@ if (NOT PICMI_FILEPATH)
     set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
 endif ()
 
+add_definitions("-std=c++0x")
+add_definitions(${KDE4_ENABLE_EXCEPTIONS})
+
+include(CheckIncludeFileCXX)
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
+
+check_include_file_cxx(kgdifficulty.h HAVE_KGDIFFICULTY)
+
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/config.h"
 )
-
-add_definitions("-std=c++0x")
-add_definitions(${KDE4_ENABLE_EXCEPTIONS})
-
-include(${QT_USE_FILE})
-add_definitions(${QT_DEFINITIONS})
 
 include_directories(
     ${KDEGAMES_INCLUDE_DIR}

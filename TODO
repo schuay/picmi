@@ -1,4 +1,3 @@
-* f11 maximize
 * display board in selection window if solved
 * explicit save states in addition to undo (called 'trackers' in gnome sudoku)
 * refactoring

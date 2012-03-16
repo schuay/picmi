@@ -63,6 +63,7 @@ private slots:
     void updatePlayedTime();
     void loadBoard();
     void dumpBoard() const;
+    void toggleFullscreen(bool full_screen);
 
 private:
     enum Mode {

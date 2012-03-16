@@ -24,8 +24,10 @@
 #include <QCoreApplication>
 #include <klocalizedstring.h>
 #include <kstandardgameaction.h>
+#include <ktogglefullscreenaction.h>
 #include <kactioncollection.h>
 #include <kstatusbar.h>
+#include <kmenubar.h>
 #include <iostream>
 
 #include "settingswindow.h"
@@ -62,6 +64,7 @@ void MainWindow::setupActions() {
     KStandardGameAction::highscores(this, SLOT(highscores()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
     KStandardAction::preferences(this, SLOT(settings()), actionCollection());
+    KStandardAction::fullScreen(this, SLOT(toggleFullscreen(bool)), this, actionCollection());
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
 
@@ -69,6 +72,7 @@ void MainWindow::setupActions() {
     dump_action->setText(i18n("Dump board to console"));
     dump_action->setShortcut(Qt::Key_D);
     connect(dump_action, SIGNAL(triggered()), this, SLOT(dumpBoard()));
+
 
     this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
 
@@ -126,6 +130,17 @@ void MainWindow::customLevelChanged(int level) {
     Q_UNUSED(level);
 }
 #endif
+
+void MainWindow::toggleFullscreen(bool full_screen) {
+    KToggleFullScreenAction::setFullScreen(this, full_screen);
+    if (full_screen) {
+        menuBar()->hide();
+        statusBar()->hide();
+    } else {
+        menuBar()->show();
+        statusBar()->show();
+    }
+}
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     saveWindowState();

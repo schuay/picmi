@@ -172,8 +172,8 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
         throw SystemException("Unexpected level node");
     }
 
-    if (!node.hasAttribute("name") || !node.hasAttribute("author") || !node.hasAttribute("rows")
-            || !node.hasAttribute("columns") || !node.hasAttribute("difficulty")) {
+    if (!node.hasAttribute("name") || !node.hasAttribute("author")
+            || !node.hasAttribute("difficulty")) {
         throw SystemException("Level node missing attribute.");
     }
 
@@ -182,20 +182,28 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
     p->m_author = node.attribute("author");
     p->m_levelset = m_levelsetname;
     p->m_difficulty = node.attribute("difficulty").toInt();
-    p->m_width = node.attribute("columns").toInt();
-    p->m_height = node.attribute("rows").toInt();
 
     QDomNodeList childNodes = node.childNodes();
-    int i;
-    for (i = 0; i < childNodes.size(); i++) {
-        const QString tag_name = childNodes.at(i).toElement().tagName();
+
+    if (childNodes.isEmpty()) {
+        throw SystemException("Empty level definition.");
+    }
+
+    const QString tag_name = childNodes.at(0).toElement().tagName();
+    if (tag_name == "row") {
+        int i;
         QList<Board::State> l;
-        if (tag_name == "row") {
+        for (i = 0; i < childNodes.size(); i++) {
             l = loadRow(childNodes.at(i).toElement());
-        } else if (tag_name == "xpm") {
-            l = loadXPM(childNodes.at(i).toElement());
+            p->m_map.append(l);
         }
-        p->m_map.append(l);
+        p->m_width = l.size();
+        p->m_height = i;
+    } else if (tag_name == "xpm") {
+        QImage xpm = openXPM(childNodes.at(0).toElement());
+        p->m_map = loadXPM(xpm);
+        p->m_width = xpm.width();
+        p->m_height = xpm.height();
     }
 
     if (p->m_map.size() != p->height() * p->width()) {
@@ -215,7 +223,7 @@ static Board::State charToState(const QChar &c) {
     }
 }
 
-QList<Board::State> LevelLoader::loadXPM(const QDomElement &node) const {
+QImage LevelLoader::openXPM(const QDomElement &node) const {
     if (node.isNull() || node.tagName() != "xpm") {
         throw SystemException("Unexpected row node");
     }
@@ -224,12 +232,16 @@ QList<Board::State> LevelLoader::loadXPM(const QDomElement &node) const {
     QString filepath = file.absolutePath() + "/" + node.text();
 
     QImage xpm(filepath);
-    QList<Board::State> list;
 
     if (xpm.isNull()) {
         throw SystemException(QString("Could not load %1").arg(filepath));
     }
 
+    return xpm;
+}
+
+QList<Board::State> LevelLoader::loadXPM(const QImage &xpm) const {
+    QList<Board::State> list;
     for (int y = 0; y < xpm.height(); y++) {
         for (int x = 0; x < xpm.width(); x++) {
             QRgb pix = xpm.pixel(x, y);

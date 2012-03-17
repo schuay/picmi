@@ -72,7 +72,8 @@ private:
     void setLevelset(const QString& levelname);
     std::shared_ptr<Level> loadLevel(const QDomElement &node) const;
     QList<Board::State> loadRow(const QDomElement &node) const;
-    QList<Board::State> loadXPM(const QDomElement &node) const;
+    QImage openXPM(const QDomElement &node) const;
+    QList<Board::State> loadXPM(const QImage &xpm) const;
 
     std::shared_ptr<QDomDocument> m_levelset;
     QString m_levelsetname;

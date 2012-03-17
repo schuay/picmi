@@ -20,6 +20,7 @@
 
 #include <QList>
 #include <QString>
+#include <QImage>
 #include <memory>
 #include <src/logic/board.h>
 
@@ -71,9 +72,12 @@ private:
     void setLevelset(const QString& levelname);
     std::shared_ptr<Level> loadLevel(const QDomElement &node) const;
     QList<Board::State> loadRow(const QDomElement &node) const;
+    QList<Board::State> loadXPM(const QDomElement &node) const;
 
     std::shared_ptr<QDomDocument> m_levelset;
     QString m_levelsetname;
+
+    const QString m_filename;
 
     bool m_valid;
 };

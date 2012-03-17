@@ -3,7 +3,6 @@
 * refactoring
     improve streak calculation
     ...
-* read preset levels from xpm files
 * drag + drop xpm into main window
 * display statistics: highscores should be displayed at the end of each game,
   listing the current position (#123 out of 323 played), # of game completed,

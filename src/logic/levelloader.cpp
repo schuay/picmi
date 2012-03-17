@@ -114,7 +114,8 @@ QList<std::shared_ptr<Level> > LevelLoader::load() {
     return list;
 }
 
-LevelLoader::LevelLoader(const QString &filename) : m_valid(true)
+LevelLoader::LevelLoader(const QString &filename) :
+    m_filename(filename), m_valid(true)
 {
     setLevelset(filename);
 }
@@ -187,15 +188,18 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
     QDomNodeList childNodes = node.childNodes();
     int i;
     for (i = 0; i < childNodes.size(); i++) {
-        QList<Board::State> l = loadRow(childNodes.at(i).toElement());
-        if (l.size() != p->width()) {
-            throw SystemException("Invalid column count");
+        const QString tag_name = childNodes.at(i).toElement().tagName();
+        QList<Board::State> l;
+        if (tag_name == "row") {
+            l = loadRow(childNodes.at(i).toElement());
+        } else if (tag_name == "xpm") {
+            l = loadXPM(childNodes.at(i).toElement());
         }
         p->m_map.append(l);
     }
 
-    if (i != p->height()) {
-        throw SystemException("Invalid row count");
+    if (p->m_map.size() != p->height() * p->width()) {
+        throw SystemException("Invalid board size");
     }
 
     p->readSettings();
@@ -209,6 +213,31 @@ static Board::State charToState(const QChar &c) {
     case '1': return Board::Box;
     default: throw SystemException("Invalid char in level definition");
     }
+}
+
+QList<Board::State> LevelLoader::loadXPM(const QDomElement &node) const {
+    if (node.isNull() || node.tagName() != "xpm") {
+        throw SystemException("Unexpected row node");
+    }
+
+    QFileInfo file(m_filename);
+    QString filepath = file.absolutePath() + "/" + node.text();
+
+    QImage xpm(filepath);
+    QList<Board::State> list;
+
+    if (xpm.isNull()) {
+        throw SystemException(QString("Could not load %1").arg(filepath));
+    }
+
+    for (int y = 0; y < xpm.height(); y++) {
+        for (int x = 0; x < xpm.width(); x++) {
+            QRgb pix = xpm.pixel(x, y);
+            list.append((pix == 0) ? Board::Nothing : Board::Box);
+        }
+    }
+
+    return list;
 }
 
 QList<Board::State> LevelLoader::loadRow(const QDomElement &node) const {

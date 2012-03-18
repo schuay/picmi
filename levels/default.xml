@@ -1,14 +1,42 @@
 <picmi name="Default">
 
+    <board name="Bass Clef" author="Jakob Gruber, Moni Linke" difficulty="2">
+        <xpm>default/bass_clef.xpm</xpm>
+    </board>
+
+    <board name="Baby Mario" author="Jakob Gruber, Moni Linke" difficulty="7">
+        <xpm>default/baby_mario.xpm</xpm>
+    </board>
+
+    <board name="Panda" author="Jakob Gruber, Moni Linke" difficulty="4">
+        <xpm>default/panda.xpm</xpm>
+    </board>
+
+    <board name="Elephant" author="Jakob Gruber, Moni Linke" difficulty="4">
+        <xpm>default/elephant.xpm</xpm>
+    </board>
+
+    <board name="Claus the cat" author="Jakob Gruber, Moni Linke" difficulty="4">
+        <xpm>default/clausthecat.xpm</xpm>
+    </board>
+
+    <board name="Bird" author="Jakob Gruber, Moni Linke" difficulty="4">
+        <xpm>default/bird.xpm</xpm>
+    </board>
+
+    <board name="Zebra" author="Jakob Gruber, Moni Linke" difficulty="4">
+        <xpm>default/zebra.xpm</xpm>
+    </board>
+
     <board name="Antique Phone" author="Jakob Gruber, Moni Linke" difficulty="4">
         <xpm>default/antique_phone.xpm</xpm>
     </board>
 
-    <board name="Basketball" author="Jakob Gruber, Moni Linke" difficulty="4">
+    <board name="Basketball" author="Jakob Gruber, Moni Linke" difficulty="6">
         <xpm>default/basketball.xpm</xpm>
     </board>
 
-    <board name="Calculator" author="Jakob Gruber, Moni Linke" difficulty="4">
+    <board name="Calculator" author="Jakob Gruber, Moni Linke" difficulty="1">
         <xpm>default/calculator.xpm</xpm>
     </board>
 
@@ -26,10 +54,6 @@
 
     <board name="Hourglass" author="Jakob Gruber, Moni Linke" difficulty="4">
         <xpm>default/hourglass.xpm</xpm>
-    </board>
-
-    <board name="Jet" author="Jakob Gruber, Moni Linke" difficulty="4">
-        <xpm>default/jet.xpm</xpm>
     </board>
 
     <board name="Mickey Mouse" author="Jakob Gruber, Moni Linke" difficulty="4">

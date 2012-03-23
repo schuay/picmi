@@ -1,4 +1,3 @@
-* display board in selection window if solved
 * frontend to save states - menu items, maybe an extra pane
 * improve level selection window (sorting, filtering)
 * refactoring

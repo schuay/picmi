@@ -36,6 +36,10 @@ public:
 
     std::shared_ptr<Level> selectedBoard() const;
 
+protected:
+    void resizeEvent(QResizeEvent *event);
+    void showEvent(QShowEvent *event);
+
 private slots:
     void selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous);
 

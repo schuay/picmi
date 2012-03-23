@@ -125,6 +125,16 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     }
 }
 
+void SelectBoardWindow::showEvent(QShowEvent *event) {
+    updateDetails(selectedBoard());
+    KDialog::showEvent(event);
+}
+
+void SelectBoardWindow::resizeEvent(QResizeEvent *event) {
+    updateDetails(selectedBoard());
+    KDialog::resizeEvent(event);
+}
+
 SelectBoardWindow::~SelectBoardWindow() {
     delete ui;
 }
@@ -161,8 +171,13 @@ void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
     ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(diffString(level->difficulty())));
     if (level->solved()) {
         ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString()).arg(Time(level->solvedTime()).toString()));
+        QPixmap scaled = level->preview().scaled(ui->labelImage->size(),
+                                                 Qt::KeepAspectRatio,
+                                                 Qt::FastTransformation);
+        ui->labelImage->setPixmap(scaled);
     } else {
         ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "-"));
+        ui->labelImage->setText("?");
     }
 }
 

@@ -21,6 +21,7 @@
 #include <QList>
 #include <QString>
 #include <QImage>
+#include <QPixmap>
 #include <memory>
 #include <src/logic/board.h>
 
@@ -41,6 +42,7 @@ public:
     int width() const { return m_width; }
     int height() const { return m_height; }
     QList<Board::State> map() const { return m_map; }
+    QPixmap preview() const { return m_preview; }
 
     QString visibleName() const { if (solved()) return name(); return "???"; }
     bool solved() const { return m_solved; }
@@ -48,7 +50,9 @@ public:
     void setSolved(int seconds);
 
 private:
-    void readSettings(); /* needs to be called by loader when done constructing */
+    void finalize(); /* needs to be called by loader when done constructing */
+    void constructPreview();
+    void readSettings();
     void writeSettings(int seconds);
     QString key() const;
 
@@ -58,6 +62,7 @@ private:
     QList<Board::State> m_map;
     bool m_solved;
     int m_solved_time;
+    QPixmap m_preview;
 };
 
 class LevelLoader

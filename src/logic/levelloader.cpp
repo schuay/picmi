@@ -69,6 +69,11 @@ void Level::writeSettings(int seconds) {
     settings.sync();
 }
 
+void Level::finalize() {
+    constructPreview();
+    readSettings();
+}
+
 void Level::readSettings() {
     QSettings settings;
     QString k = key();
@@ -77,6 +82,21 @@ void Level::readSettings() {
         m_solved = true;
         m_solved_time = settings.value(k).toInt();
     }
+}
+
+void Level::constructPreview() {
+    QImage preview(width(), height(), QImage::Format_Mono);
+    preview.fill(Qt::color1);
+
+    for (int y = 0; y < height(); y++) {
+        for (int x = 0; x < width(); x++) {
+            if (m_map[y * width() + x] == Board::Box) {
+                preview.setPixel(x, y, 0);
+            }
+        }
+    }
+
+    m_preview = QPixmap::fromImage(preview);
 }
 
 void Level::setSolved(int seconds) {
@@ -210,7 +230,7 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
         throw SystemException("Invalid board size");
     }
 
-    p->readSettings();
+    p->finalize();
 
     return p;
 }

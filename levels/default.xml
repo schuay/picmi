@@ -1,5 +1,29 @@
 <picmi name="Default">
 
+    <board name="Baby Chick" author="Moni Linke" difficulty="5">
+        <xpm>default/baby_chick.xpm</xpm>
+    </board>
+
+    <board name="Pirate Dog" author="Moni Linke" difficulty="5">
+        <xpm>default/pirate_dog.xpm</xpm>
+    </board>
+
+    <board name="Baby Panda" author="Moni Linke" difficulty="3">
+        <xpm>default/baby_panda.xpm</xpm>
+    </board>
+
+    <board name="Clown" author="Moni Linke" difficulty="5">
+        <xpm>default/clown.xpm</xpm>
+    </board>
+
+    <board name="Policeman" author="Moni Linke" difficulty="2">
+        <xpm>default/policeman.xpm</xpm>
+    </board>
+
+    <board name="Santa Claus" author="Moni Linke" difficulty="2">
+        <xpm>default/santa_claus.xpm</xpm>
+    </board>
+
     <board name="Bass Clef" author="Jakob Gruber, Moni Linke" difficulty="2">
         <xpm>default/bass_clef.xpm</xpm>
     </board>

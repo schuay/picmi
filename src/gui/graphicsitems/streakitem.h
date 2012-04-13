@@ -36,8 +36,9 @@ public:
     virtual void reload(const QSize &size) = 0;
 
 protected:
+    int padding(int tilesize) const;
+
     const std::shared_ptr<Picmi> m_game;
-    const int m_padding;
     const QString m_color_solved, m_color_unsolved;
     std::shared_ptr<QFont> m_font;
 };

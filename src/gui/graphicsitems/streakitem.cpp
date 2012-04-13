@@ -23,12 +23,16 @@
 #include "src/constants.h"
 
 StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
-    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_padding(10), m_color_solved("#555555"), m_color_unsolved("#000000")
+    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_color_solved("#555555"), m_color_unsolved("#000000")
 {
     setEnabled(false);
     setZValue(ZVALUE_STREAKTEXT);
     m_font.reset(new QFont(FONT_NAME, 24));
     setFont(*m_font);
+}
+
+int StreakItem::padding(int tilesize) const {
+    return tilesize / 5;
 }
 
 RowStreakItem::RowStreakItem(std::shared_ptr<Picmi> game, int y, QGraphicsItem *parent) :
@@ -64,7 +68,7 @@ void RowStreakItem::reload(const QSize &size) {
     QRectF rect = boundingRect();
 
     /* right align + a little padding */
-    const int x = 0 - rect.width() - m_padding;
+    const int x = 0 - rect.width() - padding(tilesize);
 
     /* one per row, center text */
     const int y = tilesize * m_y + (tilesize - rect.height()) / 2;
@@ -104,11 +108,8 @@ void ColStreakItem::reload(const QSize &size) {
 
     QRectF rect = boundingRect();
 
-    /* right align + a little padding */
     const int x = Renderer::instance()->getTilesize() * m_x + (tilesize - rect.width()) / 2;
-
-    /* one per row, center text */
-    const int y = 0 - boundingRect().height() - m_padding;
+    const int y = 0 - boundingRect().height() - padding(tilesize);
 
     setPos(x, y);
 }

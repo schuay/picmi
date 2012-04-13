@@ -87,6 +87,8 @@ void Scene::loadStreaks() {
         m_items.push_back(q);
         m_col_streaks.push_back(q);
         m_group->addToGroup(q);
+
+        m_streak_strings.append(q->toPlainText());
     }
 
     for (int y = 0; y < m_game->height(); y++) {
@@ -98,6 +100,8 @@ void Scene::loadStreaks() {
         m_items.push_back(q);
         m_row_streaks.push_back(q);
         m_group->addToGroup(q);
+
+        m_streak_strings.append(q->toPlainText());
     }
 }
 
@@ -270,7 +274,8 @@ void Scene::setGroupPos(const QSize &size) {
 }
 
 void Scene::resize(const QSize &size) {
-    Renderer::instance()->setSize(size, m_game->width(), m_game->height());
+    Renderer::instance()->setSize(size, m_game->width(), m_game->height(),
+                                  m_streak_strings);
     setSceneRect(QRectF(0, 0, size.width(), size.height()));
     setGroupPos(size);
     setOverviewPos();

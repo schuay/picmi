@@ -32,6 +32,8 @@
 #include "src/constants.h"
 #include "config.h"
 
+#define MIN_STREAK_COUNT (4)
+
 Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
     m_streak_grid_count(6)
 {
@@ -84,13 +86,46 @@ int Renderer::gridSize(const QSize &size, int board_width, int board_height) con
     return grid;
 }
 
-void Renderer::setSize(const QSize &size, int board_width, int board_height) {
+bool Renderer::streaksFit(const QStringList &streaks) const {
+    QFontMetrics fm(m_fonts[Regular]);
+
+    /* Subtract a little from real size to account for padding. */
+    const int len = m_streak_grid_count * m_tilesize - m_tilesize;
+    const int limit = 8 * m_tilesize;
+    const QRect limrect(0, 0, limit, limit);
+
+    foreach (const QString str, streaks) {
+        /* QFontMetrics.boundingRect defaults to Qt::SingleLine, which handles \n
+           as a normal character instead of a line break. Manually specify flags. */
+        QRect rect = fm.boundingRect(limrect, Qt::AlignLeft | Qt::AlignTop, str);
+        if (qMax(rect.width(), rect.height()) > len) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Renderer::setSize(const QSize &size, int board_width, int board_height,
+                       const QStringList &streaks) {
     if (board_width < 0 || board_height < 0) {
         throw OutOfBoundsException();
     }
 
-    m_tilesize = gridSize(size, board_width, board_height);
-    setFontSize();
+    /* Calculate the tile size, given the window size, the board dimensions,
+       and the list of streak strings. The tile size must be the largest value
+       such that all streaks will still fit into
+       m_streak_grid_count * m_tilesize.
+
+       Start with the default minimum grid size, and keep
+       recalculating the tile size until all streaks fit. */
+
+    m_streak_grid_count = MIN_STREAK_COUNT - 1;
+    do {
+        m_streak_grid_count++;
+        m_tilesize = gridSize(size, board_width, board_height);
+        setFontSize();
+    } while (!streaksFit(streaks));
 
     /* the overview is a square area at the top left of the field with dimensions
        getXOffset() x getYOffset(). using the same logic as for calculating the

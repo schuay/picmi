@@ -71,7 +71,8 @@ public:
     int getStreakGridCount() const;
 
     /* 0 < board_width, board_height */
-    void setSize(const QSize &size, int board_width, int board_height);
+    void setSize(const QSize &size, int board_width, int board_height,
+                 const QStringList &streaks);
 
 private:
     Renderer();
@@ -83,13 +84,17 @@ private:
       into the provided window size */
     int gridSize(const QSize &size, int board_width, int board_height) const;
 
+    /* Returns true if the given streaks fit into the current area specified
+       by m_streak_count and m_tilesize. */
+    bool streaksFit(const QStringList &streaks) const;
+
     void setFontSize();
 
 private:
 
     int m_tilesize;
     int m_overview_tilesize;
-    const int m_streak_grid_count;
+    int m_streak_grid_count;
 
     QFont m_fonts[FontSizeLength];
 

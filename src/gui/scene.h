@@ -91,6 +91,10 @@ private:
     QGraphicsItemGroup *m_group;
     QGraphicsItemGroup *m_overview_group;
 
+    /* All streaks as strings. Needed for calculation of streak
+       area dimensions. */
+    QStringList m_streak_strings;
+
     /* current position on board */
     QPoint m_position;
 };

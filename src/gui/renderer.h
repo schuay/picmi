@@ -23,6 +23,7 @@
 #include <QtSvg/QSvgRenderer>
 #include <QString>
 #include <QVector>
+#include <QFont>
 #include <memory>
 
 class Renderer
@@ -47,7 +48,8 @@ public:
         Small,
         Regular,
         Large,
-        Huge
+        Huge,
+        FontSizeLength
     };
 
     static Renderer *instance();
@@ -58,7 +60,8 @@ public:
 
     int getTilesize() const;
     int getOverviewTilesize() const;
-    int getFontSize(enum FontSize) const;
+
+    const QFont &getFont(enum FontSize size) const;
 
     /* returns the width of streak areas in pixels */
     int getYOffset() const;
@@ -80,11 +83,15 @@ private:
       into the provided window size */
     int gridSize(const QSize &size, int board_width, int board_height) const;
 
+    void setFontSize();
+
 private:
 
     int m_tilesize;
     int m_overview_tilesize;
     const int m_streak_grid_count;
+
+    QFont m_fonts[FontSizeLength];
 
     std::shared_ptr<QSvgRenderer> m_renderer;
 

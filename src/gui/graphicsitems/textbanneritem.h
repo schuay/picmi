@@ -20,7 +20,6 @@
 #define PAUSEBANNERITEM_H
 
 #include <QGraphicsSimpleTextItem>
-#include <QFont>
 
 #include "reloadableitem.h"
 
@@ -30,10 +29,6 @@ public:
     TextBannerItem(QGraphicsItem *parent = 0);
 
     void reload(const QSize &size);
-
-protected:
-    std::shared_ptr<QFont> m_font;
-    Renderer::FontSize m_size;
 };
 
 class PauseBannerItem : public TextBannerItem

@@ -26,17 +26,13 @@ TextBannerItem::TextBannerItem(QGraphicsItem *parent) :
     QGraphicsTextItem(parent), ReloadableItem(0, 0)
 {
     setEnabled(false);
-    m_font.reset(new QFont(FONT_NAME, 24));
-    setFont(*m_font);
+    setFont(Renderer::instance()->getFont(Renderer::Large));
     setZValue(ZVALUE_BANNER);
-    m_size = Renderer::Large;
 }
 
 void TextBannerItem::reload(const QSize &size) {
     Q_UNUSED(size);
-    const int fontsize = Renderer::instance()->getFontSize(m_size);
-    m_font->setPointSize(fontsize);
-    setFont(*m_font);
+    setFont(Renderer::instance()->getFont(Renderer::Large));
 }
 
 PauseBannerItem::PauseBannerItem(QGraphicsItem *parent) : TextBannerItem(parent)

@@ -18,8 +18,6 @@
 
 #include "streakitem.h"
 
-#include <QFont>
-
 #include "src/constants.h"
 
 StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
@@ -27,8 +25,7 @@ StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem 
 {
     setEnabled(false);
     setZValue(ZVALUE_STREAKTEXT);
-    m_font.reset(new QFont(FONT_NAME, 24));
-    setFont(*m_font);
+    setFont(Renderer::instance()->getFont(Renderer::Regular));
 }
 
 int StreakItem::padding(int tilesize) const {
@@ -60,10 +57,8 @@ void RowStreakItem::refresh() {
 void RowStreakItem::reload(const QSize &size) {
     Q_UNUSED(size);
     const int tilesize = Renderer::instance()->getTilesize();
-    const int fontsize = Renderer::instance()->getFontSize(Renderer::Regular);
 
-    m_font->setPointSize(fontsize);
-    setFont(*m_font);
+    setFont(Renderer::instance()->getFont(Renderer::Regular));
 
     QRectF rect = boundingRect();
 
@@ -101,10 +96,8 @@ void ColStreakItem::refresh() {
 void ColStreakItem::reload(const QSize &size) {
     Q_UNUSED(size);
     const int tilesize = Renderer::instance()->getTilesize();
-    const int fontsize = Renderer::instance()->getFontSize(Renderer::Regular);
 
-    m_font->setPointSize(fontsize);
-    setFont(*m_font);
+    setFont(Renderer::instance()->getFont(Renderer::Regular));
 
     QRectF rect = boundingRect();
 

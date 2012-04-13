@@ -40,7 +40,6 @@ protected:
 
     const std::shared_ptr<Picmi> m_game;
     const QString m_color_solved, m_color_unsolved;
-    std::shared_ptr<QFont> m_font;
 };
 
 class RowStreakItem : public StreakItem {

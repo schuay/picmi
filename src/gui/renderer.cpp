@@ -29,6 +29,7 @@
 
 #include "src/systemexception.h"
 #include "src/outofboundsexception.h"
+#include "src/constants.h"
 #include "config.h"
 
 Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
@@ -43,6 +44,16 @@ Renderer::Renderer() : m_tilesize(47), m_overview_tilesize(12),
 }
 
 void Renderer::loadResources() {
+
+    /* Fonts. */
+
+    for (int i = 0; i < FontSizeLength; i++) {
+        m_fonts[i].setFamily(FONT_NAME);
+        m_fonts[i].setPointSize(24);
+    }
+
+    /* Tiles. */
+
     const QString prefix = "themes/";
     QList<QString> paths;
     paths << QString(prefix)
@@ -77,7 +88,9 @@ void Renderer::setSize(const QSize &size, int board_width, int board_height) {
     if (board_width < 0 || board_height < 0) {
         throw OutOfBoundsException();
     }
+
     m_tilesize = gridSize(size, board_width, board_height);
+    setFontSize();
 
     /* the overview is a square area at the top left of the field with dimensions
        getXOffset() x getYOffset(). using the same logic as for calculating the
@@ -92,20 +105,20 @@ int Renderer::getOverviewTilesize() const {
     return m_overview_tilesize;
 }
 
-int Renderer::getFontSize(enum FontSize size) const {
-    int pts = 0;
+const QFont &Renderer::getFont(enum FontSize size) const {
+    return m_fonts[size];
+}
 
-    switch (size) {
-    case Regular: pts = (m_tilesize - 10) * 0.5 + 5; break;
-    case Large: pts = (m_tilesize - 10) * 0.75 + 7; break;
-    default: assert(0); /* not used */
-    }
+#define MIN_FONT_SIZE (5)
 
-    if (pts < 5) {
-        pts = 5;
-    }
+void Renderer::setFontSize() {
+    int size;
 
-    return pts;
+    size = (m_tilesize - 10) * 0.5 + 5;
+    m_fonts[Regular].setPointSize(qMax(MIN_FONT_SIZE, size));
+
+    size = (m_tilesize - 10) * 0.75 + 7;
+    m_fonts[Large].setPointSize(qMax(MIN_FONT_SIZE, size));
 }
 
 Renderer *Renderer::instance() {

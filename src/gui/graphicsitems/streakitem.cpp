@@ -108,8 +108,8 @@ void ColStreakItem::reload(const QSize &size) {
 
     QRectF rect = boundingRect();
 
-    const int x = Renderer::instance()->getTilesize() * m_x + (tilesize - rect.width()) / 2;
-    const int y = 0 - boundingRect().height() - padding(tilesize);
+    const int x = tilesize * m_x + (tilesize - rect.width()) / 2;
+    const int y = 0 - rect.height() - padding(tilesize);
 
     setPos(x, y);
 }

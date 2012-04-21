@@ -105,7 +105,7 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     : KDialog(parent)
 {
     setModal(true);
-    setCaption("Level Selection");
+    setCaption(i18n("Level Selection"));
     setMinimumSize(600, 350);
 
     ui = new Ui::LevelSelectUi;

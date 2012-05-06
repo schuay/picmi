@@ -78,7 +78,7 @@ signals:
 private:
     std::vector<std::shared_ptr<Picmi::StreakElement> > newStreak(const std::vector<int> &map) const;
     std::vector<std::shared_ptr<Picmi::StreakElement> > processStreak(
-            const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const;
+            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const;
 
     /* exposes the entire board. this does not necessarily end up in the same
        way as the map, since more than one solution may exist which satisfies all streaks.

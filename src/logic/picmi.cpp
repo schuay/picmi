@@ -172,6 +172,7 @@ bool Picmi::won() const {
 
 QPoint Picmi::undo() {
     QPoint coord = m_state->undo();
+    m_streaks->update();
     emit stateChanged();
     return coord;
 }
@@ -219,7 +220,7 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::newStreak(const std::
 }
 
 std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::processStreak(
-        const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const {
+        const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const {
 
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
     std::vector<std::shared_ptr<Picmi::StreakElement> > streak = newStreak(map);
@@ -277,20 +278,21 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::processStreak(
 
 std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getRowStreak(int y) const {
     std::vector<int> map_streak = m_streaks->getMapRowStreak(y);
-    std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getRowStreak(y);
+    std::shared_ptr<Streaks::LineInfo> state_streak = m_streaks->getStateRowStreak(y);
 
     return processStreak(map_streak, state_streak);
 }
 
 std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) const {
     std::vector<int> map_streak = m_streaks->getMapColStreak(x);
-    std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getColStreak(x);
+    std::shared_ptr<Streaks::LineInfo> state_streak = m_streaks->getStateColStreak(x);
 
     return processStreak(map_streak, state_streak);
 }
 
 void Picmi::setState(int x, int y, Board::State state) {
     m_io_handler->set(x, y, state);
+    m_streaks->update(x, y);
     emit stateChanged();
     if (m_state->boxCount() == m_map->boxCount() && won()) {
         expose();

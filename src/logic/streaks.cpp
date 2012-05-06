@@ -21,6 +21,7 @@ Streaks::Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> stat
     : m_map(map), m_state(state)
 {
     calcMapStreaks();
+    calcStreaks();
 }
 
 void Streaks::calcMapStreaks() {
@@ -77,4 +78,64 @@ std::vector<int> Streaks::lineToStreaks(
     }
 
     return streaks;
+}
+
+void Streaks::update() {
+    calcStreaks();
+}
+
+void Streaks::update(int x, int y) {
+    calcStreaks(x, y);
+}
+
+void Streaks::calcStreaks(int x, int y) {
+    std::vector<Board::State> line = colToLine(m_state, x);
+    m_col_infos[x] = lineToLineInfo(line);
+
+    line = rowToLine(m_state, y);
+    m_row_infos[y] = lineToLineInfo(line);
+}
+
+void Streaks::calcStreaks() {
+    m_col_infos.clear();
+    for (int x = 0; x < m_state->width(); x++) {
+        std::vector<Board::State> line = colToLine(m_state, x);
+        m_col_infos.push_back(lineToLineInfo(line));
+    }
+
+    m_row_infos.clear();
+    for (int y = 0; y < m_state->height(); y++) {
+        std::vector<Board::State> line = rowToLine(m_state, y);
+        m_row_infos.push_back(lineToLineInfo(line));
+    }
+}
+
+std::shared_ptr<Streaks::LineInfo> Streaks::lineToLineInfo(const std::vector<Board::State> &line) const {
+    std::shared_ptr<LineInfo> lineinfo(new LineInfo);
+    memset(lineinfo.get(), 0, sizeof(struct LineInfo));
+
+    lineinfo->line = line;
+    lineinfo->streaks_regular = lineToStreaks(line, Board::Cross);
+
+    std::vector<Board::State> line_reversed(line);
+    std::reverse(line_reversed.begin(), line_reversed.end());
+    lineinfo->streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
+
+    for (int i = 0; i < (int)line.size(); i++) {
+        if (line[i] == Board::Box) {
+            lineinfo->box_count++;
+        } else if (line[i] == Board::Cross) {
+            lineinfo->cross_count++;
+        }
+    }
+
+    return lineinfo;
+}
+
+std::shared_ptr<Streaks::LineInfo> Streaks::getStateRowStreak(int y) const {
+    return m_row_infos[y];
+}
+
+std::shared_ptr<Streaks::LineInfo> Streaks::getStateColStreak(int x) const {
+    return m_col_infos[x];
 }

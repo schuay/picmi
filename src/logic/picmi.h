@@ -34,11 +34,6 @@ class Picmi : public QObject
     Q_OBJECT
 public:
 
-    struct StreakElement {
-        int value;
-        bool solved;
-    };
-
     Picmi(std::shared_ptr<Settings> settings);
     Picmi(std::shared_ptr<BoardMap> board);
 
@@ -68,18 +63,14 @@ public:
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */
-    std::vector<std::shared_ptr<Picmi::StreakElement> > getRowStreak(int y) const;
-    std::vector<std::shared_ptr<Picmi::StreakElement> > getColStreak(int x) const;
+    std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
+    std::vector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
 
 signals:
     void gameWon();
     void stateChanged();
 
 private:
-    std::vector<std::shared_ptr<Picmi::StreakElement> > newStreak(const std::vector<int> &map) const;
-    std::vector<std::shared_ptr<Picmi::StreakElement> > processStreak(
-            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const;
-
     /* exposes the entire board. this does not necessarily end up in the same
        way as the map, since more than one solution may exist which satisfies all streaks.
        therefore, expose() only converts all unmarked cells to crosses. */

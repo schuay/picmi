@@ -139,3 +139,86 @@ std::shared_ptr<Streaks::LineInfo> Streaks::getStateRowStreak(int y) const {
 std::shared_ptr<Streaks::LineInfo> Streaks::getStateColStreak(int x) const {
     return m_col_infos[x];
 }
+
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::newStreak(const std::vector<int> &map) const {
+    std::vector<std::shared_ptr<Streaks::StreakElement> > streak;
+    for (int i = 0; i < (int)map.size(); i++) {
+        std::shared_ptr<Streaks::StreakElement> element(new Streaks::StreakElement);
+        element->value = map[i];
+        element->solved = false;
+        streak.push_back(element);
+    }
+    return streak;
+}
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::processStreak(
+        const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const {
+
+    const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
+    std::vector<std::shared_ptr<Streaks::StreakElement> > streak = newStreak(map);
+
+    /* line is not completely filled, so state and state_reversed are disjoint. */
+    if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
+        return streak;
+    }
+
+    bool solved = (map.size() == state->streaks_regular.size());
+    int upper_bound = qMin(map.size(), state->streaks_regular.size());
+    for (int i = 0; i < upper_bound; i++) {
+        if (map[i] != state->streaks_regular[i]) {
+            solved = false;
+            break;
+        }
+        streak[i]->solved = true;
+    }
+
+    /* if the line has been filled completely with either crosses or boxes, we already have enough information
+       here */
+
+    if (line_complete) {
+        switch (solved) {
+        case false: return newStreak(map);
+        case true: return streak;
+        }
+    }
+
+    upper_bound = qMin(map.size(), state->streaks_reversed.size());
+    for (int i = 0; i < upper_bound; i++) {
+        /* streak is "reversed" -> process state streak from front, map streak from back */
+        int index = map.size() - 1 - i;
+        if (map[index] != state->streaks_reversed[i]) {
+            break;
+        }
+        streak[index]->solved = true;
+    }
+
+    bool fully_solved = true;
+    int actual_box_count = 0;
+    for (int i = 0; i < (int)streak.size(); i++) {
+        if (!streak[i]->solved) {
+            fully_solved = false;
+            break;
+        }
+        actual_box_count += streak[i]->value;
+    }
+    if (fully_solved && actual_box_count != state->box_count) {
+        return newStreak(map);
+    }
+
+    return streak;
+}
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {
+    std::vector<int> map_streak = getMapRowStreak(y);
+    std::shared_ptr<Streaks::LineInfo> state_streak = getStateRowStreak(y);
+
+    return processStreak(map_streak, state_streak);
+}
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::getColStreak(int x) const {
+    std::vector<int> map_streak = getMapColStreak(x);
+    std::shared_ptr<Streaks::LineInfo> state_streak = getStateColStreak(x);
+
+    return processStreak(map_streak, state_streak);
+}

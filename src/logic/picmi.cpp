@@ -150,7 +150,7 @@ bool Picmi::won() const {
        this by ending the game once all streaks are marked solved. */
 
     for (int x = 0; x < width(); x++) {
-        std::vector<std::shared_ptr<struct StreakElement> > streak = getColStreak(x);
+        std::vector<std::shared_ptr<Streaks::StreakElement> > streak = getColStreak(x);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -159,7 +159,7 @@ bool Picmi::won() const {
     }
 
     for (int y = 0; y < height(); y++) {
-        std::vector<std::shared_ptr<struct StreakElement> > streak = getRowStreak(y);
+        std::vector<std::shared_ptr<Streaks::StreakElement> > streak = getRowStreak(y);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -208,88 +208,6 @@ int Picmi::elapsedSecs() const {
     return m_timer.elapsedSecs();
 }
 
-std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::newStreak(const std::vector<int> &map) const {
-    std::vector<std::shared_ptr<Picmi::StreakElement> > streak;
-    for (int i = 0; i < (int)map.size(); i++) {
-        std::shared_ptr<Picmi::StreakElement> element(new Picmi::StreakElement);
-        element->value = map[i];
-        element->solved = false;
-        streak.push_back(element);
-    }
-    return streak;
-}
-
-std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::processStreak(
-        const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const {
-
-    const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
-    std::vector<std::shared_ptr<Picmi::StreakElement> > streak = newStreak(map);
-
-    /* line is not completely filled, so state and state_reversed are disjoint. */
-    if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
-        return streak;
-    }
-
-    bool solved = (map.size() == state->streaks_regular.size());
-    int upper_bound = qMin(map.size(), state->streaks_regular.size());
-    for (int i = 0; i < upper_bound; i++) {
-        if (map[i] != state->streaks_regular[i]) {
-            solved = false;
-            break;
-        }
-        streak[i]->solved = true;
-    }
-
-    /* if the line has been filled completely with either crosses or boxes, we already have enough information
-       here */
-
-    if (line_complete) {
-        switch (solved) {
-        case false: return newStreak(map);
-        case true: return streak;
-        }
-    }
-
-    upper_bound = qMin(map.size(), state->streaks_reversed.size());
-    for (int i = 0; i < upper_bound; i++) {
-        /* streak is "reversed" -> process state streak from front, map streak from back */
-        int index = map.size() - 1 - i;
-        if (map[index] != state->streaks_reversed[i]) {
-            break;
-        }
-        streak[index]->solved = true;
-    }
-
-    bool fully_solved = true;
-    int actual_box_count = 0;
-    for (int i = 0; i < (int)streak.size(); i++) {
-        if (!streak[i]->solved) {
-            fully_solved = false;
-            break;
-        }
-        actual_box_count += streak[i]->value;
-    }
-    if (fully_solved && actual_box_count != state->box_count) {
-        return newStreak(map);
-    }
-
-    return streak;
-}
-
-std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getRowStreak(int y) const {
-    std::vector<int> map_streak = m_streaks->getMapRowStreak(y);
-    std::shared_ptr<Streaks::LineInfo> state_streak = m_streaks->getStateRowStreak(y);
-
-    return processStreak(map_streak, state_streak);
-}
-
-std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) const {
-    std::vector<int> map_streak = m_streaks->getMapColStreak(x);
-    std::shared_ptr<Streaks::LineInfo> state_streak = m_streaks->getStateColStreak(x);
-
-    return processStreak(map_streak, state_streak);
-}
-
 void Picmi::setState(int x, int y, Board::State state) {
     m_io_handler->set(x, y, state);
     m_streaks->update(x, y);
@@ -308,4 +226,11 @@ void Picmi::expose() {
             }
         }
     }
+}
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > Picmi::getRowStreak(int y) const {
+    return m_streaks->getRowStreak(y);
+}
+std::vector<std::shared_ptr<Streaks::StreakElement> > Picmi::getColStreak(int x) const {
+    return m_streaks->getColStreak(x);
 }

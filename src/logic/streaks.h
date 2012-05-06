@@ -28,6 +28,24 @@
 class Streaks
 {
 public:
+    struct StreakElement {
+        int value;
+        bool solved;
+    };
+
+    Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state);
+
+    void update(int x, int y);
+    void update();
+
+    /* returns the request row/col streak. these contain the least information required by
+      the frontend, which is (for each position within a streak): "which number is this",
+      and "is this position solved" */
+    std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
+    std::vector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
+
+private:
+
     struct LineInfo {
         int box_count;
         int cross_count;
@@ -35,11 +53,6 @@ public:
         std::vector<int> streaks_reversed;
         std::vector<Board::State> line;
     };
-
-    Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state);
-
-    void update(int x, int y);
-    void update();
 
     std::vector<int> getMapRowStreak(int y) const { return m_map_row_streaks[y]; }
     std::vector<int> getMapColStreak(int x) const { return m_map_col_streaks[x]; }
@@ -50,7 +63,6 @@ public:
     std::shared_ptr<LineInfo> getStateRowStreak(int y) const;
     std::shared_ptr<LineInfo> getStateColStreak(int x) const;
 
-private:
     void calcMapStreaks();
 
     /* 0 <= x < m_width; 0 <= y < m_height;
@@ -69,6 +81,12 @@ private:
     /* 0 <= x < m_width; 0 <= y < m_height */
     void calcStreaks(int x, int y);
     void calcStreaks();
+
+
+
+    std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map) const;
+    std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const;
 
 
 

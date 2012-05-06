@@ -28,8 +28,9 @@
 
 class IOHandler;
 
-class Picmi
+class Picmi : public QObject
 {
+    Q_OBJECT
 public:
 
     struct StreakElement {

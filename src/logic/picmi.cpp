@@ -290,7 +290,7 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) c
 void Picmi::setState(int x, int y, Board::State state) {
     m_io_handler->set(x, y, state);
     emit stateChanged();
-    if (won()) {
+    if (m_state->boxCount() == m_map->boxCount() && won()) {
         expose();
         emit gameWon();
     }

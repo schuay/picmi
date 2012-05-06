@@ -53,14 +53,6 @@ public:
     void setPaused(bool paused);
     int elapsedSecs() const;
 
-    /* exposes the entire board. this does not necessarily end up in the same
-       way as the map, since more than one solution may exist which satisfies all streaks.
-       therefore, expose() only converts all unmarked cells to crosses. */
-    void expose();
-
-    /* returns true if the game has been won */
-    bool won() const;
-
     /* ends the current game and returns the current high score object */
     KScoreDialog::FieldInfo endGame();
 
@@ -82,10 +74,21 @@ public:
     std::vector<std::shared_ptr<Picmi::StreakElement> > getRowStreak(int y) const;
     std::vector<std::shared_ptr<Picmi::StreakElement> > getColStreak(int x) const;
 
+signals:
+    void gameWon();
+
 private:
     std::vector<std::shared_ptr<Picmi::StreakElement> > newStreak(const std::vector<int> &map) const;
     std::vector<std::shared_ptr<Picmi::StreakElement> > processStreak(
             const std::vector<int> &map, std::shared_ptr<BoardState::LineInfo> state) const;
+
+    /* exposes the entire board. this does not necessarily end up in the same
+       way as the map, since more than one solution may exist which satisfies all streaks.
+       therefore, expose() only converts all unmarked cells to crosses. */
+    void expose();
+
+    /* returns true if the game has been won */
+    bool won() const;
 
 private:
     std::shared_ptr<BoardMap> m_map;

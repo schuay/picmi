@@ -149,6 +149,8 @@ void Scene::init() {
 
     m_cells[0]->setFocus();
     updateHighlights();
+
+    connect(m_game.get(), SIGNAL(gameWon()), this, SLOT(onGameWon()));
 }
 
 void Scene::refresh() {
@@ -191,13 +193,11 @@ void Scene::press(int x, int y, Board::State state) {
     refresh(QPoint(x, y));
 
     emit onAction();
-    if (m_game->won()) {
-        hideHighlights();
-        m_game->expose();
-        refresh();
+}
 
-        emit gameWon();
-    }
+void Scene::onGameWon() {
+    hideHighlights();
+    refresh();
 }
 
 void Scene::hover(int x, int y) {

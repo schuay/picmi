@@ -60,8 +60,10 @@ public:
     void forwardKeyPressEvent(QKeyEvent *event);
     
 signals:
-    void gameWon();
     void onAction();
+
+private slots:
+    void onGameWon();
 
 private:
 

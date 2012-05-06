@@ -216,7 +216,6 @@ void MainWindow::startPresetGame(std::shared_ptr<Level> board) {
 void MainWindow::startGame() {
 
     if (m_scene) {
-        disconnect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
         disconnect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
         disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
@@ -243,7 +242,7 @@ void MainWindow::startGame() {
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     connect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
-    connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+    connect(m_game.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;
 }

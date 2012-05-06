@@ -64,6 +64,7 @@ private slots:
     void customLevelChanged(int level);
 #endif
     void updatePlayedTime();
+    void updatePositions();
     void loadBoard();
     void dumpBoard() const;
     void toggleFullscreen(bool full_screen);
@@ -85,7 +86,7 @@ private:
 
     KAction *m_action_undo, *m_action_save_state, *m_action_load_state;
     KToggleAction *m_action_pause;
-    QLabel *m_status_time;
+    QLabel *m_status_time, *m_status_position;
     View m_view;
     std::shared_ptr<Picmi> m_game;
     std::shared_ptr<Scene> m_scene;

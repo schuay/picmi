@@ -190,6 +190,7 @@ void Scene::press(int x, int y, Board::State state) {
 
     refresh(QPoint(x, y));
 
+    emit onAction();
     if (m_game->won()) {
         hideHighlights();
         m_game->expose();

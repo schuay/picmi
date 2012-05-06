@@ -86,7 +86,10 @@ void MainWindow::setupActions() {
 
     m_status_time = new QLabel;
     m_status_time->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    m_status_position = new QLabel;
+    m_status_position->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
+    this->statusBar()->addWidget(m_status_position, 1);
     this->statusBar()->addWidget(m_status_time, 1);
 
 #ifdef HAVE_KGDIFFICULTY
@@ -179,15 +182,18 @@ void MainWindow::restoreWindowState() {
 void MainWindow::undo() {
     QPoint p = m_game->undo();
     m_scene->refresh(p);
+    updatePositions();
 }
 
 void MainWindow::saveState() {
     m_game->saveState();
+    updatePositions();
 }
 
 void MainWindow::loadState() {
     m_game->loadState();
     m_scene->refresh();
+    updatePositions();
 }
 
 void MainWindow::startRandomGame() {
@@ -211,6 +217,7 @@ void MainWindow::startGame() {
 
     if (m_scene) {
         disconnect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+        disconnect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
         disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
 
@@ -228,12 +235,14 @@ void MainWindow::startGame() {
     m_timer.start();
     m_scene = m_view.createScene(m_game);
     updatePlayedTime();
+    updatePositions();
 
     m_view.setEnabled(true);
     m_view.setFocus();
     m_view.setPaused(false);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
+    connect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
     connect(m_scene.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;
@@ -242,6 +251,11 @@ void MainWindow::startGame() {
 void MainWindow::updatePlayedTime() {
     m_status_time->setText(i18n("Elapsed time") + QString(": %1")
                            .arg(Time(m_game->elapsedSecs()).toString()));
+}
+
+void MainWindow::updatePositions() {
+    m_status_position->setText(i18n("Actions since last saved position: %1")
+                               .arg(m_game->currentStateAge()));
 }
 
 std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {

@@ -57,6 +57,12 @@ public:
        otherwise, do nothing */
     void loadState();
 
+    /* returns the age (in steps) of the current game state
+       compared to the latest saved state. for example, if the
+       current undo_queue.size() == 15, and the top of saved_states
+       is 10, currentStateAge returns 5. */
+    int currentStateAge() const;
+
     /* gets the specified row/column streak. these can be different after
       each player action.
       (x, y) is inbounds */

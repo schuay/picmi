@@ -69,6 +69,7 @@ public:
     /* if a saved state exists, load it. otherwise, do nothing */
     void loadState() { m_state->loadState(); }
     void saveState() { m_state->saveState(); }
+    int currentStateAge() const { return m_state->currentStateAge(); }
 
     /* returns the current state of the board in a format suitable for
        preset level creation */

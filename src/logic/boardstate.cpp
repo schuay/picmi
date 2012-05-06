@@ -95,6 +95,13 @@ void BoardState::loadState() {
     }
 }
 
+int BoardState::currentStateAge() const {
+    if (m_saved_states.isEmpty()) {
+        return m_undo_queue.size();
+    }
+    return m_undo_queue.size() - m_saved_states.top();
+}
+
 bool BoardState::isStreakFiller(enum State state) const {
     return (state == Cross);
 }

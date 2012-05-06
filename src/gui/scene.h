@@ -61,6 +61,7 @@ public:
     
 signals:
     void gameWon();
+    void onAction();
 
 private:
 

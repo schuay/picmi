@@ -67,11 +67,6 @@ void MainWindow::setupActions() {
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
 
-    KAction *dump_action = actionCollection()->addAction("dump-to-console");
-    dump_action->setText(i18n("Dump board to console"));
-    dump_action->setShortcut(Qt::Key_D);
-    connect(dump_action, SIGNAL(triggered()), this, SLOT(dumpBoard()));
-
     m_action_save_state = actionCollection()->addAction("save-position");
     m_action_save_state->setText(i18n("Save Position"));
     m_action_save_state->setIcon(KIcon("list-add"));
@@ -120,10 +115,6 @@ void MainWindow::loadBoard() {
     if (w.exec() == QDialog::Accepted) {
         startPresetGame(w.selectedBoard());
     }
-}
-
-void MainWindow::dumpBoard() const {
-    std::cout << m_game->dump().toStdString() << std::endl;
 }
 
 #ifdef HAVE_KGDIFFICULTY

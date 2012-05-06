@@ -48,8 +48,6 @@ public:
     int width() const { return m_width; }
     int height() const { return m_height; }
 
-    QString toXml() const;
-
 protected:
 
     /* 0 <= x < m_width; 0 <= y < m_height;

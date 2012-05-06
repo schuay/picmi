@@ -66,7 +66,6 @@ private slots:
     void updatePlayedTime();
     void updatePositions();
     void loadBoard();
-    void dumpBoard() const;
     void toggleFullscreen(bool full_screen);
 
 private:

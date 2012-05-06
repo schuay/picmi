@@ -58,6 +58,10 @@ public:
     /* returns the count of player-set boxes */
     int boxCount() const { return m_box_count; }
 
+    /* replaces all occurrences of prev with next.
+       bookkeeping information (undo history, box count) is _not_ updated */
+    void replace(enum State prev, enum State next);
+
 private:
 
     /* updates the box count according to old state prev and incoming state next. */

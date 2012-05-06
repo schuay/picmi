@@ -71,10 +71,6 @@ signals:
     void stateChanged();
 
 private:
-    /* exposes the entire board. this does not necessarily end up in the same
-       way as the map, since more than one solution may exist which satisfies all streaks.
-       therefore, expose() only converts all unmarked cells to crosses. */
-    void expose();
 
     /* returns true if the game has been won */
     bool won() const;

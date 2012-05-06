@@ -213,18 +213,8 @@ void Picmi::setState(int x, int y, Board::State state) {
     m_streaks->update(x, y);
     emit stateChanged();
     if (m_state->boxCount() == m_map->boxCount() && won()) {
-        expose();
+        m_state->replace(Board::Nothing, Board::Cross);
         emit gameWon();
-    }
-}
-
-void Picmi::expose() {
-    for (int x = 0; x < width(); x++) {
-        for (int y = 0; y < height(); y++) {
-            if (m_state->get(x, y) == Board::Nothing) {
-                m_state->set(x, y, Board::Cross);
-            }
-        }
     }
 }
 

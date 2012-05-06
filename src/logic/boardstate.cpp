@@ -109,3 +109,11 @@ int BoardState::currentStateAge() const {
     }
     return m_undo_queue.size() - m_saved_states.top();
 }
+
+void BoardState::replace(State prev, State next) {
+    for (unsigned int i = 0; i < m_state.size(); i++) {
+        if (m_state[i] == prev) {
+            m_state[i] = next;
+        }
+    }
+}

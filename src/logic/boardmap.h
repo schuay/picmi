@@ -31,24 +31,14 @@ public:
 
     BoardMap(int width, int height, const QList<Board::State> &map);
 
-    /* returns the actual streak for the given row/column;
-      0 <= y < height, 0 <= x < width */
-    std::vector<int> getRowStreak(int y) const;
-    std::vector<int> getColStreak(int x) const;
-
     /* returns the total box count */
     int boxCount() const { return m_box_count; }
 
 private:
     void genRandom();
-    void calcStreaks();
-
-    bool isStreakFiller(enum State state) const;
 
 private:
     const int m_box_count;
-    std::vector<std::vector<int> > m_row_streaks;
-    std::vector<std::vector<int> > m_col_streaks;
 };
 
 #endif // BOARDMAP_H

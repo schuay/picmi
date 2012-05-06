@@ -23,6 +23,7 @@
 
 #include "boardmap.h"
 #include "boardstate.h"
+#include "streaks.h"
 #include "src/settings.h"
 #include "elapsedtime.h"
 
@@ -91,6 +92,7 @@ private:
     std::shared_ptr<BoardMap> m_map;
     std::shared_ptr<BoardState> m_state;
     std::shared_ptr<IOHandler> m_io_handler;
+    std::shared_ptr<Streaks> m_streaks;
 
     ElapsedTime m_timer;
 };

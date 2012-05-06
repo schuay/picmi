@@ -5,6 +5,7 @@ set(logic_SRCS
     elapsedtime.cpp
     levelloader.cpp
     picmi.cpp
+    streaks.cpp
 )
 
 kde4_add_library(picmi_logic STATIC

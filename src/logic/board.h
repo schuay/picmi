@@ -49,19 +49,6 @@ public:
     int height() const { return m_height; }
 
 protected:
-
-    /* 0 <= x < m_width; 0 <= y < m_height;
-       returns a row/col as a sequence of states */
-    std::vector<enum State> colToLine(int x) const;
-    std::vector<enum State> rowToLine(int y) const;
-
-    /* takes a sequence of states and returns streaks (uses is_streak_filler) */
-    std::vector<int> lineToStreaks(const std::vector<enum State> &line) const;
-
-    /* returns whether the given state is a valid streak connecting state (in BoardMap,
-       streaks must only be separated by Nothing; in BoardState only by Cross) */
-    virtual bool isStreakFiller(enum State state) const = 0;
-
     /* throws OutOfBoundsException if x,y are not located in bounds */
     void assertInbounds(int x, int y) const;
 

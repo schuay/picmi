@@ -84,6 +84,14 @@ private:
 
     std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<enum State> &line) const;
 
+    /* 0 <= x < m_width; 0 <= y < m_height;
+       returns a row/col as a sequence of states */
+    std::vector<enum State> colToLine(int x) const;
+    std::vector<enum State> rowToLine(int y) const;
+
+    /* takes a sequence of states and returns streaks (uses is_streak_filler) */
+    std::vector<int> lineToStreaks(const std::vector<enum State> &line) const;
+
 private:
 
     struct UndoAction {

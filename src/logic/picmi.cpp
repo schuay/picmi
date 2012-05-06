@@ -124,6 +124,7 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
 
     m_map.reset(new BoardMap(width, height, density));
     m_state.reset(new BoardState(width, height));
+    m_streaks.reset(new Streaks(m_map, m_state));
 
     if (prevent_mistakes) {
         m_io_handler.reset(new IOHandlerHints(m_map.get(), m_state.get(), &m_timer));
@@ -137,6 +138,7 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
 Picmi::Picmi(std::shared_ptr<BoardMap> board) {
     m_map = board;
     m_state.reset(new BoardState(board->width(), board->height()));
+    m_streaks.reset(new Streaks(m_map, m_state));
     m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
     m_timer.start();
 }
@@ -274,14 +276,14 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::processStreak(
 }
 
 std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getRowStreak(int y) const {
-    std::vector<int> map_streak = m_map->getRowStreak(y);
+    std::vector<int> map_streak = m_streaks->getMapRowStreak(y);
     std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getRowStreak(y);
 
     return processStreak(map_streak, state_streak);
 }
 
 std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) const {
-    std::vector<int> map_streak = m_map->getColStreak(x);
+    std::vector<int> map_streak = m_streaks->getMapColStreak(x);
     std::shared_ptr<BoardState::LineInfo> state_streak = m_state->getColStreak(x);
 
     return processStreak(map_streak, state_streak);

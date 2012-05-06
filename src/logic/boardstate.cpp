@@ -172,3 +172,45 @@ std::shared_ptr<BoardState::LineInfo> BoardState::getColStreak(int x) const {
     assertInbounds(x, 0);
     return m_col_infos[x];
 }
+
+std::vector<Board::State> BoardState::colToLine(int x) const {
+    std::vector<Board::State> line;
+    for (int y = 0; y < m_height; y++) {
+        line.push_back(get(x, y));
+    }
+    return line;
+}
+
+std::vector<Board::State> BoardState::rowToLine(int y) const {
+    std::vector<Board::State> line;
+    for (int x = 0; x < m_width; x++) {
+        line.push_back(get(x, y));
+    }
+    return line;
+}
+
+std::vector<int> BoardState::lineToStreaks(const std::vector<Board::State> &line) const {
+
+    int len = 0;
+    std::vector<int> streaks;
+
+    for (unsigned int i = 0; i < line.size(); i++) {
+        if (line[i] == Box) {
+            len++;
+        } else if (isStreakFiller(line[i])) {
+            if (len > 0) {
+                streaks.push_back(len);
+                len = 0;
+            }
+        } else {
+            break;
+        }
+    }
+
+    if (len > 0) {
+        streaks.push_back(len);
+        len = 0;
+    }
+
+    return streaks;
+}

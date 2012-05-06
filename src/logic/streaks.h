@@ -15,48 +15,43 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ************************************************************************* */
 
+#ifndef STREAKS_H
+#define STREAKS_H
 
-#include "boardmap.h"
-
-#include <time.h>
-#include <stdlib.h>
+#include <memory>
 #include <vector>
 
-static int box_count(const QList<Board::State> &data) {
-    int count = 0;
-    for (int i = 0; i < data.size(); i++) {
-        if (data[i] != Board::Nothing) {
-            count++;
-        }
-    }
-    return count;
-}
+#include "boardmap.h"
+#include "boardstate.h"
 
-BoardMap::BoardMap(int width, int height, double box_ratio) :
-    Board(width, height), m_box_count(width * height * box_ratio)
+class Streaks
 {
-    genRandom();
-}
+public:
+    Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state);
 
-BoardMap::BoardMap(int width, int height, const QList<Board::State> &map) :
-    Board(width, height), m_box_count(box_count(map))
-{
-    for (int i = 0; i < map.size(); i++) {
-        m_state[i] = map[i];
-    }
-}
+    std::vector<int> getMapRowStreak(int y) const { return m_map_row_streaks[y]; }
+    std::vector<int> getMapColStreak(int x) const { return m_map_col_streaks[x]; }
 
-void BoardMap::genRandom() {
 
-    std::vector<int> indices;
-    for (int i = 0; i < m_size; i++) {
-        indices.push_back(i);
-    }
+private:
+    void calcMapStreaks();
 
-    srand(time(NULL));
-    for (int i = 0; i < m_box_count; i++) {
-        int ind = rand() % indices.size();
-        m_state[indices[ind]] = Box;
-        indices.erase(indices.begin() + ind);
-    }
-}
+    /* 0 <= x < m_width; 0 <= y < m_height;
+       returns a row/col as a sequence of states */
+    static std::vector<Board::State> colToLine(
+            const std::shared_ptr<Board> &board, int x);
+    static std::vector<Board::State> rowToLine(
+            const std::shared_ptr<Board> &board, int y);
+
+    /* takes a sequence of states and returns streaks */
+    static std::vector<int> lineToStreaks(
+            const std::vector<Board::State> &line, Board::State filler);
+
+    std::shared_ptr<BoardMap> m_map;
+    std::shared_ptr<BoardState> m_state;
+
+    std::vector<std::vector<int> > m_map_row_streaks;
+    std::vector<std::vector<int> > m_map_col_streaks;
+};
+
+#endif // STREAKS_H

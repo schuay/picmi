@@ -169,7 +169,9 @@ bool Picmi::won() const {
 }
 
 QPoint Picmi::undo() {
-    return m_state->undo();
+    QPoint coord = m_state->undo();
+    emit stateChanged();
+    return coord;
 }
 
 KScoreDialog::FieldInfo Picmi::endGame() {
@@ -291,6 +293,7 @@ std::vector<std::shared_ptr<Picmi::StreakElement> > Picmi::getColStreak(int x) c
 
 void Picmi::setState(int x, int y, Board::State state) {
     m_io_handler->set(x, y, state);
+    emit stateChanged();
     if (won()) {
         expose();
         emit gameWon();

@@ -60,7 +60,7 @@ public:
     QPoint undo();
 
     /* if a saved state exists, load it. otherwise, do nothing */
-    void loadState() { m_state->loadState(); }
+    void loadState() { m_state->loadState(); emit stateChanged(); }
     void saveState() { m_state->saveState(); }
     int currentStateAge() const { return m_state->currentStateAge(); }
 
@@ -76,6 +76,7 @@ public:
 
 signals:
     void gameWon();
+    void stateChanged();
 
 private:
     std::vector<std::shared_ptr<Picmi::StreakElement> > newStreak(const std::vector<int> &map) const;

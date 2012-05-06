@@ -58,9 +58,6 @@ public:
     void setPaused(bool paused);
 
     void forwardKeyPressEvent(QKeyEvent *event);
-    
-signals:
-    void onAction();
 
 private slots:
     void onGameWon();

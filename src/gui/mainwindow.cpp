@@ -182,7 +182,6 @@ void MainWindow::restoreWindowState() {
 void MainWindow::undo() {
     QPoint p = m_game->undo();
     m_scene->refresh(p);
-    updatePositions();
 }
 
 void MainWindow::saveState() {
@@ -193,7 +192,6 @@ void MainWindow::saveState() {
 void MainWindow::loadState() {
     m_game->loadState();
     m_scene->refresh();
-    updatePositions();
 }
 
 void MainWindow::startRandomGame() {
@@ -216,7 +214,6 @@ void MainWindow::startPresetGame(std::shared_ptr<Level> board) {
 void MainWindow::startGame() {
 
     if (m_scene) {
-        disconnect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
         disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
 
@@ -241,7 +238,7 @@ void MainWindow::startGame() {
     m_view.setPaused(false);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
-    connect(m_scene.get(), SIGNAL(onAction()), this, SLOT(updatePositions()));
+    connect(m_game.get(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
     connect(m_game.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;

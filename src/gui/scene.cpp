@@ -191,8 +191,6 @@ void Scene::press(int x, int y, Board::State state) {
     m_game->setState(x, y, state);
 
     refresh(QPoint(x, y));
-
-    emit onAction();
 }
 
 void Scene::onGameWon() {

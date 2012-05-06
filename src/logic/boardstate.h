@@ -79,7 +79,8 @@ private:
     void calcStreaks(int x, int y);
     void calcStreaks();
 
-    void calcBoxCount();
+    /* updates the box count according to old state prev and incoming state next. */
+    void updateBoxCount(Board::State prev, Board::State next);
 
     std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<enum State> &line) const;
 

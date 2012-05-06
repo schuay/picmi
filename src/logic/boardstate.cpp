@@ -41,9 +41,17 @@ void BoardState::set(int x, int y, State state) {
     undo.state = m_state[i];
     m_undo_queue.push(undo);
 
+    updateBoxCount(m_state[i], state);
     m_state[i] = state;
-    calcBoxCount();
     calcStreaks(x, y);
+}
+
+void BoardState::updateBoxCount(Board::State prev, Board::State next) {
+    if (prev == Board::Box && next != Board::Box) {
+        m_box_count--;
+    } else if (prev != Board::Box && next == Board::Box) {
+        m_box_count++;
+    }
 }
 
 QPoint BoardState::undo() {
@@ -52,8 +60,11 @@ QPoint BoardState::undo() {
     }
 
     UndoAction undo = m_undo_queue.pop();
-    m_state[xy_to_i(undo.x, undo.y)] = undo.state;
-    calcBoxCount();
+
+    const int i = xy_to_i(undo.x, undo.y);
+
+    updateBoxCount(m_state[i], undo.state);
+    m_state[i] = undo.state;
     calcStreaks(undo.x, undo.y);
 
     /* if we undo past a saved state, remove it */
@@ -104,16 +115,6 @@ int BoardState::currentStateAge() const {
 
 bool BoardState::isStreakFiller(enum State state) const {
     return (state == Cross);
-}
-
-void BoardState::calcBoxCount() {
-    int count = 0;
-    for (int i = 0; i < m_size; i++) {
-        if (m_state[i] == Board::Box) {
-            count++;
-        }
-    }
-    m_box_count = count;
 }
 
 void BoardState::calcStreaks(int x, int y) {

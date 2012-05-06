@@ -37,6 +37,7 @@
 #endif
 
 class Level;
+class QLabel;
 
 class MainWindow : public KXmlGuiWindow
 {
@@ -84,13 +85,13 @@ private:
 
     KAction *m_action_undo, *m_action_save_state, *m_action_load_state;
     KToggleAction *m_action_pause;
+    QLabel *m_status_time;
     View m_view;
     std::shared_ptr<Picmi> m_game;
     std::shared_ptr<Scene> m_scene;
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;
-    const int m_statusbar_time_id;
 
     bool m_in_progress;
     enum Mode m_mode;

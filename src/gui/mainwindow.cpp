@@ -37,8 +37,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent), m_key_size("window/size"),
-    m_key_pos("window/position"), m_statusbar_time_id(1),
-    m_in_progress(false), m_mode(Random)
+    m_key_pos("window/position"), m_in_progress(false), m_mode(Random)
 {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
@@ -85,7 +84,10 @@ void MainWindow::setupActions() {
     m_action_load_state->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_L));
     connect(m_action_load_state, SIGNAL(triggered()), this, SLOT(loadState()));
 
-    this->statusBar()->insertPermanentItem("", m_statusbar_time_id);
+    m_status_time = new QLabel;
+    m_status_time->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+    this->statusBar()->addWidget(m_status_time, 1);
 
 #ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Easy);
@@ -238,9 +240,8 @@ void MainWindow::startGame() {
 }
 
 void MainWindow::updatePlayedTime() {
-    this->statusBar()->changeItem(
-                i18n("Elapsed time") + QString(": %1").arg(Time(m_game->elapsedSecs()).toString()),
-                m_statusbar_time_id);
+    m_status_time->setText(i18n("Elapsed time") + QString(": %1")
+                           .arg(Time(m_game->elapsedSecs()).toString()));
 }
 
 std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {

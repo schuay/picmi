@@ -39,8 +39,8 @@ public:
     void update();
 
     /* returns the request row/col streak. these contain the least information required by
-      the frontend, which is (for each position within a streak): "which number is this",
-      and "is this position solved" */
+       the frontend, which is (for each position within a streak): "which number is this",
+       and "is this position solved" */
     std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
     std::vector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
 
@@ -54,40 +54,21 @@ private:
         std::vector<Board::State> line;
     };
 
-    std::vector<int> getMapRowStreak(int y) const { return m_map_row_streaks[y]; }
-    std::vector<int> getMapColStreak(int x) const { return m_map_col_streaks[x]; }
-
-    /* gets the specified row/column streak. these can be different after
-      each player action.
-      (x, y) is inbounds */
-    std::shared_ptr<LineInfo> getStateRowStreak(int y) const;
-    std::shared_ptr<LineInfo> getStateColStreak(int x) const;
-
     void calcMapStreaks();
 
-    /* 0 <= x < m_width; 0 <= y < m_height;
-       returns a row/col as a sequence of states */
-    static std::vector<Board::State> colToLine(
-            const std::shared_ptr<Board> &board, int x);
-    static std::vector<Board::State> rowToLine(
-            const std::shared_ptr<Board> &board, int y);
+    /* 0 <= x < m_width; 0 <= y < m_height; returns a row/col as a sequence of states */
+    static std::vector<Board::State> colToLine(const std::shared_ptr<Board> &board, int x);
+    static std::vector<Board::State> rowToLine(const std::shared_ptr<Board> &board, int y);
 
     /* takes a sequence of states and returns streaks */
     static std::vector<int> lineToStreaks(
             const std::vector<Board::State> &line, Board::State filler);
 
-    std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<Board::State> &line) const;
+    static std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<Board::State> &line);
 
-    /* 0 <= x < m_width; 0 <= y < m_height */
-    void calcStreaks(int x, int y);
-    void calcStreaks();
-
-
-
-    std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map) const;
-    std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
-            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) const;
-
+    static std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map);
+    static std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state);
 
 
     std::shared_ptr<BoardMap> m_map;
@@ -96,8 +77,8 @@ private:
     std::vector<std::vector<int> > m_map_row_streaks;
     std::vector<std::vector<int> > m_map_col_streaks;
 
-    QVector<std::shared_ptr<LineInfo> > m_row_infos;
-    QVector<std::shared_ptr<LineInfo> > m_col_infos;
+    QVector<std::shared_ptr<LineInfo> > m_state_row_streaks;
+    QVector<std::shared_ptr<LineInfo> > m_state_col_streaks;
 };
 
 #endif // STREAKS_H

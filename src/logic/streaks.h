@@ -25,6 +25,8 @@
 #include "boardmap.h"
 #include "boardstate.h"
 
+struct LineInfo;
+
 class Streaks
 {
 public:
@@ -46,29 +48,7 @@ public:
 
 private:
 
-    struct LineInfo {
-        int box_count;
-        int cross_count;
-        std::vector<int> streaks_regular;
-        std::vector<int> streaks_reversed;
-        std::vector<Board::State> line;
-    };
-
     void calcMapStreaks();
-
-    /* 0 <= x < m_width; 0 <= y < m_height; returns a row/col as a sequence of states */
-    static std::vector<Board::State> colToLine(const std::shared_ptr<Board> &board, int x);
-    static std::vector<Board::State> rowToLine(const std::shared_ptr<Board> &board, int y);
-
-    /* takes a sequence of states and returns streaks */
-    static std::vector<int> lineToStreaks(
-            const std::vector<Board::State> &line, Board::State filler);
-
-    static std::shared_ptr<LineInfo> lineToLineInfo(const std::vector<Board::State> &line);
-
-    static std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map);
-    static std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
-            const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state);
 
 
     std::shared_ptr<BoardMap> m_map;

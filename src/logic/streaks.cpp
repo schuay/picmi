@@ -17,26 +17,49 @@
 
 #include "streaks.h"
 
-Streaks::Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state)
-    : m_map(map), m_state(state)
-{
-    calcMapStreaks();
-    update();
-}
+/* 0 <= x < m_width; 0 <= y < m_height; returns a row/col as a sequence of states */
+static std::vector<Board::State> colToLine(const std::shared_ptr<Board> &board, int x);
+static std::vector<Board::State> rowToLine(const std::shared_ptr<Board> &board, int y);
 
-void Streaks::calcMapStreaks() {
-    for (int x = 0; x < m_map->width(); x++) {
-        std::vector<Board::State> line = colToLine(m_map, x);
-        m_map_col_streaks.push_back(lineToStreaks(line, Board::Nothing));
+/* takes a sequence of states and returns streaks */
+static std::vector<int> lineToStreaks(
+        const std::vector<Board::State> &line, Board::State filler);
+
+static std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map);
+static std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+        const std::vector<int> &map, std::shared_ptr<LineInfo> state);
+
+
+
+struct LineInfo {
+    LineInfo(const std::vector<Board::State> &l) {
+        memset(this, 0, sizeof(struct LineInfo));
+
+        line = l;
+        streaks_regular = lineToStreaks(l, Board::Cross);
+
+        std::vector<Board::State> line_reversed(l);
+        std::reverse(line_reversed.begin(), line_reversed.end());
+        streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
+
+        for (int i = 0; i < (int)l.size(); i++) {
+            if (l[i] == Board::Box) {
+                box_count++;
+            } else if (l[i] == Board::Cross) {
+                cross_count++;
+            }
+        }
     }
 
-    for (int y = 0; y < m_map->height(); y++) {
-        std::vector<Board::State> line = rowToLine(m_map, y);
-        m_map_row_streaks.push_back(lineToStreaks(line, Board::Nothing));
-    }
-}
+    int box_count;
+    int cross_count;
+    std::vector<int> streaks_regular;
+    std::vector<int> streaks_reversed;
+    std::vector<Board::State> line;
+};
 
-std::vector<Board::State> Streaks::colToLine(
+
+std::vector<Board::State> colToLine(
         const std::shared_ptr<Board> &board, int x) {
     std::vector<Board::State> line;
     for (int y = 0; y < board->height(); y++) {
@@ -45,7 +68,7 @@ std::vector<Board::State> Streaks::colToLine(
     return line;
 }
 
-std::vector<Board::State> Streaks::rowToLine(
+std::vector<Board::State> rowToLine(
         const std::shared_ptr<Board> &board, int y) {
     std::vector<Board::State> line;
     for (int x = 0; x < board->width(); x++) {
@@ -54,7 +77,7 @@ std::vector<Board::State> Streaks::rowToLine(
     return line;
 }
 
-std::vector<int> Streaks::lineToStreaks(
+std::vector<int> lineToStreaks(
         const std::vector<Board::State> &line, Board::State filler) {
     int len = 0;
     std::vector<int> streaks;
@@ -80,63 +103,8 @@ std::vector<int> Streaks::lineToStreaks(
     return streaks;
 }
 
-void Streaks::update(int x, int y) {
-    std::vector<Board::State> line = colToLine(m_state, x);
-    m_state_col_streaks[x] = lineToLineInfo(line);
-
-    line = rowToLine(m_state, y);
-    m_state_row_streaks[y] = lineToLineInfo(line);
-}
-
-void Streaks::update() {
-    m_state_col_streaks.clear();
-    for (int x = 0; x < m_state->width(); x++) {
-        std::vector<Board::State> line = colToLine(m_state, x);
-        m_state_col_streaks.push_back(lineToLineInfo(line));
-    }
-
-    m_state_row_streaks.clear();
-    for (int y = 0; y < m_state->height(); y++) {
-        std::vector<Board::State> line = rowToLine(m_state, y);
-        m_state_row_streaks.push_back(lineToLineInfo(line));
-    }
-}
-
-std::shared_ptr<Streaks::LineInfo> Streaks::lineToLineInfo(const std::vector<Board::State> &line) {
-    std::shared_ptr<LineInfo> lineinfo(new LineInfo);
-    memset(lineinfo.get(), 0, sizeof(struct LineInfo));
-
-    lineinfo->line = line;
-    lineinfo->streaks_regular = lineToStreaks(line, Board::Cross);
-
-    std::vector<Board::State> line_reversed(line);
-    std::reverse(line_reversed.begin(), line_reversed.end());
-    lineinfo->streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
-
-    for (int i = 0; i < (int)line.size(); i++) {
-        if (line[i] == Board::Box) {
-            lineinfo->box_count++;
-        } else if (line[i] == Board::Cross) {
-            lineinfo->cross_count++;
-        }
-    }
-
-    return lineinfo;
-}
-
-std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::newStreak(const std::vector<int> &map) {
-    std::vector<std::shared_ptr<Streaks::StreakElement> > streak;
-    for (int i = 0; i < (int)map.size(); i++) {
-        std::shared_ptr<Streaks::StreakElement> element(new Streaks::StreakElement);
-        element->value = map[i];
-        element->solved = false;
-        streak.push_back(element);
-    }
-    return streak;
-}
-
-std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::processStreak(
-        const std::vector<int> &map, std::shared_ptr<Streaks::LineInfo> state) {
+std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+        const std::vector<int> &map, std::shared_ptr<LineInfo> state) {
 
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
     std::vector<std::shared_ptr<Streaks::StreakElement> > streak = newStreak(map);
@@ -190,6 +158,56 @@ std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::processStreak(
     }
 
     return streak;
+}
+
+std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map) {
+    std::vector<std::shared_ptr<Streaks::StreakElement> > streak;
+    for (int i = 0; i < (int)map.size(); i++) {
+        std::shared_ptr<Streaks::StreakElement> element(new Streaks::StreakElement);
+        element->value = map[i];
+        element->solved = false;
+        streak.push_back(element);
+    }
+    return streak;
+}
+
+
+Streaks::Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state)
+    : m_map(map), m_state(state)
+{
+    calcMapStreaks();
+    update();
+}
+
+void Streaks::calcMapStreaks() {
+    for (int x = 0; x < m_map->width(); x++) {
+        std::vector<Board::State> line = colToLine(m_map, x);
+        m_map_col_streaks.push_back(lineToStreaks(line, Board::Nothing));
+    }
+
+    for (int y = 0; y < m_map->height(); y++) {
+        std::vector<Board::State> line = rowToLine(m_map, y);
+        m_map_row_streaks.push_back(lineToStreaks(line, Board::Nothing));
+    }
+}
+
+void Streaks::update(int x, int y) {
+    m_state_col_streaks[x] = std::shared_ptr<LineInfo>(new LineInfo(colToLine(m_state, x)));
+    m_state_row_streaks[y] = std::shared_ptr<LineInfo>(new LineInfo(rowToLine(m_state, y)));
+}
+
+void Streaks::update() {
+    m_state_col_streaks.clear();
+    for (int x = 0; x < m_state->width(); x++) {
+        std::shared_ptr<LineInfo> line(new LineInfo(colToLine(m_state, x)));
+        m_state_col_streaks.push_back(line);
+    }
+
+    m_state_row_streaks.clear();
+    for (int y = 0; y < m_state->height(); y++) {
+        std::shared_ptr<LineInfo> line(new LineInfo(rowToLine(m_state, y)));
+        m_state_row_streaks.push_back(line);
+    }
 }
 
 std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {

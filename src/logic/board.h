@@ -57,8 +57,8 @@ protected:
     int i_to_x(int i) const;
     int i_to_y(int i) const;
 
-    std::vector<enum State> m_state;
     const int m_width, m_height, m_size;
+    std::vector<enum State> m_state;
 };
 
 #endif // BOARD_H

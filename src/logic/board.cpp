@@ -18,13 +18,10 @@
 
 #include "board.h"
 
-Board::Board(int width, int height) : m_width(width), m_height(height), m_size(width * height)
+Board::Board(int width, int height)
+    : m_width(width), m_height(height), m_size(width * height),
+      m_state(width * height, Nothing)
 {
-    m_state.reserve(m_size);
-
-    for (int i = 0; i < m_size; i++) {
-        m_state[i] = Nothing;
-    }
 }
 
 bool Board::outOfBounds(int x, int y) const {

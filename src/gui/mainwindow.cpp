@@ -298,8 +298,8 @@ void MainWindow::gameWon() {
 
     /* Ensure that the user gets some kind of feedback about solving the board. */
     if (!notified) {
-        QMessageBox::information(this, "Board Solved!",
-                                 "Congratulations, you've solved this board!");
+        QMessageBox::information(this, i18n("Board Solved!"),
+                                 i18n("Congratulations, you've solved this board!"));
     }
 
     m_view.setFocus();

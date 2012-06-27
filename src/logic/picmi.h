@@ -63,8 +63,8 @@ public:
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */
-    std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
-    std::vector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
+    QVector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
+    QVector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
 
 signals:
     void gameWon();

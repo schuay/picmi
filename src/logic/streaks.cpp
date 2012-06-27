@@ -18,27 +18,26 @@
 #include "streaks.h"
 
 /* 0 <= x < m_width; 0 <= y < m_height; returns a row/col as a sequence of states */
-static std::vector<Board::State> colToLine(const std::shared_ptr<Board> &board, int x);
-static std::vector<Board::State> rowToLine(const std::shared_ptr<Board> &board, int y);
+static QVector<Board::State> colToLine(const std::shared_ptr<Board> &board, int x);
+static QVector<Board::State> rowToLine(const std::shared_ptr<Board> &board, int y);
 
 /* takes a sequence of states and returns streaks */
-static std::vector<int> lineToStreaks(
-        const std::vector<Board::State> &line, Board::State filler);
+static QVector<int> lineToStreaks(
+        const QVector<Board::State> &line, Board::State filler);
 
-static std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map);
-static std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
-        const std::vector<int> &map, std::shared_ptr<LineInfo> state);
+static QVector<std::shared_ptr<Streaks::StreakElement> > newStreak(const QVector<int> &map);
+static QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+        const QVector<int> &map, std::shared_ptr<LineInfo> state);
 
 
 
 struct LineInfo {
-    LineInfo(const std::vector<Board::State> &l) {
-        memset(this, 0, sizeof(struct LineInfo));
-
+    LineInfo(const QVector<Board::State> &l) : box_count(0), cross_count(0)
+    {
         line = l;
         streaks_regular = lineToStreaks(l, Board::Cross);
 
-        std::vector<Board::State> line_reversed(l);
+        QVector<Board::State> line_reversed(l);
         std::reverse(line_reversed.begin(), line_reversed.end());
         streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
 
@@ -53,36 +52,36 @@ struct LineInfo {
 
     int box_count;
     int cross_count;
-    std::vector<int> streaks_regular;
-    std::vector<int> streaks_reversed;
-    std::vector<Board::State> line;
+    QVector<int> streaks_regular;
+    QVector<int> streaks_reversed;
+    QVector<Board::State> line;
 };
 
 
-std::vector<Board::State> colToLine(
+QVector<Board::State> colToLine(
         const std::shared_ptr<Board> &board, int x) {
-    std::vector<Board::State> line;
+    QVector<Board::State> line;
     for (int y = 0; y < board->height(); y++) {
         line.push_back(board->get(x, y));
     }
     return line;
 }
 
-std::vector<Board::State> rowToLine(
+QVector<Board::State> rowToLine(
         const std::shared_ptr<Board> &board, int y) {
-    std::vector<Board::State> line;
+    QVector<Board::State> line;
     for (int x = 0; x < board->width(); x++) {
         line.push_back(board->get(x, y));
     }
     return line;
 }
 
-std::vector<int> lineToStreaks(
-        const std::vector<Board::State> &line, Board::State filler) {
+QVector<int> lineToStreaks(
+        const QVector<Board::State> &line, Board::State filler) {
     int len = 0;
-    std::vector<int> streaks;
+    QVector<int> streaks;
 
-    for (unsigned int i = 0; i < line.size(); i++) {
+    for (int i = 0; i < line.size(); i++) {
         if (line[i] == Board::Box) {
             len++;
         } else if (line[i] == filler) {
@@ -103,11 +102,11 @@ std::vector<int> lineToStreaks(
     return streaks;
 }
 
-std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
-        const std::vector<int> &map, std::shared_ptr<LineInfo> state) {
+QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+        const QVector<int> &map, std::shared_ptr<LineInfo> state) {
 
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
-    std::vector<std::shared_ptr<Streaks::StreakElement> > streak = newStreak(map);
+    QVector<std::shared_ptr<Streaks::StreakElement> > streak = newStreak(map);
 
     /* line is not completely filled, so state and state_reversed are disjoint. */
     if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
@@ -160,8 +159,8 @@ std::vector<std::shared_ptr<Streaks::StreakElement> > processStreak(
     return streak;
 }
 
-std::vector<std::shared_ptr<Streaks::StreakElement> > newStreak(const std::vector<int> &map) {
-    std::vector<std::shared_ptr<Streaks::StreakElement> > streak;
+QVector<std::shared_ptr<Streaks::StreakElement> > newStreak(const QVector<int> &map) {
+    QVector<std::shared_ptr<Streaks::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
         std::shared_ptr<Streaks::StreakElement> element(new Streaks::StreakElement);
         element->value = map[i];
@@ -181,12 +180,12 @@ Streaks::Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> stat
 
 void Streaks::calcMapStreaks() {
     for (int x = 0; x < m_map->width(); x++) {
-        std::vector<Board::State> line = colToLine(m_map, x);
+        QVector<Board::State> line = colToLine(m_map, x);
         m_map_col_streaks.push_back(lineToStreaks(line, Board::Nothing));
     }
 
     for (int y = 0; y < m_map->height(); y++) {
-        std::vector<Board::State> line = rowToLine(m_map, y);
+        QVector<Board::State> line = rowToLine(m_map, y);
         m_map_row_streaks.push_back(lineToStreaks(line, Board::Nothing));
     }
 }
@@ -210,10 +209,10 @@ void Streaks::update() {
     }
 }
 
-std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {
+QVector<std::shared_ptr<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {
     return processStreak(m_map_row_streaks[y], m_state_row_streaks[y]);
 }
 
-std::vector<std::shared_ptr<Streaks::StreakElement> > Streaks::getColStreak(int x) const {
+QVector<std::shared_ptr<Streaks::StreakElement> > Streaks::getColStreak(int x) const {
     return processStreak(m_map_col_streaks[x], m_state_col_streaks[x]);
 }

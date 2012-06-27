@@ -19,8 +19,7 @@
 #define STREAKS_H
 
 #include <memory>
-#include <vector>
-#include <QVector> /* TODO: remove vector */
+#include <QVector>
 
 #include "boardmap.h"
 #include "boardstate.h"
@@ -46,8 +45,8 @@ public:
     /* Returns the request row/col streak. These contain the least information required by
        the frontend, which is (for each position within a streak): "which number is this",
        and "is this position solved" */
-    std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
-    std::vector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
+    QVector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
+    QVector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
 
 private:
 
@@ -57,8 +56,8 @@ private:
     std::shared_ptr<BoardMap> m_map;
     std::shared_ptr<BoardState> m_state;
 
-    std::vector<std::vector<int> > m_map_row_streaks;
-    std::vector<std::vector<int> > m_map_col_streaks;
+    QVector<QVector<int> > m_map_row_streaks;
+    QVector<QVector<int> > m_map_col_streaks;
 
     QVector<std::shared_ptr<LineInfo> > m_state_row_streaks;
     QVector<std::shared_ptr<LineInfo> > m_state_col_streaks;

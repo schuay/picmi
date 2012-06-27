@@ -281,6 +281,7 @@ void MainWindow::gameWon() {
     m_timer.stop();
     m_in_progress = false;
 
+    bool notified = false;
 #ifdef HAVE_KGDIFFICULTY
     if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
 #else
@@ -289,9 +290,16 @@ void MainWindow::gameWon() {
         std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
         if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
             scoreDialog->exec();
+            notified = true;
         }
     } else if (m_mode == Preset) {
         m_current_level->setSolved(m_game->elapsedSecs());
+    }
+
+    /* Ensure that the user gets some kind of feedback about solving the board. */
+    if (!notified) {
+        QMessageBox::information(this, "Board Solved!",
+                                 "Congratulations, you've solved this board!");
     }
 
     m_view.setFocus();

@@ -4,8 +4,11 @@ PICMI
 Project Information
 -------------------
 
-Picross is a number logic game in which cells in a grid have to be colored or left 
-blank according to numbers given at the side of the grid to reveal a hidden picture. 
+Picmi is a number logic game in which cells in a grid have to be colored or
+left blank according to numbers given at the side of the grid to reveal a
+hidden picture.
+
+Installation instructions are located in the INSTALL file.
 
 
 Controls
@@ -17,8 +20,8 @@ The ingame help provides information about controls.
 License
 -------------------
 
-Picmi is licensed under the terms of the GNU General Public License version 2, or
-(at your option) any later version.
+Picmi is licensed under the terms of the GNU General Public License version 2,
+or (at your option) any later version.
 
 
 Contact / More Information
@@ -27,9 +30,12 @@ Contact / More Information
 Email: jakob.gruber@gmail.com
 Project Homepage: https://projects.kde.org/projects/playground/games/picmi
 
+
 Sources
 -------------------
 
-Default picross background: Atra Dot by Eugene Trounev (included in the KDE wallpapers collection)
+Default picmi background: Atra Dot by Eugene Trounev (included in the KDE
+wallpapers collection)
+
 
 Enjoy!

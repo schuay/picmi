@@ -58,8 +58,9 @@ struct LineInfo {
 };
 
 
-QVector<Board::State> colToLine(
-        const std::shared_ptr<Board> &board, int x) {
+static QVector<Board::State> colToLine(const std::shared_ptr<Board> &board,
+                                       int x)
+{
     QVector<Board::State> line;
     for (int y = 0; y < board->height(); y++) {
         line.push_back(board->get(x, y));
@@ -67,8 +68,10 @@ QVector<Board::State> colToLine(
     return line;
 }
 
-QVector<Board::State> rowToLine(
-        const std::shared_ptr<Board> &board, int y) {
+
+static QVector<Board::State> rowToLine(const std::shared_ptr<Board> &board,
+                                int y)
+{
     QVector<Board::State> line;
     for (int x = 0; x < board->width(); x++) {
         line.push_back(board->get(x, y));
@@ -76,8 +79,9 @@ QVector<Board::State> rowToLine(
     return line;
 }
 
-QVector<int> lineToStreaks(
-        const QVector<Board::State> &line, Board::State filler) {
+static QVector<int> lineToStreaks(const QVector<Board::State> &line,
+                                  Board::State filler)
+{
     int len = 0;
     QVector<int> streaks;
 
@@ -102,9 +106,9 @@ QVector<int> lineToStreaks(
     return streaks;
 }
 
-QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
-        const QVector<int> &map, std::shared_ptr<LineInfo> state) {
-
+static QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
+        const QVector<int> &map, std::shared_ptr<LineInfo> state)
+{
     const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
     QVector<std::shared_ptr<Streaks::StreakElement> > streak = newStreak(map);
 
@@ -159,7 +163,8 @@ QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
     return streak;
 }
 
-QVector<std::shared_ptr<Streaks::StreakElement> > newStreak(const QVector<int> &map) {
+static QVector<std::shared_ptr<Streaks::StreakElement> > newStreak(const QVector<int> &map)
+{
     QVector<std::shared_ptr<Streaks::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
         std::shared_ptr<Streaks::StreakElement> element(new Streaks::StreakElement);

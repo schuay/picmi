@@ -37,10 +37,13 @@ public:
 
     Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state);
 
+    /* Updates streaks affected by changes to (x,y). */
     void update(int x, int y);
+
+    /* Updates streaks, taking the entire board into account. */
     void update();
 
-    /* returns the request row/col streak. these contain the least information required by
+    /* Returns the request row/col streak. These contain the least information required by
        the frontend, which is (for each position within a streak): "which number is this",
        and "is this position solved" */
     std::vector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;

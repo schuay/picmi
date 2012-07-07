@@ -45,6 +45,8 @@ public:
 #else
     KGameDifficulty::standardLevel level() const;
 #endif
+    bool customBgEnabled() const;
+    QString customBgPath() const;
 
     void setWidth(int width);
     void setHeight(int height);
@@ -55,6 +57,8 @@ public:
 #else
     void setLevel(KGameDifficulty::standardLevel level);
 #endif
+    void setCustomBgEnabled(bool enabled);
+    void setCustomBgPath(const QString &path);
 
     std::shared_ptr<QSettings> qSettings();
 
@@ -66,7 +70,9 @@ private:
         Height,
         BoxDensity,
         PreventMistakes,
-        Level
+        Level,
+        CustomBgEnabled,
+        CustomBgPath
     };
 
     QVector<QString> m_keys;
@@ -79,6 +85,8 @@ private:
 #else
     KGameDifficulty::standardLevel m_level;
 #endif
+    bool m_custom_bg_enabled;
+    QString m_custom_bg_path;
 
     std::shared_ptr<QSettings> m_qsettings;
 };

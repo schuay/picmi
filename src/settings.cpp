@@ -24,7 +24,9 @@ Settings::Settings() {
            << "game/height"
            << "game/box_ratio"
            << "game/prevent_mistakes"
-           << "game/level";
+           << "game/level"
+           << "game/custom_bg_enabled"
+           << "game/custom_bg_path";
 
     m_qsettings.reset(new QSettings);
     restore();
@@ -52,6 +54,16 @@ KgDifficultyLevel::StandardLevel Settings::level() const {
 KGameDifficulty::standardLevel Settings::level() const {
 #endif
     return m_level;
+}
+
+bool Settings::customBgEnabled() const
+{
+    return m_custom_bg_enabled;
+}
+
+QString Settings::customBgPath() const
+{
+    return m_custom_bg_path;
 }
 
 void Settings::setWidth(int width) {
@@ -83,6 +95,18 @@ void Settings::setLevel(KGameDifficulty::standardLevel level) {
     m_qsettings->setValue(m_keys[Level], level);
 }
 
+void Settings::setCustomBgEnabled(bool enabled)
+{
+    m_custom_bg_enabled = enabled;
+    m_qsettings->setValue(m_keys[CustomBgEnabled], enabled);
+}
+
+void Settings::setCustomBgPath(const QString &path)
+{
+    m_custom_bg_path = path;
+    m_qsettings->setValue(m_keys[CustomBgPath], path);
+}
+
 void Settings::restore() {
     m_width = m_qsettings->value(m_keys[Width], 15).toInt();
     m_height = m_qsettings->value(m_keys[Height], 10).toInt();
@@ -95,6 +119,8 @@ void Settings::restore() {
     m_level = (KGameDifficulty::standardLevel)m_qsettings->value(m_keys[Level],
         KGameDifficulty::Medium).toInt();
 #endif
+    m_custom_bg_enabled = m_qsettings->value(m_keys[CustomBgEnabled], false).toBool();
+    m_custom_bg_path = m_qsettings->value(m_keys[CustomBgPath], "").toString();
 }
 
 std::shared_ptr<QSettings> Settings::qSettings() {

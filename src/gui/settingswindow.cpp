@@ -20,6 +20,8 @@
 #include "ui_settingswindow.h"
 
 #include <assert.h>
+#include <klocalizedstring.h>
+#include <QFileDialog>
 
 SettingsWindow::SettingsWindow(QWidget *parent) :
     QDialog(parent),
@@ -30,6 +32,8 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     setFixedSize(400, 300);
 
     restoreSettings();
+
+    connect(ui->bgToolButton, SIGNAL(clicked()), this, SLOT(bgToolButtonClicked()));
 }
 
 SettingsWindow::~SettingsWindow()
@@ -37,16 +41,25 @@ SettingsWindow::~SettingsWindow()
     delete ui;
 }
 
-void SettingsWindow::setValues(int height, int width, double density, bool prevent_mistakes) {
-    ui->heightSpinBox->setValue(height);
-    ui->widthSpinBox->setValue(width);
-    ui->densitySlider->setValue(density * 100.0);
-    ui->preventMistakesCheckBox->setChecked(prevent_mistakes);
+void SettingsWindow::bgToolButtonClicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+         i18n("Select Background"), "", i18n("Image Files (*.png *.jpg)"));
+
+    if (fileName.isNull()) {
+        return;
+    }
+
+    ui->bgLineEdit->setText(fileName);
 }
 
 void SettingsWindow::restoreSettings() {
-    setValues(m_settings.height(), m_settings.width(),
-              m_settings.boxDensity(), m_settings.preventMistakes());
+    ui->heightSpinBox->setValue(m_settings.height());
+    ui->widthSpinBox->setValue(m_settings.width());
+    ui->densitySlider->setValue(m_settings.boxDensity() * 100.0);
+    ui->preventMistakesCheckBox->setChecked(m_settings.preventMistakes());
+    ui->bgCustomRadioButton->setChecked(m_settings.customBgEnabled());
+    ui->bgLineEdit->setText(m_settings.customBgPath());
 }
 
 void SettingsWindow::saveSettings() {
@@ -54,6 +67,8 @@ void SettingsWindow::saveSettings() {
     m_settings.setWidth(ui->widthSpinBox->value());
     m_settings.setBoxDensity(ui->densitySlider->value() / 100.0);
     m_settings.setPreventMistakes(ui->preventMistakesCheckBox->isChecked());
+    m_settings.setCustomBgEnabled(ui->bgCustomRadioButton->isChecked());
+    m_settings.setCustomBgPath(ui->bgLineEdit->text());
 
     std::shared_ptr<QSettings> qsettings = m_settings.qSettings();
     qsettings->sync();

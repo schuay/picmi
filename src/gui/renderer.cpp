@@ -31,6 +31,7 @@
 #include "src/outofboundsexception.h"
 #include "src/constants.h"
 #include "config.h"
+#include "src/settings.h"
 
 #define MIN_STREAK_COUNT (4)
 
@@ -172,7 +173,16 @@ QPixmap Renderer::getPixmap(Renderer::Resource resource) const {
     }
 }
 
-QPixmap Renderer::getCachedPixmap(Renderer::Resource resource, int h, int w) const {
+QPixmap Renderer::getCachedPixmap(Renderer::Resource resource, int h, int w) const
+{
+    /* Special case for custom background. */
+    if (resource == Background) {
+        Settings settings;
+        if (settings.customBgEnabled()) {
+            return QPixmap(settings.customBgPath());
+        }
+    }
+
     QString key = QString("%1:%2x%3").arg(m_names[resource]).arg(w).arg(h);
 
     QPixmap pixmap;

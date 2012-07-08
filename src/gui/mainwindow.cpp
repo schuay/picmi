@@ -20,10 +20,10 @@
 
 #include <QHBoxLayout>
 #include <QGraphicsSimpleTextItem>
-#include <QMessageBox>
 #include <QCoreApplication>
 #include <QPointer>
 #include <klocalizedstring.h>
+#include <kmessagebox.h>
 #include <kstandardgameaction.h>
 #include <ktogglefullscreenaction.h>
 #include <kactioncollection.h>
@@ -300,7 +300,7 @@ void MainWindow::gameWon() {
 
     /* Ensure that the user gets some kind of feedback about solving the board. */
     if (!notified) {
-        QMessageBox::information(this, i18n("Board Solved!"),
+        KMessageBox::information(this, i18n("Board Solved!"),
                                  i18n("Congratulations, you've solved this board!"));
     }
 

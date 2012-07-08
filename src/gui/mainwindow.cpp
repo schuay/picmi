@@ -22,6 +22,7 @@
 #include <QGraphicsSimpleTextItem>
 #include <QMessageBox>
 #include <QCoreApplication>
+#include <QPointer>
 #include <klocalizedstring.h>
 #include <kstandardgameaction.h>
 #include <ktogglefullscreenaction.h>
@@ -111,10 +112,11 @@ void MainWindow::setupActions() {
 }
 
 void MainWindow::loadBoard() {
-    SelectBoardWindow w(this);
-    if (w.exec() == QDialog::Accepted) {
-        startPresetGame(w.selectedBoard());
+    QPointer<SelectBoardWindow> w(new SelectBoardWindow(this));
+    if (w->exec() == QDialog::Accepted) {
+        startPresetGame(w->selectedBoard());
     }
+    delete w;
 }
 
 #ifdef HAVE_KGDIFFICULTY
@@ -339,6 +341,7 @@ void MainWindow::pauseGame() {
 void MainWindow::settings() {
     pauseGame();
 
-    SettingsWindow w(this);
-    w.exec();
+    QPointer<SettingsWindow> w(new SettingsWindow(this));
+    w->exec();
+    delete w;
 }

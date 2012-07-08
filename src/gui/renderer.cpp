@@ -95,7 +95,7 @@ bool Renderer::streaksFit(const QStringList &streaks) const {
     const int limit = 8 * m_tilesize;
     const QRect limrect(0, 0, limit, limit);
 
-    foreach (const QString str, streaks) {
+    foreach (const QString &str, streaks) {
         /* QFontMetrics.boundingRect defaults to Qt::SingleLine, which handles \n
            as a normal character instead of a line break. Manually specify flags. */
         QRect rect = fm.boundingRect(limrect, Qt::AlignLeft | Qt::AlignTop, str);

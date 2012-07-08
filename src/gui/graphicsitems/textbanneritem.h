@@ -16,8 +16,8 @@
  ************************************************************************* */
 
 
-#ifndef PAUSEBANNERITEM_H
-#define PAUSEBANNERITEM_H
+#ifndef TEXTBANNERITEM_H
+#define TEXTBANNERITEM_H
 
 #include <QGraphicsSimpleTextItem>
 
@@ -39,4 +39,4 @@ public:
     void reload(const QSize &size);
 };
 
-#endif // PAUSEBANNERITEM_H
+#endif // TEXTBANNERITEM_H

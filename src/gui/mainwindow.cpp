@@ -243,8 +243,8 @@ void MainWindow::updatePlayedTime() {
 }
 
 void MainWindow::updatePositions() {
-    m_status_position->setText(i18n("Actions since last saved position: %1")
-                               .arg(m_game->currentStateAge()));
+    m_status_position->setText(i18n("Actions since last saved position: %1",
+                                    m_game->currentStateAge()));
 }
 
 std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {

@@ -19,13 +19,18 @@
 #include "streakitem.h"
 
 #include "src/constants.h"
+#include "src/settings.h"
 
 StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
-    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game), m_color_solved("#555555"), m_color_unsolved("#000000")
+    QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game)
 {
     setEnabled(false);
     setZValue(ZVALUE_STREAKTEXT);
     setFont(Renderer::instance()->getFont(Renderer::Regular));
+
+    Settings settings;
+    m_color_solved = settings.fontColorSolved();
+    m_color_unsolved = settings.fontColorUnsolved();
 }
 
 int StreakItem::padding(int tilesize) const {

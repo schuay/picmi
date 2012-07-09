@@ -39,7 +39,7 @@ protected:
     int padding(int tilesize) const;
 
     const std::shared_ptr<Picmi> m_game;
-    const QString m_color_solved, m_color_unsolved;
+    QString m_color_solved, m_color_unsolved;
 };
 
 class RowStreakItem : public StreakItem {

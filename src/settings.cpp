@@ -26,7 +26,9 @@ Settings::Settings() {
            << "game/prevent_mistakes"
            << "game/level"
            << "game/custom_bg_enabled"
-           << "game/custom_bg_path";
+           << "game/custom_bg_path"
+           << "game/font_color_solved"
+           << "game/font_color_unsolved";
 
     m_qsettings.reset(new QSettings);
     restore();
@@ -64,6 +66,16 @@ bool Settings::customBgEnabled() const
 QString Settings::customBgPath() const
 {
     return m_custom_bg_path;
+}
+
+QString Settings::fontColorSolved() const
+{
+    return m_font_color_solved;
+}
+
+QString Settings::fontColorUnsolved() const
+{
+    return m_font_color_unsolved;
 }
 
 void Settings::setWidth(int width) {
@@ -107,6 +119,18 @@ void Settings::setCustomBgPath(const QString &path)
     m_qsettings->setValue(m_keys[CustomBgPath], path);
 }
 
+void Settings::setFontColorSolved(const QString &color)
+{
+    m_font_color_solved = color;
+    m_qsettings->setValue(m_keys[FontColorSolved], color);
+}
+
+void Settings::setFontColorUnsolved(const QString &color)
+{
+    m_font_color_unsolved = color;
+    m_qsettings->setValue(m_keys[FontColorUnsolved], color);
+}
+
 void Settings::restore() {
     m_width = m_qsettings->value(m_keys[Width], 15).toInt();
     m_height = m_qsettings->value(m_keys[Height], 10).toInt();
@@ -121,6 +145,8 @@ void Settings::restore() {
 #endif
     m_custom_bg_enabled = m_qsettings->value(m_keys[CustomBgEnabled], false).toBool();
     m_custom_bg_path = m_qsettings->value(m_keys[CustomBgPath], "").toString();
+    m_font_color_solved = m_qsettings->value(m_keys[FontColorSolved], "#555555").toString();
+    m_font_color_unsolved = m_qsettings->value(m_keys[FontColorUnsolved], "#000000").toString();
 }
 
 std::shared_ptr<QSettings> Settings::qSettings() {

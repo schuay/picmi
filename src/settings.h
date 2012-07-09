@@ -47,6 +47,8 @@ public:
 #endif
     bool customBgEnabled() const;
     QString customBgPath() const;
+    QString fontColorSolved() const;
+    QString fontColorUnsolved() const;
 
     void setWidth(int width);
     void setHeight(int height);
@@ -59,6 +61,8 @@ public:
 #endif
     void setCustomBgEnabled(bool enabled);
     void setCustomBgPath(const QString &path);
+    void setFontColorSolved(const QString &color);
+    void setFontColorUnsolved(const QString & color);
 
     std::shared_ptr<QSettings> qSettings();
 
@@ -72,7 +76,9 @@ private:
         PreventMistakes,
         Level,
         CustomBgEnabled,
-        CustomBgPath
+        CustomBgPath,
+        FontColorSolved,
+        FontColorUnsolved
     };
 
     QVector<QString> m_keys;
@@ -87,6 +93,7 @@ private:
 #endif
     bool m_custom_bg_enabled;
     QString m_custom_bg_path;
+    QString m_font_color_unsolved, m_font_color_solved;
 
     std::shared_ptr<QSettings> m_qsettings;
 };

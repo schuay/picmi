@@ -22,6 +22,12 @@
 #include <assert.h>
 #include <klocalizedstring.h>
 #include <kfiledialog.h>
+#include <kcolordialog.h>
+
+static inline QString toStylesheet(const QString &color)
+{
+    return QString("QLabel { color : %1 }").arg(color);
+}
 
 SettingsWindow::SettingsWindow(QWidget *parent) :
     QDialog(parent),
@@ -34,11 +40,33 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     restoreSettings();
 
     connect(ui->bgToolButton, SIGNAL(clicked()), this, SLOT(bgToolButtonClicked()));
+    connect(ui->fontColorSolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
+    connect(ui->fontColorUnsolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
 }
 
 SettingsWindow::~SettingsWindow()
 {
     delete ui;
+}
+
+void SettingsWindow::selectSolvedColor()
+{
+    QColor color(m_font_color_solved);
+    if (KColorDialog::getColor(color, this) != QDialog::Accepted) {
+        return;
+    }
+    m_font_color_solved = color.name();
+    ui->fontColorSolvedLabel->setStyleSheet(toStylesheet(m_font_color_solved));
+}
+
+void SettingsWindow::selectUnsolvedColor()
+{
+    QColor color(m_font_color_unsolved);
+    if (KColorDialog::getColor(color, this) != QDialog::Accepted) {
+        return;
+    }
+    m_font_color_unsolved = color.name();
+    ui->fontColorUnsolvedLabel->setStyleSheet(toStylesheet(m_font_color_unsolved));
 }
 
 void SettingsWindow::bgToolButtonClicked()
@@ -61,6 +89,10 @@ void SettingsWindow::restoreSettings() {
     ui->preventMistakesCheckBox->setChecked(m_settings.preventMistakes());
     ui->bgCustomRadioButton->setChecked(m_settings.customBgEnabled());
     ui->bgLineEdit->setText(m_settings.customBgPath());
+    m_font_color_solved = m_settings.fontColorSolved();
+    m_font_color_unsolved = m_settings.fontColorUnsolved();
+    ui->fontColorUnsolvedLabel->setStyleSheet(toStylesheet(m_font_color_unsolved));
+    ui->fontColorSolvedLabel->setStyleSheet(toStylesheet(m_font_color_solved));
 }
 
 void SettingsWindow::saveSettings() {
@@ -70,6 +102,8 @@ void SettingsWindow::saveSettings() {
     m_settings.setPreventMistakes(ui->preventMistakesCheckBox->isChecked());
     m_settings.setCustomBgEnabled(ui->bgCustomRadioButton->isChecked());
     m_settings.setCustomBgPath(ui->bgLineEdit->text());
+    m_settings.setFontColorSolved(m_font_color_solved);
+    m_settings.setFontColorUnsolved(m_font_color_unsolved);
 
     std::shared_ptr<QSettings> qsettings = m_settings.qSettings();
     qsettings->sync();

@@ -38,6 +38,8 @@ public:
 public slots:
     void accept();
     void bgToolButtonClicked();
+    void selectSolvedColor();
+    void selectUnsolvedColor();
 
 private:
     void restoreSettings();
@@ -46,6 +48,7 @@ private:
     void setValues(int height, int width, double density, bool prevent_mistakes);
 
     Settings m_settings;
+    QString m_font_color_solved, m_font_color_unsolved;
 
     Ui::SettingsWindow *ui;
 };

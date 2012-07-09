@@ -29,7 +29,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setFixedSize(400, 300);
+    setFixedSize(400, 375);
 
     restoreSettings();
 

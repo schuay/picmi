@@ -23,9 +23,9 @@
 
 #include "boardmap.h"
 #include "boardstate.h"
-#include "streaks.h"
-#include "src/settings.h"
 #include "elapsedtime.h"
+#include "src/settings.h"
+#include "streaks.h"
 
 class IOHandler;
 

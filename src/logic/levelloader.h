@@ -18,12 +18,13 @@
 #ifndef LEVELLOADER_H
 #define LEVELLOADER_H
 
-#include <QList>
-#include <QString>
 #include <QImage>
+#include <QList>
 #include <QPixmap>
+#include <QString>
 #include <memory>
-#include <src/logic/board.h>
+
+#include "src/logic/board.h"
 
 class QDomDocument;
 class QDomElement;

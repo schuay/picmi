@@ -21,8 +21,8 @@
 
 #include <QGraphicsPixmapItem>
 
-#include "src/logic/picmi.h"
 #include "reloadableitem.h"
+#include "src/logic/picmi.h"
 
 class Scene;
 class DragManager;

@@ -17,16 +17,16 @@
 
 #include "levelloader.h"
 
+#include <QDebug>
+#include <QDir>
 #include <QDomDocument>
 #include <QFile>
-#include <QDir>
 #include <QSettings>
-#include <QDebug>
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
-#include "src/systemexception.h"
 #include "config.h"
+#include "src/systemexception.h"
 
 class LevelList : public QList<std::shared_ptr<Level> >
 {

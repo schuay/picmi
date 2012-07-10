@@ -18,8 +18,8 @@
 
 #include "boardmap.h"
 
-#include <time.h>
 #include <stdlib.h>
+#include <time.h>
 #include <vector>
 
 static int box_count(const QList<Board::State> &data) {

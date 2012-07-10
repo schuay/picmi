@@ -18,8 +18,8 @@
 #ifndef STREAKS_H
 #define STREAKS_H
 
-#include <memory>
 #include <QVector>
+#include <memory>
 
 #include "boardmap.h"
 #include "boardstate.h"

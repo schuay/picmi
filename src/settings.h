@@ -23,13 +23,13 @@
 #include <QVector>
 #include <memory>
 
-#include "config.h"
-
 #ifdef HAVE_KGDIFFICULTY
 #include <kgdifficulty.h>
 #else
 #include <kgamedifficulty.h>
 #endif
+
+#include "config.h"
 
 class Settings
 {

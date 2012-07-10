@@ -20,8 +20,8 @@
 #define BOARDSTATE_H
 
 #include <QPoint>
-#include <QVector>
 #include <QStack>
+#include <QVector>
 #include <memory>
 
 #include "board.h"

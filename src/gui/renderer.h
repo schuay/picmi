@@ -19,11 +19,11 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <QFont>
 #include <QPixmap>
-#include <QtSvg/QSvgRenderer>
 #include <QString>
 #include <QVector>
-#include <QFont>
+#include <QtSvg/QSvgRenderer>
 #include <memory>
 
 class Renderer

@@ -18,23 +18,23 @@
 
 #include "mainwindow.h"
 
-#include <QHBoxLayout>
-#include <QGraphicsSimpleTextItem>
 #include <QCoreApplication>
+#include <QGraphicsSimpleTextItem>
+#include <QHBoxLayout>
 #include <QPointer>
+#include <iostream>
+#include <kactioncollection.h>
 #include <klocalizedstring.h>
+#include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kstandardgameaction.h>
-#include <ktogglefullscreenaction.h>
-#include <kactioncollection.h>
 #include <kstatusbar.h>
-#include <kmenubar.h>
-#include <iostream>
+#include <ktogglefullscreenaction.h>
 
+#include "selectboardwindow.h"
 #include "settingswindow.h"
 #include "src/constants.h"
 #include "src/logic/levelloader.h"
-#include "selectboardwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent), m_key_size("window/size"),

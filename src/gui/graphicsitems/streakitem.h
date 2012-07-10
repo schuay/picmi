@@ -21,9 +21,9 @@
 
 #include <QGraphicsTextItem>
 
-#include "src/logic/picmi.h"
-#include "src/gui/renderer.h"
 #include "reloadableitem.h"
+#include "src/gui/renderer.h"
+#include "src/logic/picmi.h"
 
 class StreakItem : public QGraphicsTextItem, public ReloadableItem
 {

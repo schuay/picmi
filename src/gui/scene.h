@@ -19,17 +19,17 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 #include <vector>
 
-#include "src/logic/picmi.h"
-#include "renderer.h"
 #include "graphicsitems/cellitem.h"
-#include "graphicsitems/streakitem.h"
-#include "graphicsitems/pixmapitem.h"
 #include "graphicsitems/highlightitem.h"
+#include "graphicsitems/pixmapitem.h"
+#include "graphicsitems/streakitem.h"
 #include "graphicsitems/textbanneritem.h"
+#include "renderer.h"
+#include "src/logic/picmi.h"
 
 class Scene : public QGraphicsScene
 {

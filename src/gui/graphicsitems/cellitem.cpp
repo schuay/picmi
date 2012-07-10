@@ -18,12 +18,12 @@
 
 #include "cellitem.h"
 
-#include <QKeyEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QKeyEvent>
 #include <assert.h>
 
-#include "src/gui/renderer.h"
 #include "src/constants.h"
+#include "src/gui/renderer.h"
 #include "src/gui/scene.h"
 
 class DragManager

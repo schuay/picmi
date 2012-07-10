@@ -18,20 +18,20 @@
 
 #include "renderer.h"
 
+#include <QDir>
+#include <QFile>
+#include <QPainter>
+#include <QPixmapCache>
 #include <assert.h>
 #include <iostream>
-#include <QPixmapCache>
-#include <QPainter>
-#include <QFile>
-#include <QDir>
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
-#include "src/systemexception.h"
-#include "src/outofboundsexception.h"
-#include "src/constants.h"
 #include "config.h"
+#include "src/constants.h"
+#include "src/outofboundsexception.h"
 #include "src/settings.h"
+#include "src/systemexception.h"
 
 #define MIN_STREAK_COUNT (4)
 

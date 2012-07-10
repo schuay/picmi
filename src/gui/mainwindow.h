@@ -19,22 +19,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <kxmlguiwindow.h>
 #include <QTimer>
 #include <highscore/kscoredialog.h>
 #include <kaction.h>
 #include <ktoggleaction.h>
-
-#include "src/logic/picmi.h"
-#include "scene.h"
-#include "view.h"
-#include "config.h"
+#include <kxmlguiwindow.h>
 
 #ifdef HAVE_KGDIFFICULTY
 #include <kgdifficulty.h>
 #else
 #include <kgamedifficulty.h>
 #endif
+
+#include "config.h"
+#include "scene.h"
+#include "src/logic/picmi.h"
+#include "view.h"
 
 class Level;
 class QLabel;

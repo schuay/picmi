@@ -17,10 +17,10 @@
 
 #include "selectboardwindow.h"
 
-#include <klocale.h>
-#include <kpushbutton.h>
 #include <QAbstractTableModel>
 #include <assert.h>
+#include <klocale.h>
+#include <kpushbutton.h>
 
 #include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"

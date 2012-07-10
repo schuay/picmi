@@ -20,7 +20,7 @@
 #define BOARD_H
 
 #include <QString>
-#include <vector>
+#include <QVector>
 
 #include "src/outofboundsexception.h"
 
@@ -58,7 +58,7 @@ protected:
     int i_to_y(int i) const;
 
     const int m_width, m_height, m_size;
-    std::vector<enum State> m_state;
+    QVector<enum State> m_state;
 };
 
 #endif // BOARD_H

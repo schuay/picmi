@@ -21,7 +21,7 @@
 
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
-#include <vector>
+#include <QVector>
 
 #include "graphicsitems/cellitem.h"
 #include "graphicsitems/highlightitem.h"
@@ -82,12 +82,12 @@ private:
 
     /* The scene automatically deletes registered items */
     PauseBannerItem *m_pause_banner;
-    std::vector<ReloadableItem*> m_items;
-    std::vector<GameCellItem*> m_cells;
-    std::vector<OverviewCellItem*> m_overview_cells;
-    std::vector<StreakItem*> m_row_streaks;
-    std::vector<StreakItem*> m_col_streaks;
-    std::vector<HighlightItem*> m_highlights;
+    QVector<ReloadableItem*> m_items;
+    QVector<GameCellItem*> m_cells;
+    QVector<OverviewCellItem*> m_overview_cells;
+    QVector<StreakItem*> m_row_streaks;
+    QVector<StreakItem*> m_col_streaks;
+    QVector<HighlightItem*> m_highlights;
     QGraphicsItemGroup *m_group;
     QGraphicsItemGroup *m_overview_group;
 

@@ -19,7 +19,7 @@
 #ifndef BOARDMAP_H
 #define BOARDMAP_H
 
-#include <QVector>
+#include <QList>
 
 #include "board.h"
 

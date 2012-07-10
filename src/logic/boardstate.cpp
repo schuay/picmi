@@ -111,7 +111,7 @@ int BoardState::currentStateAge() const {
 }
 
 void BoardState::replace(State prev, State next) {
-    for (unsigned int i = 0; i < m_state.size(); i++) {
+    for (int i = 0; i < m_state.size(); i++) {
         if (m_state[i] == prev) {
             m_state[i] = next;
         }

@@ -21,7 +21,7 @@
 
 #include <assert.h>
 #include <klocalizedstring.h>
-#include <QFileDialog>
+#include <kfiledialog.h>
 
 SettingsWindow::SettingsWindow(QWidget *parent) :
     QDialog(parent),
@@ -43,8 +43,9 @@ SettingsWindow::~SettingsWindow()
 
 void SettingsWindow::bgToolButtonClicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-         i18n("Select Background"), "", i18n("Image Files (*.png *.jpg)"));
+    QString fileName = KFileDialog::getOpenFileName(KUrl(),
+                                                    i18n("*.png *.jpg|Image Files (*.png *.jpg)"),
+                                                    this, i18n("Select Background"));
 
     if (fileName.isNull()) {
         return;

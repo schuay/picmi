@@ -35,6 +35,7 @@ kde4_add_library(picmi_gui STATIC
 target_link_libraries(picmi_gui
     ${KDEGAMES_LIBRARY}
     ${KDE4_KDEUI_LIBS}
+    ${KDE4_KIO_LIBS}
     ${KDE4_KDECORE_LIBS}
     ${QT_LIBRARIES}
 )

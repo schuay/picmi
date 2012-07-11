@@ -108,7 +108,8 @@ void MainWindow::setupActions() {
     KGameDifficulty::addStandardLevel(KGameDifficulty::Configurable);
 #endif
 
-    setupGUI();
+    /* Disable the toolbar configuration menu entry. */
+    setupGUI(Keys | StatusBar | Save | Create);
 }
 
 void MainWindow::loadBoard() {

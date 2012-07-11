@@ -45,7 +45,7 @@ public:
     QList<Board::State> map() const { return m_map; }
     QPixmap preview() const { return m_preview; }
 
-    QString visibleName() const { if (solved()) return name(); return "???"; }
+    QString visibleName() const;
     bool solved() const { return m_solved; }
     int solvedTime() const { return m_solved_time; }
     void setSolved(int seconds);

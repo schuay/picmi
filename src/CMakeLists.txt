@@ -49,6 +49,6 @@ target_link_libraries(picmi
     ${QT_LIBRARIES}
 )
 
-install(TARGETS picmi DESTINATION bin)
+install(TARGETS picmi DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 # vim:set ts=4 sw=4 et:

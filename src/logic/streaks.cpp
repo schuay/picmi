@@ -131,10 +131,7 @@ static QVector<std::shared_ptr<Streaks::StreakElement> > processStreak(
        here */
 
     if (line_complete) {
-        switch (solved) {
-        case false: return newStreak(map);
-        case true: return streak;
-        }
+        return (solved ? streak : newStreak(map));
     }
 
     upper_bound = qMin(map.size(), state->streaks_reversed.size());

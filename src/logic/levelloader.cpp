@@ -1,4 +1,5 @@
 /*
+    Copyright 2012 Jakob Gruber <jakob.gruber@gmail.com>
     Copyright 2011 Julian Helfferich <julian.helfferich@gmail.com>
 
     This program is free software: you can redistribute it and/or modify

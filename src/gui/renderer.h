@@ -24,7 +24,7 @@
 #include <QString>
 #include <QVector>
 #include <QtSvg/QSvgRenderer>
-#include <memory>
+#include <QSharedPointer>
 
 class Renderer
 {
@@ -98,7 +98,7 @@ private:
 
     QFont m_fonts[FontSizeLength];
 
-    std::shared_ptr<QSvgRenderer> m_renderer;
+    QSharedPointer<QSvgRenderer> m_renderer;
 
     QVector<QString> m_names;
 };

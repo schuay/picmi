@@ -35,7 +35,7 @@ class Scene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit Scene(std::shared_ptr<Picmi> game, QObject *parent = 0);
+    explicit Scene(QSharedPointer<Picmi> game, QObject *parent = 0);
 
     /* 0 <= x < m_game.width(); 0 <= y < m_game.height()
       handles a request to (un)mark (x,y) as a box or cross */
@@ -78,7 +78,7 @@ private:
     void hideHighlights();
     int xy_to_i(int x, int y) const;
 
-    std::shared_ptr<Picmi> m_game;
+    QSharedPointer<Picmi> m_game;
 
     /* The scene automatically deletes registered items */
     PauseBannerItem *m_pause_banner;

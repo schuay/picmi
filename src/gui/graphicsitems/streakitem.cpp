@@ -21,7 +21,7 @@
 #include "src/constants.h"
 #include "src/settings.h"
 
-StreakItem::StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+StreakItem::StreakItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent) :
     QGraphicsTextItem(parent), ReloadableItem(x, y), m_game(game)
 {
     setEnabled(false);
@@ -37,14 +37,14 @@ int StreakItem::padding(int tilesize) const {
     return tilesize / 5;
 }
 
-RowStreakItem::RowStreakItem(std::shared_ptr<Picmi> game, int y, QGraphicsItem *parent) :
+RowStreakItem::RowStreakItem(QSharedPointer<Picmi> game, int y, QGraphicsItem *parent) :
     StreakItem(0, y, game, parent)
 {
     refresh();
 }
 
 void RowStreakItem::refresh() {
-    QVector<std::shared_ptr<Streaks::StreakElement> > streak = m_game->getRowStreak(m_y);
+    QVector<QSharedPointer<Streaks::StreakElement> > streak = m_game->getRowStreak(m_y);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {
@@ -76,14 +76,14 @@ void RowStreakItem::reload(const QSize &size) {
     setPos(x, y);
 }
 
-ColStreakItem::ColStreakItem(std::shared_ptr<Picmi> game, int x, QGraphicsItem *parent) :
+ColStreakItem::ColStreakItem(QSharedPointer<Picmi> game, int x, QGraphicsItem *parent) :
     StreakItem(x, 0, game, parent)
 {
     refresh();
 }
 
 void ColStreakItem::refresh() {
-    QVector<std::shared_ptr<Streaks::StreakElement> > streak = m_game->getColStreak(m_x);
+    QVector<QSharedPointer<Streaks::StreakElement> > streak = m_game->getColStreak(m_x);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {

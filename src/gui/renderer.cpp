@@ -70,7 +70,7 @@ void Renderer::loadResources() {
         if (!QFile::exists(filenameSvg)) {
             continue;
         }
-        m_renderer.reset(new QSvgRenderer(filenameSvg));
+        m_renderer = QSharedPointer<QSvgRenderer>(new QSvgRenderer(filenameSvg));
         return;
     }
 

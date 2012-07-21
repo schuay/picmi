@@ -19,7 +19,7 @@
 #define STREAKS_H
 
 #include <QVector>
-#include <memory>
+#include <QSharedPointer>
 
 #include "boardmap.h"
 #include "boardstate.h"
@@ -34,7 +34,7 @@ public:
         bool solved;
     };
 
-    Streaks(std::shared_ptr<BoardMap> map, std::shared_ptr<BoardState> state);
+    Streaks(QSharedPointer<BoardMap> map, QSharedPointer<BoardState> state);
 
     /* Updates streaks affected by changes to (x,y). */
     void update(int x, int y);
@@ -45,22 +45,22 @@ public:
     /* Returns the request row/col streak. These contain the least information required by
        the frontend, which is (for each position within a streak): "which number is this",
        and "is this position solved" */
-    QVector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
-    QVector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
+    QVector<QSharedPointer<Streaks::StreakElement> > getRowStreak(int y) const;
+    QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
 
 private:
 
     void calcMapStreaks();
 
 
-    std::shared_ptr<BoardMap> m_map;
-    std::shared_ptr<BoardState> m_state;
+    QSharedPointer<BoardMap> m_map;
+    QSharedPointer<BoardState> m_state;
 
     QVector<QVector<int> > m_map_row_streaks;
     QVector<QVector<int> > m_map_col_streaks;
 
-    QVector<std::shared_ptr<LineInfo> > m_state_row_streaks;
-    QVector<std::shared_ptr<LineInfo> > m_state_col_streaks;
+    QVector<QSharedPointer<LineInfo> > m_state_row_streaks;
+    QVector<QSharedPointer<LineInfo> > m_state_col_streaks;
 };
 
 #endif // STREAKS_H

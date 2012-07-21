@@ -23,7 +23,7 @@
 #include <QList>
 #include <QPixmap>
 #include <QString>
-#include <memory>
+#include <QSharedPointer>
 
 #include "src/logic/board.h"
 
@@ -72,17 +72,17 @@ class LevelLoader
 public:
     LevelLoader(const QString &filename);
 
-    QList<std::shared_ptr<Level> > loadLevels();
-    static QList<std::shared_ptr<Level> > load();
+    QList<QSharedPointer<Level> > loadLevels();
+    static QList<QSharedPointer<Level> > load();
 
 private:
     void setLevelset(const QString& levelname);
-    std::shared_ptr<Level> loadLevel(const QDomElement &node) const;
+    QSharedPointer<Level> loadLevel(const QDomElement &node) const;
     QList<Board::State> loadRow(const QDomElement &node) const;
     QImage openXPM(const QDomElement &node) const;
     QList<Board::State> loadXPM(const QImage &xpm) const;
 
-    std::shared_ptr<QDomDocument> m_levelset;
+    QSharedPointer<QDomDocument> m_levelset;
     QString m_levelsetname;
 
     const QString m_filename;

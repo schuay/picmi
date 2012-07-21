@@ -75,20 +75,20 @@ private:
     };
 
     void startGame();
-    void startPresetGame(std::shared_ptr<Level> board);
+    void startPresetGame(QSharedPointer<Level> board);
 
     void restoreWindowState();
     void saveWindowState();
     void pauseGame();
-    std::shared_ptr<KScoreDialog> createScoreDialog();
+    QSharedPointer<KScoreDialog> createScoreDialog();
     void setupActions();
 
     KAction *m_action_undo, *m_action_save_state, *m_action_load_state;
     KToggleAction *m_action_pause;
     QLabel *m_status_time, *m_status_position;
     View m_view;
-    std::shared_ptr<Picmi> m_game;
-    std::shared_ptr<Scene> m_scene;
+    QSharedPointer<Picmi> m_game;
+    QSharedPointer<Scene> m_scene;
     QTimer m_timer;
 
     const QString m_key_size, m_key_pos;
@@ -96,7 +96,7 @@ private:
     bool m_in_progress;
     enum Mode m_mode;
 
-    std::shared_ptr<Level> m_current_level;
+    QSharedPointer<Level> m_current_level;
 };
 
 #endif // MAINWINDOW_H

@@ -101,7 +101,7 @@ void IOHandlerHints::setBox(int x, int y) {
     }
 }
 
-Picmi::Picmi(std::shared_ptr<Settings> settings)
+Picmi::Picmi(QSharedPointer<Settings> settings)
 {
     int width, height;
     double density;
@@ -122,24 +122,24 @@ Picmi::Picmi(std::shared_ptr<Settings> settings)
         prevent_mistakes = settings->preventMistakes(); break;
     }
 
-    m_map.reset(new BoardMap(width, height, density));
-    m_state.reset(new BoardState(width, height));
-    m_streaks.reset(new Streaks(m_map, m_state));
+    m_map = QSharedPointer<BoardMap>(new BoardMap(width, height, density));
+    m_state = QSharedPointer<BoardState>(new BoardState(width, height));
+    m_streaks = QSharedPointer<Streaks>(new Streaks(m_map, m_state));
 
     if (prevent_mistakes) {
-        m_io_handler.reset(new IOHandlerHints(m_map.get(), m_state.get(), &m_timer));
+        m_io_handler = QSharedPointer<IOHandler>(new IOHandlerHints(m_map.data(), m_state.data(), &m_timer));
     } else {
-        m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
+        m_io_handler = QSharedPointer<IOHandler>(new IOHandlerNoHints(m_map.data(), m_state.data(), &m_timer));
     }
 
     m_timer.start();
 }
 
-Picmi::Picmi(std::shared_ptr<BoardMap> board) {
+Picmi::Picmi(QSharedPointer<BoardMap> board) {
     m_map = board;
-    m_state.reset(new BoardState(board->width(), board->height()));
-    m_streaks.reset(new Streaks(m_map, m_state));
-    m_io_handler.reset(new IOHandlerNoHints(m_map.get(), m_state.get(), &m_timer));
+    m_state = QSharedPointer<BoardState>(new BoardState(board->width(), board->height()));
+    m_streaks = QSharedPointer<Streaks>(new Streaks(m_map, m_state));
+    m_io_handler = QSharedPointer<IOHandler>(new IOHandlerNoHints(m_map.data(), m_state.data(), &m_timer));
     m_timer.start();
 }
 
@@ -150,7 +150,7 @@ bool Picmi::won() const {
        this by ending the game once all streaks are marked solved. */
 
     for (int x = 0; x < width(); x++) {
-        QVector<std::shared_ptr<Streaks::StreakElement> > streak = getColStreak(x);
+        QVector<QSharedPointer<Streaks::StreakElement> > streak = getColStreak(x);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -159,7 +159,7 @@ bool Picmi::won() const {
     }
 
     for (int y = 0; y < height(); y++) {
-        QVector<std::shared_ptr<Streaks::StreakElement> > streak = getRowStreak(y);
+        QVector<QSharedPointer<Streaks::StreakElement> > streak = getRowStreak(y);
         for (int i = 0; i < (int)streak.size(); i++) {
             if (!streak[i]->solved) {
                 return false;
@@ -218,9 +218,9 @@ void Picmi::setState(int x, int y, Board::State state) {
     }
 }
 
-QVector<std::shared_ptr<Streaks::StreakElement> > Picmi::getRowStreak(int y) const {
+QVector<QSharedPointer<Streaks::StreakElement> > Picmi::getRowStreak(int y) const {
     return m_streaks->getRowStreak(y);
 }
-QVector<std::shared_ptr<Streaks::StreakElement> > Picmi::getColStreak(int x) const {
+QVector<QSharedPointer<Streaks::StreakElement> > Picmi::getColStreak(int x) const {
     return m_streaks->getColStreak(x);
 }

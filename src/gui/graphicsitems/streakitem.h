@@ -28,7 +28,7 @@
 class StreakItem : public QGraphicsTextItem, public ReloadableItem
 {
 public:
-    StreakItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
+    StreakItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent = 0);
 
     /* update displayed streak */
     virtual void refresh() = 0;
@@ -38,13 +38,13 @@ public:
 protected:
     int padding(int tilesize) const;
 
-    const std::shared_ptr<Picmi> m_game;
+    const QSharedPointer<Picmi> m_game;
     QString m_color_solved, m_color_unsolved;
 };
 
 class RowStreakItem : public StreakItem {
 public:
-    RowStreakItem(std::shared_ptr<Picmi> game, int y, QGraphicsItem *parent = 0);
+    RowStreakItem(QSharedPointer<Picmi> game, int y, QGraphicsItem *parent = 0);
 
     void refresh();
     void reload(const QSize &size);
@@ -52,7 +52,7 @@ public:
 
 class ColStreakItem : public StreakItem {
 public:
-    ColStreakItem(std::shared_ptr<Picmi> game, int x, QGraphicsItem *parent = 0);
+    ColStreakItem(QSharedPointer<Picmi> game, int x, QGraphicsItem *parent = 0);
 
     void refresh();
     void reload(const QSize &size);

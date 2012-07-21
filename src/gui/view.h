@@ -31,7 +31,7 @@ public:
     explicit View(QWidget *parent = 0);
 
     /* sets up the scene and returns a pointer to it */
-    std::shared_ptr<Scene> createScene(std::shared_ptr<Picmi> game);
+    QSharedPointer<Scene> createScene(QSharedPointer<Picmi> game);
     void setPaused(bool paused);
 
 protected:
@@ -39,7 +39,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    std::shared_ptr<Scene> m_scene;
+    QSharedPointer<Scene> m_scene;
 };
 
 #endif // VIEW_H

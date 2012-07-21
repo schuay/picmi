@@ -22,7 +22,7 @@
 #include <QPoint>
 #include <QStack>
 #include <QVector>
-#include <memory>
+#include <QSharedPointer>
 
 #include "board.h"
 

@@ -103,7 +103,7 @@ void SettingsWindow::saveSettings() {
     m_settings.setFontColorSolved(m_font_color_solved);
     m_settings.setFontColorUnsolved(m_font_color_unsolved);
 
-    std::shared_ptr<QSettings> qsettings = m_settings.qSettings();
+    QSharedPointer<QSettings> qsettings = m_settings.qSettings();
     qsettings->sync();
 }
 

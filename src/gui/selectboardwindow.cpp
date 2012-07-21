@@ -28,7 +28,7 @@
 class LevelTableModel : public QAbstractTableModel
 {
 public:
-    LevelTableModel(const QList<std::shared_ptr<Level> > &levels, QObject * parent = 0);
+    LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject * parent = 0);
 
 protected:
     int rowCount(const QModelIndex &parent) const;
@@ -37,7 +37,7 @@ protected:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 private:
-    const QList<std::shared_ptr<Level> > &m_levels;
+    const QList<QSharedPointer<Level> > &m_levels;
 
     enum Columns {
         Name,
@@ -49,7 +49,7 @@ private:
     };
 };
 
-LevelTableModel::LevelTableModel(const QList<std::shared_ptr<Level> > &levels, QObject *parent) :
+LevelTableModel::LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject *parent) :
     QAbstractTableModel(parent), m_levels(levels)
 {
 
@@ -74,7 +74,7 @@ QVariant LevelTableModel::data(const QModelIndex &index, int role) const {
         return Qt::AlignCenter;
     }
 
-    std::shared_ptr<Level> level= m_levels[index.row()];
+    QSharedPointer<Level> level= m_levels[index.row()];
     switch (index.column()) {
     case Name: return level->visibleName();
     case LevelSet: return level->levelset();
@@ -112,8 +112,8 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     ui->setupUi(mainWidget());
 
     m_levels = LevelLoader::load();
-    m_model.reset(new LevelTableModel(m_levels));
-    ui->listView->setModel(m_model.get());
+    m_model = QSharedPointer<LevelTableModel>(new LevelTableModel(m_levels));
+    ui->listView->setModel(m_model.data());
 
     if (m_levels.empty()) {
         button(KDialog::Ok)->setEnabled(false);
@@ -164,7 +164,7 @@ QString SelectBoardWindow::diffString(int difficulty) const {
     }
 }
 
-void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
+void SelectBoardWindow::updateDetails(QSharedPointer<Level> level) {
     ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->visibleName()));
     ui->labelAuthor->setText(QString("%1: %2").arg(ki18n("Author").toString(), level->author()));
     ui->labelSize->setText(QString("%1: %2x%3").arg(ki18n("Size").toString()).arg(level->width()).arg(level->height()));
@@ -181,7 +181,7 @@ void SelectBoardWindow::updateDetails(std::shared_ptr<Level> level) {
     }
 }
 
-std::shared_ptr<Level> SelectBoardWindow::selectedBoard() const {
+QSharedPointer<Level> SelectBoardWindow::selectedBoard() const {
     int index = ui->listView->selectionModel()->selectedIndexes().at(0).row();
     return m_levels[index];
 }

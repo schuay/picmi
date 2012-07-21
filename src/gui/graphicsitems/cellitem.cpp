@@ -29,7 +29,7 @@
 class DragManager
 {
 public:
-    DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start);
+    DragManager(QSharedPointer<Picmi> game, Scene *scene, QPoint start);
 
     void init(Board::State state);
     void move(int x, int y);
@@ -45,7 +45,7 @@ private:
         Undefined
     };
 
-    const std::shared_ptr<Picmi> m_game;
+    const QSharedPointer<Picmi> m_game;
     const QPoint m_start;
     Scene *m_scene;
     Board::State m_before, m_after, m_request;
@@ -53,7 +53,7 @@ private:
     bool m_initialized;
 };
 
-DragManager::DragManager(std::shared_ptr<Picmi> game, Scene *scene, QPoint start) :
+DragManager::DragManager(QSharedPointer<Picmi> game, Scene *scene, QPoint start) :
     m_game(game), m_start(start), m_scene(scene), m_initialized(false)
 {
     m_direction = Undefined;
@@ -102,7 +102,7 @@ QPoint DragManager::normCoordinates(int x, int y) {
     return QPoint();
 }
 
-CellItem::CellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+CellItem::CellItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent) :
     QGraphicsPixmapItem(parent), ReloadableItem(x, y), m_game(game)
 {
     setZValue(ZVALUE_CELLITEM);
@@ -121,7 +121,7 @@ void CellItem::reload(const QSize &size) {
     refresh();
 }
 
-OverviewCellItem::OverviewCellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent) :
+OverviewCellItem::OverviewCellItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent) :
     CellItem(x, y, game, parent)
 {
     setEnabled(false);
@@ -143,7 +143,7 @@ int OverviewCellItem::getTilesize() const {
     return Renderer::instance()->getOverviewTilesize();
 }
 
-GameCellItem::GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent) :
+GameCellItem::GameCellItem(int x, int y, QSharedPointer<Picmi> game, Scene *scene, QGraphicsItem *parent) :
     CellItem(x, y, game, parent), m_scene(scene)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
@@ -173,7 +173,7 @@ void GameCellItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         return;
     }
 
-    m_dragmanager.reset(new DragManager(m_game, m_scene, QPoint(m_x, m_y)));
+    m_dragmanager = QSharedPointer<DragManager>(new DragManager(m_game, m_scene, QPoint(m_x, m_y)));
     m_dragbutton = event->button();
     switch (m_dragbutton) {
     case Qt::LeftButton: m_dragmanager->init(Board::Box); break;
@@ -213,7 +213,7 @@ void GameCellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
 void GameCellItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if (event->button() == m_dragbutton) {
-        m_dragmanager.reset();
+        m_dragmanager.clear();
     }
 }
 

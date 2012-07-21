@@ -19,7 +19,7 @@
 #define SELECTBOARD_H
 
 #include <kdialog.h>
-#include <memory>
+#include <QSharedPointer>
 
 #include "ui_selectboardwindow.h"
 
@@ -34,7 +34,7 @@ public:
 
     virtual ~SelectBoardWindow();
 
-    std::shared_ptr<Level> selectedBoard() const;
+    QSharedPointer<Level> selectedBoard() const;
 
 protected:
     void resizeEvent(QResizeEvent *event);
@@ -44,13 +44,13 @@ private slots:
     void selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
-    void updateDetails(std::shared_ptr<Level> level);
+    void updateDetails(QSharedPointer<Level> level);
     QString diffString(int difficulty) const;
 
     Ui::LevelSelectUi *ui;
 
-    QList<std::shared_ptr<Level> > m_levels;
-    std::shared_ptr<LevelTableModel> m_model;
+    QList<QSharedPointer<Level> > m_levels;
+    QSharedPointer<LevelTableModel> m_model;
 };
 
 #endif

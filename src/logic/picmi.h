@@ -34,8 +34,8 @@ class Picmi : public QObject
     Q_OBJECT
 public:
 
-    Picmi(std::shared_ptr<Settings> settings);
-    Picmi(std::shared_ptr<BoardMap> board);
+    Picmi(QSharedPointer<Settings> settings);
+    Picmi(QSharedPointer<BoardMap> board);
 
     int width() const;
     int height() const;
@@ -63,8 +63,8 @@ public:
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */
-    QVector<std::shared_ptr<Streaks::StreakElement> > getRowStreak(int y) const;
-    QVector<std::shared_ptr<Streaks::StreakElement> > getColStreak(int x) const;
+    QVector<QSharedPointer<Streaks::StreakElement> > getRowStreak(int y) const;
+    QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
 
 signals:
     void gameWon();
@@ -76,10 +76,10 @@ private:
     bool won() const;
 
 private:
-    std::shared_ptr<BoardMap> m_map;
-    std::shared_ptr<BoardState> m_state;
-    std::shared_ptr<IOHandler> m_io_handler;
-    std::shared_ptr<Streaks> m_streaks;
+    QSharedPointer<BoardMap> m_map;
+    QSharedPointer<BoardState> m_state;
+    QSharedPointer<IOHandler> m_io_handler;
+    QSharedPointer<Streaks> m_streaks;
 
     ElapsedTime m_timer;
 };

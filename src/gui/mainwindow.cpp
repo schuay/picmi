@@ -189,16 +189,16 @@ void MainWindow::loadState() {
 }
 
 void MainWindow::startRandomGame() {
-    std::shared_ptr<Settings> settings(new Settings);
-    m_game.reset(new Picmi(settings));
+    QSharedPointer<Settings> settings(new Settings);
+    m_game = QSharedPointer<Picmi>(new Picmi(settings));
     m_mode = Random;
 
     startGame();
 }
 
-void MainWindow::startPresetGame(std::shared_ptr<Level> board) {
-    std::shared_ptr<BoardMap> p(new BoardMap(board->width(), board->height(), board->map()));
-    m_game.reset(new Picmi(p));
+void MainWindow::startPresetGame(QSharedPointer<Level> board) {
+    QSharedPointer<BoardMap> p(new BoardMap(board->width(), board->height(), board->map()));
+    m_game = QSharedPointer<Picmi>(new Picmi(p));
     m_mode = Preset;
     m_current_level = board;
 
@@ -232,8 +232,8 @@ void MainWindow::startGame() {
     m_view.setPaused(false);
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
-    connect(m_game.get(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
-    connect(m_game.get(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+    connect(m_game.data(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
+    connect(m_game.data(), SIGNAL(gameWon()), this, SLOT(gameWon()));
 
     m_in_progress = true;
 }
@@ -248,8 +248,8 @@ void MainWindow::updatePositions() {
                                     m_game->currentStateAge()));
 }
 
-std::shared_ptr<KScoreDialog> MainWindow::createScoreDialog() {
-    std::shared_ptr<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time, this));
+QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
+    QSharedPointer<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time));
 
 #ifdef HAVE_KGDIFFICULTY
     p->initFromDifficulty(Kg::difficulty());
@@ -290,7 +290,7 @@ void MainWindow::gameWon() {
 #else
     if (m_mode == Random) {
 #endif
-        std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
+        QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
         if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
             scoreDialog->exec();
             notified = true;
@@ -311,7 +311,7 @@ void MainWindow::gameWon() {
 void MainWindow::highscores() {
     pauseGame();
 
-    std::shared_ptr<KScoreDialog> scoreDialog = createScoreDialog();
+    QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
     scoreDialog->exec();
 
     m_view.setFocus();

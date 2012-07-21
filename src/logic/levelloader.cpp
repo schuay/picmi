@@ -29,25 +29,25 @@
 #include "config.h"
 #include "src/systemexception.h"
 
-class LevelList : public QList<std::shared_ptr<Level> >
+class LevelList : public QList<QSharedPointer<Level> >
 {
 public:
-    LevelList() : QList<std::shared_ptr<Level> >() { }
-    void append(const QList<std::shared_ptr<Level> > &t);
+    LevelList() : QList<QSharedPointer<Level> >() { }
+    void append(const QList<QSharedPointer<Level> > &t);
 private:
-    bool containsLevel(std::shared_ptr<Level> level) const;
+    bool containsLevel(QSharedPointer<Level> level) const;
 };
 
-void LevelList::append(const QList<std::shared_ptr<Level> > &t) {
+void LevelList::append(const QList<QSharedPointer<Level> > &t) {
     for (int i = 0; i < t.size(); i++) {
-        std::shared_ptr<Level> level = t[i];
+        QSharedPointer<Level> level = t[i];
         if (!containsLevel(level)) {
             QList::append(level);
         }
     }
 }
 
-bool LevelList::containsLevel(std::shared_ptr<Level> level) const {
+bool LevelList::containsLevel(QSharedPointer<Level> level) const {
     for (int i = 0; i < size(); i++) {
         if (at(i)->name() == level->name() && at(i)->author() == level->author()) {
             return true;
@@ -118,7 +118,7 @@ void Level::setSolved(int seconds) {
     writeSettings(seconds);
 }
 
-QList<std::shared_ptr<Level> > LevelLoader::load() {
+QList<QSharedPointer<Level> > LevelLoader::load() {
     const QString prefix = "levels/";
     QList<QString> paths;
     paths << QString(prefix)
@@ -152,7 +152,7 @@ LevelLoader::LevelLoader(const QString &filename) :
 
 void LevelLoader::setLevelset(const QString& filename)
 {
-    m_levelset.reset(new QDomDocument());
+    m_levelset = QSharedPointer<QDomDocument>(new QDomDocument());
 
     QFile file(filename);
     if (!file.open( QIODevice::ReadOnly)) {
@@ -172,8 +172,8 @@ void LevelLoader::setLevelset(const QString& filename)
     }
 }
 
-QList<std::shared_ptr<Level> > LevelLoader::loadLevels() {
-    QList<std::shared_ptr<Level> > l;
+QList<QSharedPointer<Level> > LevelLoader::loadLevels() {
+    QList<QSharedPointer<Level> > l;
 
     if (!m_valid) {
         return l;
@@ -197,7 +197,7 @@ QList<std::shared_ptr<Level> > LevelLoader::loadLevels() {
     return l;
 }
 
-std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
+QSharedPointer<Level> LevelLoader::loadLevel(const QDomElement &node) const {
     if (node.isNull() || node.tagName() != "board") {
         throw SystemException("Unexpected level node");
     }
@@ -207,7 +207,7 @@ std::shared_ptr<Level> LevelLoader::loadLevel(const QDomElement &node) const {
         throw SystemException("Level node missing attribute.");
     }
 
-    std::shared_ptr<Level> p(new Level);
+    QSharedPointer<Level> p(new Level);
     p->m_name = node.attribute("name");
     p->m_author = node.attribute("author");
     p->m_levelset = m_levelsetname;

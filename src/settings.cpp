@@ -30,7 +30,7 @@ Settings::Settings() {
            << "game/font_color_solved"
            << "game/font_color_unsolved";
 
-    m_qsettings.reset(new QSettings);
+    m_qsettings = QSharedPointer<QSettings>(new QSettings);
     restore();
 }
 
@@ -149,6 +149,6 @@ void Settings::restore() {
     m_font_color_unsolved = m_qsettings->value(m_keys[FontColorUnsolved], "#000000").toString();
 }
 
-std::shared_ptr<QSettings> Settings::qSettings() {
+QSharedPointer<QSettings> Settings::qSettings() {
     return m_qsettings;
 }

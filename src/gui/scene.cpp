@@ -20,7 +20,7 @@
 
 #include "src/constants.h"
 
-Scene::Scene(std::shared_ptr<Picmi> game, QObject *parent) :
+Scene::Scene(QSharedPointer<Picmi> game, QObject *parent) :
     QGraphicsScene(parent), m_game(game), m_position(0, 0)
 {
     init();
@@ -150,7 +150,7 @@ void Scene::init() {
     m_cells[0]->setFocus();
     updateHighlights();
 
-    connect(m_game.get(), SIGNAL(gameWon()), this, SLOT(onGameWon()));
+    connect(m_game.data(), SIGNAL(gameWon()), this, SLOT(onGameWon()));
 }
 
 void Scene::refresh() {

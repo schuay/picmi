@@ -43,9 +43,9 @@ void View::keyPressEvent(QKeyEvent *event) {
     m_scene->forwardKeyPressEvent(event);
 }
 
-std::shared_ptr<Scene> View::createScene(std::shared_ptr<Picmi> game) {
-    m_scene.reset(new Scene(game));
-    setScene(m_scene.get());
+QSharedPointer<Scene> View::createScene(QSharedPointer<Picmi> game) {
+    m_scene = QSharedPointer<Scene>(new Scene(game));
+    setScene(m_scene.data());
     m_scene->resize(size());
     return m_scene;
 }

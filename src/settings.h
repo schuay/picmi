@@ -21,7 +21,7 @@
 
 #include <QSettings>
 #include <QVector>
-#include <memory>
+#include <QSharedPointer>
 
 #ifdef HAVE_KGDIFFICULTY
 #include <kgdifficulty.h>
@@ -64,7 +64,7 @@ public:
     void setFontColorSolved(const QString &color);
     void setFontColorUnsolved(const QString & color);
 
-    std::shared_ptr<QSettings> qSettings();
+    QSharedPointer<QSettings> qSettings();
 
 private:
     void restore();
@@ -95,7 +95,7 @@ private:
     QString m_custom_bg_path;
     QString m_font_color_unsolved, m_font_color_solved;
 
-    std::shared_ptr<QSettings> m_qsettings;
+    QSharedPointer<QSettings> m_qsettings;
 };
 
 #endif // SETTINGS_H

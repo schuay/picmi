@@ -30,7 +30,7 @@ class DragManager;
 class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
 public:
-    CellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
+    CellItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent = 0);
 
     /* updates displayed pixmap according to current cell state */
     virtual void refresh();
@@ -41,7 +41,7 @@ protected:
     virtual int getTilesize() const = 0;
     virtual QPixmap getPixmap() const = 0;
 
-    const std::shared_ptr<Picmi> m_game;
+    const QSharedPointer<Picmi> m_game;
 };
 
 class OverviewCellItem : public CellItem
@@ -49,7 +49,7 @@ class OverviewCellItem : public CellItem
 public:
     /* creates the item with field coordinates (x,y) and the specified
       game and scene */
-    OverviewCellItem(int x, int y, std::shared_ptr<Picmi> game, QGraphicsItem *parent = 0);
+    OverviewCellItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent = 0);
 
 protected:
     virtual int getTilesize() const;
@@ -61,7 +61,7 @@ class GameCellItem : public CellItem
 public:
     /* creates the item with field coordinates (x,y) and the specified
       game and scene */
-    GameCellItem(int x, int y, std::shared_ptr<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
+    GameCellItem(int x, int y, QSharedPointer<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
     void keyPressEvent(QKeyEvent *event);
 
@@ -80,7 +80,7 @@ private:
 
 private:
     Scene *m_scene;
-    std::shared_ptr<DragManager> m_dragmanager;
+    QSharedPointer<DragManager> m_dragmanager;
     Qt::MouseButton m_dragbutton;
 };
 

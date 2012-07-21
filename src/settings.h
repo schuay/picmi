@@ -19,6 +19,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "config.h"
 #include <QSettings>
 #include <QVector>
 #include <QSharedPointer>
@@ -28,8 +29,6 @@
 #else
 #include <kgamedifficulty.h>
 #endif
-
-#include "config.h"
 
 class Settings
 {

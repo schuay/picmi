@@ -16,11 +16,10 @@
  ************************************************************************* */
 
 
+#include "config.h"
 #include "picmi.h"
 
 #include <assert.h>
-
-#include "config.h"
 
 class IOHandler
 {

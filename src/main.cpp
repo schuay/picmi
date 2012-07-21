@@ -16,11 +16,11 @@
  ************************************************************************* */
 
 
+#include "config.h"
 #include <kaboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 
-#include "config.h"
 #include "gui/mainwindow.h"
 
 int main(int argc, char *argv[])

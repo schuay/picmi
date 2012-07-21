@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "config.h"
 #include "levelloader.h"
 
 #include <QDebug>
@@ -26,7 +27,6 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
-#include "config.h"
 #include "src/systemexception.h"
 
 class LevelList : public QList<QSharedPointer<Level> >

@@ -19,6 +19,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "config.h"
+
 #include <QTimer>
 #include <highscore/kscoredialog.h>
 #include <kaction.h>
@@ -31,7 +33,6 @@
 #include <kgamedifficulty.h>
 #endif
 
-#include "config.h"
 #include "scene.h"
 #include "src/logic/picmi.h"
 #include "view.h"

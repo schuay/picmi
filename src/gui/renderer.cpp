@@ -16,6 +16,7 @@
  ************************************************************************* */
 
 
+#include "config.h"
 #include "renderer.h"
 
 #include <QDir>
@@ -27,7 +28,6 @@
 #include <kglobal.h>
 #include <kstandarddirs.h>
 
-#include "config.h"
 #include "src/constants.h"
 #include "src/outofboundsexception.h"
 #include "src/settings.h"

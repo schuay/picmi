@@ -17,6 +17,8 @@
 
 #include "streaks.h"
 
+#include <algorithm>
+
 /* 0 <= x < m_width; 0 <= y < m_height; returns a row/col as a sequence of states */
 static QVector<Board::State> colToLine(const QSharedPointer<Board> &board, int x);
 static QVector<Board::State> rowToLine(const QSharedPointer<Board> &board, int y);

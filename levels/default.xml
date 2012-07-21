@@ -28,10 +28,6 @@
         <xpm>default/bass_clef.xpm</xpm>
     </board>
 
-    <board name="Baby Mario" author="Jakob Gruber, Moni Linke" difficulty="7">
-        <xpm>default/baby_mario.xpm</xpm>
-    </board>
-
     <board name="Panda" author="Jakob Gruber, Moni Linke" difficulty="4">
         <xpm>default/panda.xpm</xpm>
     </board>
@@ -78,10 +74,6 @@
 
     <board name="Hourglass" author="Jakob Gruber, Moni Linke" difficulty="4">
         <xpm>default/hourglass.xpm</xpm>
-    </board>
-
-    <board name="Mickey Mouse" author="Jakob Gruber, Moni Linke" difficulty="4">
-        <xpm>default/mickey.xpm</xpm>
     </board>
 
     <board name="Mobile Phone" author="Jakob Gruber, Moni Linke" difficulty="4">

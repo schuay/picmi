@@ -23,7 +23,7 @@ configure_file(
 )
 
 include_directories(
-    ${KDE4_INCLUDE_DIR}
+    ${KDE4_INCLUDES}
     ${KDEGAMES_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}

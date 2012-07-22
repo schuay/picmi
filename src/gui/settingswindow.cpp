@@ -40,6 +40,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     connect(ui->bgToolButton, SIGNAL(clicked()), this, SLOT(bgToolButtonClicked()));
     connect(ui->fontColorSolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
     connect(ui->fontColorUnsolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
+    connect(ui->bgCustomRadioButton, SIGNAL(toggled(bool)), ui->bgToolButton, SLOT(setEnabled(bool)));
 }
 
 SettingsWindow::~SettingsWindow()
@@ -86,6 +87,7 @@ void SettingsWindow::restoreSettings() {
     ui->densitySlider->setValue(m_settings.boxDensity() * 100.0);
     ui->preventMistakesCheckBox->setChecked(m_settings.preventMistakes());
     ui->bgCustomRadioButton->setChecked(m_settings.customBgEnabled());
+    ui->bgToolButton->setEnabled(m_settings.customBgEnabled());
     ui->bgLineEdit->setText(m_settings.customBgPath());
     m_font_color_solved = m_settings.fontColorSolved();
     m_font_color_unsolved = m_settings.fontColorUnsolved();

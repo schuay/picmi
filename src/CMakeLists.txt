@@ -5,8 +5,10 @@ if (NOT PICMI_FILEPATH)
     set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
 endif ()
 
-add_definitions("-Wall -Wextra -pedantic -Wno-long-long")
+add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+add_definitions("-Wextra -pedantic")
 add_definitions(${KDE4_ENABLE_EXCEPTIONS})
+add_definitions(-UQT_NO_STL)
 
 include(CheckIncludeFileCXX)
 include(${QT_USE_FILE})

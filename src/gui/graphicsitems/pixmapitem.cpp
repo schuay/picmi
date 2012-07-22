@@ -34,6 +34,21 @@ void PixmapItem::reload(const QSize &size) {
     setPos(m_x * tilesize, m_y * tilesize);
 }
 
+BackgroundItem::BackgroundItem(Renderer::Resource resource, int x, int y, QGraphicsItem *parent) :
+    PixmapItem(resource, x, y, parent)
+{
+    connect(Settings::instance(), SIGNAL(settingChanged(Settings::SettingsType)),
+                     this, SLOT(settingChanged(Settings::SettingsType)));
+}
+
+void BackgroundItem::settingChanged(Settings::SettingsType type) {
+    switch (type) {
+    case Settings::CustomBgEnabled:
+    case Settings::CustomBgPath: reload(QSize()); break;
+    default: break;
+    }
+}
+
 StreakHBackgroundItem::StreakHBackgroundItem(Renderer::Resource resource, int y, QGraphicsItem *parent) :
     PixmapItem(resource, 0, y, parent)
 {

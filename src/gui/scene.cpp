@@ -37,7 +37,7 @@ void Scene::loadBanners() {
 }
 
 void Scene::loadBackground() {
-    PixmapItem *p = new PixmapItem(Renderer::Background, 0, 0);
+    BackgroundItem *p = new BackgroundItem(Renderer::Background, 0, 0);
     m_items.push_back(p);
     addItem(p);
 }

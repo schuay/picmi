@@ -22,6 +22,7 @@
 #include <QGraphicsPixmapItem>
 
 #include "reloadableitem.h"
+#include "src/settings.h"
 
 class PixmapItem : public QGraphicsPixmapItem, public ReloadableItem
 {
@@ -31,6 +32,16 @@ public:
 
 protected:
     const Renderer::Resource m_resource;
+};
+
+class BackgroundItem : public QObject, public PixmapItem
+{
+    Q_OBJECT
+public:
+    BackgroundItem(Renderer::Resource resource, int x, int y, QGraphicsItem *parent = 0);
+
+private slots:
+    void settingChanged(Settings::SettingsType type);
 };
 
 class StreakHBackgroundItem : public PixmapItem

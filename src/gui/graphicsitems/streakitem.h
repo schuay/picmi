@@ -27,6 +27,7 @@
 
 class StreakItem : public QGraphicsTextItem, public ReloadableItem
 {
+    Q_OBJECT
 public:
     StreakItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *parent = 0);
 
@@ -35,8 +36,12 @@ public:
 
     virtual void reload(const QSize &size) = 0;
 
+private slots:
+    void settingChanged(Settings::SettingsType type);
+
 protected:
     int padding(int tilesize) const;
+    void setFontColors();
 
     const QSharedPointer<Picmi> m_game;
     QString m_color_solved, m_color_unsolved;

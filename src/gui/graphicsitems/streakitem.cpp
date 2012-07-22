@@ -28,8 +28,24 @@ StreakItem::StreakItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *
     setZValue(ZVALUE_STREAKTEXT);
     setFont(Renderer::instance()->getFont(Renderer::Regular));
 
+    connect(Settings::instance(), SIGNAL(settingChanged(Settings::SettingsType)),
+            this, SLOT(settingChanged(Settings::SettingsType)));
+}
+
+void StreakItem::settingChanged(Settings::SettingsType type)
+{
+    switch (type) {
+    case Settings::FontColorSolved:
+    case Settings::FontColorUnsolved: setFontColors(); break;
+    default: break;
+    }
+}
+
+void StreakItem::setFontColors()
+{
     m_color_solved = Settings::instance()->fontColorSolved();
     m_color_unsolved = Settings::instance()->fontColorUnsolved();
+    refresh();
 }
 
 int StreakItem::padding(int tilesize) const {
@@ -39,7 +55,7 @@ int StreakItem::padding(int tilesize) const {
 RowStreakItem::RowStreakItem(QSharedPointer<Picmi> game, int y, QGraphicsItem *parent) :
     StreakItem(0, y, game, parent)
 {
-    refresh();
+    setFontColors();
 }
 
 void RowStreakItem::refresh() {
@@ -78,7 +94,7 @@ void RowStreakItem::reload(const QSize &size) {
 ColStreakItem::ColStreakItem(QSharedPointer<Picmi> game, int x, QGraphicsItem *parent) :
     StreakItem(x, 0, game, parent)
 {
-    refresh();
+    setFontColors();
 }
 
 void ColStreakItem::refresh() {

@@ -82,31 +82,30 @@ void SettingsWindow::bgToolButtonClicked()
 }
 
 void SettingsWindow::restoreSettings() {
-    ui->heightSpinBox->setValue(m_settings.height());
-    ui->widthSpinBox->setValue(m_settings.width());
-    ui->densitySlider->setValue(m_settings.boxDensity() * 100.0);
-    ui->preventMistakesCheckBox->setChecked(m_settings.preventMistakes());
-    ui->bgCustomRadioButton->setChecked(m_settings.customBgEnabled());
-    ui->bgToolButton->setEnabled(m_settings.customBgEnabled());
-    ui->bgLineEdit->setText(m_settings.customBgPath());
-    m_font_color_solved = m_settings.fontColorSolved();
-    m_font_color_unsolved = m_settings.fontColorUnsolved();
+    ui->heightSpinBox->setValue(Settings::instance()->height());
+    ui->widthSpinBox->setValue(Settings::instance()->width());
+    ui->densitySlider->setValue(Settings::instance()->boxDensity() * 100.0);
+    ui->preventMistakesCheckBox->setChecked(Settings::instance()->preventMistakes());
+    ui->bgCustomRadioButton->setChecked(Settings::instance()->customBgEnabled());
+    ui->bgToolButton->setEnabled(Settings::instance()->customBgEnabled());
+    ui->bgLineEdit->setText(Settings::instance()->customBgPath());
+    m_font_color_solved = Settings::instance()->fontColorSolved();
+    m_font_color_unsolved = Settings::instance()->fontColorUnsolved();
     ui->fontColorUnsolvedLabel->setStyleSheet(toStylesheet(m_font_color_unsolved));
     ui->fontColorSolvedLabel->setStyleSheet(toStylesheet(m_font_color_solved));
 }
 
 void SettingsWindow::saveSettings() {
-    m_settings.setHeight(ui->heightSpinBox->value());
-    m_settings.setWidth(ui->widthSpinBox->value());
-    m_settings.setBoxDensity(ui->densitySlider->value() / 100.0);
-    m_settings.setPreventMistakes(ui->preventMistakesCheckBox->isChecked());
-    m_settings.setCustomBgEnabled(ui->bgCustomRadioButton->isChecked());
-    m_settings.setCustomBgPath(ui->bgLineEdit->text());
-    m_settings.setFontColorSolved(m_font_color_solved);
-    m_settings.setFontColorUnsolved(m_font_color_unsolved);
+    Settings::instance()->setHeight(ui->heightSpinBox->value());
+    Settings::instance()->setWidth(ui->widthSpinBox->value());
+    Settings::instance()->setBoxDensity(ui->densitySlider->value() / 100.0);
+    Settings::instance()->setPreventMistakes(ui->preventMistakesCheckBox->isChecked());
+    Settings::instance()->setCustomBgEnabled(ui->bgCustomRadioButton->isChecked());
+    Settings::instance()->setCustomBgPath(ui->bgLineEdit->text());
+    Settings::instance()->setFontColorSolved(m_font_color_solved);
+    Settings::instance()->setFontColorUnsolved(m_font_color_unsolved);
 
-    QSharedPointer<QSettings> qsettings = m_settings.qSettings();
-    qsettings->sync();
+    Settings::instance()->sync();
 }
 
 void SettingsWindow::accept() {

@@ -149,6 +149,13 @@ void Settings::restore() {
     m_font_color_unsolved = m_qsettings->value(m_keys[FontColorUnsolved], "#000000").toString();
 }
 
-QSharedPointer<QSettings> Settings::qSettings() {
-    return m_qsettings;
+void Settings::sync()
+{
+    m_qsettings->sync();
+}
+
+Settings *Settings::instance()
+{
+    static Settings settings;
+    return &settings;
 }

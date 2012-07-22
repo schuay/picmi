@@ -51,7 +51,7 @@ class Picmi : public QObject
     Q_OBJECT
 public:
 
-    Picmi(QSharedPointer<Settings> settings);
+    Picmi();
     Picmi(QSharedPointer<BoardMap> board);
 
     int width() const;

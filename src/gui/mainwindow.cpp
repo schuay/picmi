@@ -123,16 +123,12 @@ void MainWindow::loadBoard() {
 
 #ifdef HAVE_KGDIFFICULTY
 void MainWindow::levelChanged(const KgDifficultyLevel* level) {
+    Settings::instance()->setLevel(level->standardLevel());
 #else
 void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {
+    Settings::instance()->setLevel(level);
 #endif
-    Settings settings;
-#ifdef HAVE_KGDIFFICULTY
-    settings.setLevel(level->standardLevel());
-#else
-    settings.setLevel(level);
-#endif
-    settings.qSettings()->sync();
+    Settings::instance()->sync();
     startRandomGame();
 }
 
@@ -187,8 +183,7 @@ void MainWindow::loadState() {
 }
 
 void MainWindow::startRandomGame() {
-    QSharedPointer<Settings> settings(new Settings);
-    m_game = QSharedPointer<Picmi>(new Picmi(settings));
+    m_game = QSharedPointer<Picmi>(new Picmi());
     m_mode = Random;
 
     startGame();

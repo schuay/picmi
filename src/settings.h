@@ -33,8 +33,6 @@
 class Settings
 {
 public:
-    Settings();
-
     int width() const;
     int height() const;
     double boxDensity() const;
@@ -63,9 +61,14 @@ public:
     void setFontColorSolved(const QString &color);
     void setFontColorUnsolved(const QString & color);
 
-    QSharedPointer<QSettings> qSettings();
+    void sync();
+
+    static Settings *instance();
 
 private:
+    Settings();
+    Q_DISABLE_COPY(Settings)
+
     void restore();
 
     enum SettingsType {

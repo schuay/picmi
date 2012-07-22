@@ -177,9 +177,8 @@ QPixmap Renderer::getCachedPixmap(Renderer::Resource resource, int h, int w) con
 {
     /* Special case for custom background. */
     if (resource == Background) {
-        Settings settings;
-        if (settings.customBgEnabled()) {
-            return QPixmap(settings.customBgPath());
+        if (Settings::instance()->customBgEnabled()) {
+            return QPixmap(Settings::instance()->customBgPath());
         }
     }
 

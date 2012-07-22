@@ -83,12 +83,13 @@ void IOHandlerHints::setBox(int x, int y) {
     }
 }
 
-Picmi::Picmi(QSharedPointer<Settings> settings)
+Picmi::Picmi()
 {
     int width, height;
     double density;
     bool prevent_mistakes;
-    switch (settings->level()) {
+
+    switch (Settings::instance()->level()) {
 #ifdef HAVE_KGDIFFICULTY
     case KgDifficultyLevel::Easy: width = height = 10; density = 0.55; prevent_mistakes = false; break;
     case KgDifficultyLevel::Medium: width = 15; height = 10; density = 0.55; prevent_mistakes = false; break;
@@ -100,8 +101,12 @@ Picmi::Picmi(QSharedPointer<Settings> settings)
     case KGameDifficulty::Hard: width = height = 15; density = 0.55; prevent_mistakes = false; break;
     case KGameDifficulty::Configurable:
 #endif
-    default: width = settings->width(); height = settings->height(); density = settings->boxDensity();
-        prevent_mistakes = settings->preventMistakes(); break;
+    default:
+        width = Settings::instance()->width();
+        height = Settings::instance()->height();
+        density = Settings::instance()->boxDensity();
+        prevent_mistakes = Settings::instance()->preventMistakes();
+        break;
     }
 
     m_map = QSharedPointer<BoardMap>(new BoardMap(width, height, density));

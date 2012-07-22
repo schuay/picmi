@@ -28,9 +28,8 @@ StreakItem::StreakItem(int x, int y, QSharedPointer<Picmi> game, QGraphicsItem *
     setZValue(ZVALUE_STREAKTEXT);
     setFont(Renderer::instance()->getFont(Renderer::Regular));
 
-    Settings settings;
-    m_color_solved = settings.fontColorSolved();
-    m_color_unsolved = settings.fontColorUnsolved();
+    m_color_solved = Settings::instance()->fontColorSolved();
+    m_color_unsolved = Settings::instance()->fontColorUnsolved();
 }
 
 int StreakItem::padding(int tilesize) const {

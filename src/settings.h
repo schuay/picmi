@@ -30,9 +30,23 @@
 #include <kgamedifficulty.h>
 #endif
 
-class Settings
+class Settings : public QObject
 {
+    Q_OBJECT
+
 public:
+    enum SettingsType {
+        Width = 0,
+        Height,
+        BoxDensity,
+        PreventMistakes,
+        Level,
+        CustomBgEnabled,
+        CustomBgPath,
+        FontColorSolved,
+        FontColorUnsolved
+    };
+
     int width() const;
     int height() const;
     double boxDensity() const;
@@ -65,23 +79,15 @@ public:
 
     static Settings *instance();
 
+signals:
+    void settingChanged(Settings::SettingsType type);
+
 private:
     Settings();
     Q_DISABLE_COPY(Settings)
 
     void restore();
-
-    enum SettingsType {
-        Width = 0,
-        Height,
-        BoxDensity,
-        PreventMistakes,
-        Level,
-        CustomBgEnabled,
-        CustomBgPath,
-        FontColorSolved,
-        FontColorUnsolved
-    };
+    void setValue(SettingsType type, const QVariant &value);
 
     QVector<QString> m_keys;
 

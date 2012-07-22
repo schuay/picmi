@@ -35,7 +35,7 @@ public:
     explicit SettingsWindow(QWidget *parent = 0);
     ~SettingsWindow();
 
-public slots:
+private slots:
     void accept();
     void bgToolButtonClicked();
     void selectSolvedColor();

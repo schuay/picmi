@@ -93,7 +93,7 @@ private:
     QSharedPointer<Scene> m_scene;
     QTimer m_timer;
 
-    const QString m_key_size, m_key_pos;
+    const QString m_key_pos;
 
     bool m_in_progress;
     enum Mode m_mode;

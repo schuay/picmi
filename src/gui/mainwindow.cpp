@@ -37,7 +37,7 @@
 #include "src/logic/levelloader.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    KXmlGuiWindow(parent), m_key_size("window/size"),
+    KXmlGuiWindow(parent),
     m_key_pos("window/position"), m_in_progress(false), m_mode(Random)
 {
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
@@ -159,17 +159,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 void MainWindow::saveWindowState() {
     QSettings settings;
-    settings.setValue(m_key_size, size());
     settings.setValue(m_key_pos, pos());
     settings.sync();
 }
 
 void MainWindow::restoreWindowState() {
     QSettings settings;
-    QSize s = settings.value(m_key_size, size()).toSize();
     QPoint p = settings.value(m_key_pos, pos()).toPoint();
 
-    resize(s);
     move(p);
 }
 

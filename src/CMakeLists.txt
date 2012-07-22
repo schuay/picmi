@@ -5,7 +5,7 @@ if (NOT PICMI_FILEPATH)
     set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
 endif ()
 
-add_definitions("-Wall -Wextra -pedantic")
+add_definitions("-Wall -Wextra -pedantic -Wno-long-long")
 add_definitions(${KDE4_ENABLE_EXCEPTIONS})
 
 include(CheckIncludeFileCXX)

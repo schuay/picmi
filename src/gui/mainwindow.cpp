@@ -110,7 +110,7 @@ void MainWindow::setupActions() {
 
     /* Disable the toolbar configuration menu entry.
      * The default size is used at first start up. */
-    setupGUI(QSize(800, 650), Keys | StatusBar | Save | Create);
+    setupGUI(QSize(700, 560), Keys | StatusBar | Save | Create);
 }
 
 void MainWindow::loadBoard() {

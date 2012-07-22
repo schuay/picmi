@@ -24,7 +24,17 @@
 #include "boardmap.h"
 #include "boardstate.h"
 
-struct LineInfo;
+/* Moved from streaks.cpp to work around QSharedPointer issues with forward declarations.
+ * TODO: move this back once when Qt 5 is used. */
+struct LineInfo {
+    LineInfo(const QVector<Board::State> &l);
+
+    int box_count;
+    int cross_count;
+    QVector<int> streaks_regular;
+    QVector<int> streaks_reversed;
+    QVector<Board::State> line;
+};
 
 class Streaks
 {

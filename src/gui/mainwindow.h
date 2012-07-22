@@ -34,10 +34,11 @@
 #endif
 
 #include "scene.h"
+#include "src/logic/levelloader.h" /* TODO: Replace with Level forward declaration
+                                    * with Qt 5 (see struct LineInfo) */
 #include "src/logic/picmi.h"
 #include "view.h"
 
-class Level;
 class QLabel;
 
 class MainWindow : public KXmlGuiWindow

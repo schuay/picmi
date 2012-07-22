@@ -21,23 +21,6 @@
 
 #include <assert.h>
 
-class IOHandler
-{
-public:
-    IOHandler(BoardMap *map, BoardState *state, ElapsedTime *timer) : m_map(map), m_state(state), m_timer(timer) { }
-    virtual ~IOHandler() { }
-
-    void set(int x, int y, Board::State state);
-
-protected:
-    virtual void setCross(int x, int y);
-    virtual void setBox(int x, int y) = 0;
-
-    BoardMap *m_map;
-    BoardState *m_state;
-    ElapsedTime *m_timer;
-};
-
 void IOHandler::set(int x, int y, Board::State state) {
     switch (state) {
     case Board::Cross: setCross(x, y); break;

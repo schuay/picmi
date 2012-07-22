@@ -32,32 +32,23 @@ static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
         const QVector<int> &map, QSharedPointer<LineInfo> state);
 
 
+LineInfo::LineInfo(const QVector<Board::State> &l) : box_count(0), cross_count(0)
+{
+    line = l;
+    streaks_regular = lineToStreaks(l, Board::Cross);
 
-struct LineInfo {
-    LineInfo(const QVector<Board::State> &l) : box_count(0), cross_count(0)
-    {
-        line = l;
-        streaks_regular = lineToStreaks(l, Board::Cross);
+    QVector<Board::State> line_reversed(l);
+    std::reverse(line_reversed.begin(), line_reversed.end());
+    streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
 
-        QVector<Board::State> line_reversed(l);
-        std::reverse(line_reversed.begin(), line_reversed.end());
-        streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
-
-        for (int i = 0; i < (int)l.size(); i++) {
-            if (l[i] == Board::Box) {
-                box_count++;
-            } else if (l[i] == Board::Cross) {
-                cross_count++;
-            }
+    for (int i = 0; i < (int)l.size(); i++) {
+        if (l[i] == Board::Box) {
+            box_count++;
+        } else if (l[i] == Board::Cross) {
+            cross_count++;
         }
     }
-
-    int box_count;
-    int cross_count;
-    QVector<int> streaks_regular;
-    QVector<int> streaks_reversed;
-    QVector<Board::State> line;
-};
+}
 
 
 static QVector<Board::State> colToLine(const QSharedPointer<Board> &board,

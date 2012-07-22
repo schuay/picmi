@@ -39,7 +39,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 
     connect(ui->bgToolButton, SIGNAL(clicked()), this, SLOT(bgToolButtonClicked()));
     connect(ui->fontColorSolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
-    connect(ui->fontColorUnsolvedPushButton, SIGNAL(clicked()), this, SLOT(selectSolvedColor()));
+    connect(ui->fontColorUnsolvedPushButton, SIGNAL(clicked()), this, SLOT(selectUnsolvedColor()));
     connect(ui->bgCustomRadioButton, SIGNAL(toggled(bool)), ui->bgToolButton, SLOT(setEnabled(bool)));
 }
 

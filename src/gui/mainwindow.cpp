@@ -148,6 +148,16 @@ void MainWindow::toggleFullscreen(bool full_screen) {
     }
 }
 
+void MainWindow::undoStackSizeChanged(int size)
+{
+    m_action_undo->setEnabled(size != 0);
+}
+
+void MainWindow::saveStackSizeChanged(int size)
+{
+    m_action_load_state->setEnabled(size != 0);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event) {
     saveWindowState();
     KXmlGuiWindow::closeEvent(event);
@@ -203,9 +213,9 @@ void MainWindow::startGame() {
         disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     }
 
-    m_action_undo->setEnabled(true);
+    m_action_undo->setEnabled(false);
     m_action_save_state->setEnabled(true);
-    m_action_load_state->setEnabled(true);
+    m_action_load_state->setEnabled(false);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
 #ifdef HAVE_KGDIFFICULTY
@@ -226,6 +236,8 @@ void MainWindow::startGame() {
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     connect(m_game.data(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
     connect(m_game.data(), SIGNAL(gameWon()), this, SLOT(gameWon()));
+    connect(m_game.data(), SIGNAL(undoStackSizeChanged(int)), this, SLOT(undoStackSizeChanged(int)));
+    connect(m_game.data(), SIGNAL(saveStackSizeChanged(int)), this, SLOT(saveStackSizeChanged(int)));
 
     m_in_progress = true;
 }

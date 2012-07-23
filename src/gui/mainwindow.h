@@ -70,6 +70,10 @@ private slots:
     void loadBoard();
     void toggleFullscreen(bool full_screen);
 
+    /* Enable or disable undo/save state related actions. */
+    void undoStackSizeChanged(int size);
+    void saveStackSizeChanged(int size);
+
 private:
     enum Mode {
         Random, /* board is randomly generated, highscores enabled */

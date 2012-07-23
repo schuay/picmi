@@ -26,8 +26,9 @@
 
 #include "board.h"
 
-class BoardState : public Board
+class BoardState : public QObject, public Board
 {
+    Q_OBJECT
 public:
     /* initializes an empty field of given width and height,
       and creates initial (empty) streaks.
@@ -61,6 +62,10 @@ public:
     /* replaces all occurrences of prev with next.
        bookkeeping information (undo history, box count) is _not_ updated */
     void replace(enum State prev, enum State next);
+
+signals:
+    void undoStackSizeChanged(int size);
+    void saveStackSizeChanged(int size);
 
 private:
 

@@ -42,7 +42,7 @@ void LevelList::append(const QList<QSharedPointer<Level> > &t) {
     for (int i = 0; i < t.size(); i++) {
         QSharedPointer<Level> level = t[i];
         if (!containsLevel(level)) {
-            QList::append(level);
+            QList<QSharedPointer<Level> >::append(level);
         }
     }
 }

@@ -85,12 +85,22 @@ public:
 
 signals:
     void gameWon();
+
+    /**
+     * Emitted whenever the board state has changed (i.e. by undoing an action,
+     * setting a state explicitly, or loading a saved state).
+     */
     void stateChanged();
+
+    void undoStackSizeChanged(int size);
+    void saveStackSizeChanged(int size);
 
 private:
 
     /* returns true if the game has been won */
     bool won() const;
+
+    void setupSlots();
 
 private:
     QSharedPointer<BoardMap> m_map;

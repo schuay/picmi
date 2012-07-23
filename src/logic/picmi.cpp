@@ -120,6 +120,8 @@ Picmi::Picmi()
     }
 
     m_timer.start();
+
+    setupSlots();
 }
 
 Picmi::Picmi(QSharedPointer<BoardMap> board) {
@@ -128,6 +130,14 @@ Picmi::Picmi(QSharedPointer<BoardMap> board) {
     m_streaks = QSharedPointer<Streaks>(new Streaks(m_map, m_state));
     m_io_handler = QSharedPointer<IOHandler>(new IOHandlerNoHints(m_map.data(), m_state.data(), &m_timer));
     m_timer.start();
+
+    setupSlots();
+}
+
+void Picmi::setupSlots()
+{
+    connect(m_state.data(), SIGNAL(undoStackSizeChanged(int)), this, SIGNAL(undoStackSizeChanged(int)));
+    connect(m_state.data(), SIGNAL(saveStackSizeChanged(int)), this, SIGNAL(saveStackSizeChanged(int)));
 }
 
 bool Picmi::won() const {

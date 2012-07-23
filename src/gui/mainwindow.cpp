@@ -51,8 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
     restoreWindowState();
 
 #ifndef HAVE_KGDIFFICULTY
-    Settings settings;
-    KGameDifficulty::setLevel(settings.level());
+    KGameDifficulty::setLevel(Settings::instance()->level());
 #endif
 
     startRandomGame();
@@ -247,8 +246,6 @@ QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
 #ifdef HAVE_KGDIFFICULTY
     p->initFromDifficulty(Kg::difficulty());
 #else
-    Settings settings;
-
     p->addLocalizedConfigGroupNames(KGameDifficulty::localizedLevelStrings());
     p->setConfigGroupWeights(KGameDifficulty::levelWeights());
     QPair<QByteArray, QString> group = KGameDifficulty::localizedLevelString();

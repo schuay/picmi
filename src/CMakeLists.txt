@@ -9,7 +9,7 @@ add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 add_definitions(${KDE4_ENABLE_EXCEPTIONS})
 add_definitions(-UQT_NO_STL)
 
-if (CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions("-Wextra -pedantic")
 endif ()
 

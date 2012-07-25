@@ -10,7 +10,11 @@ set(QT_USE_QTXML TRUE)
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
-find_package(LibKDEGames REQUIRED)
+
+find_package(LibKDEGames)
+if (NOT KDEGAMES_FOUND) # LibKDEGames sets KDEGAMES_FOUND (without the 'LIB')
+    find_package(KDEGames REQUIRED)
+endif ()
 
 add_subdirectory(themes)
 add_subdirectory(icons)

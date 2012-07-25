@@ -6,9 +6,12 @@ if (NOT PICMI_FILEPATH)
 endif ()
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-add_definitions("-Wextra -pedantic")
 add_definitions(${KDE4_ENABLE_EXCEPTIONS})
 add_definitions(-UQT_NO_STL)
+
+if (CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions("-Wextra -pedantic")
+endif ()
 
 include(CheckIncludeFileCXX)
 include(${QT_USE_FILE})

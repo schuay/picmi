@@ -31,7 +31,7 @@ public:
     ~SystemException() throw() { }
 
     virtual const char *what() const throw() {
-        return m_msg.toStdString().c_str();
+        return m_msg.toLatin1();
     }
 
 private:

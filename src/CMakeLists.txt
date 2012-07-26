@@ -6,8 +6,11 @@ if (NOT PICMI_FILEPATH)
 endif ()
 
 add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-add_definitions(${KDE4_ENABLE_EXCEPTIONS})
 remove_definitions(-DQT_NO_STL)
+
+# See http://www.cmake.org/pipermail/cmake/2008-June/022381.html
+# and 2a38192c6daba in KDE SVN.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions("-Wextra -pedantic")

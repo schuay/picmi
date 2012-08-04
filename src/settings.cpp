@@ -50,11 +50,7 @@ bool Settings::preventMistakes() const {
     return m_prevent_mistakes;
 }
 
-#ifdef HAVE_KGDIFFICULTY
 KgDifficultyLevel::StandardLevel Settings::level() const {
-#else
-KGameDifficulty::standardLevel Settings::level() const {
-#endif
     return m_level;
 }
 
@@ -98,11 +94,7 @@ void Settings::setPreventMistakes(bool prevent_mistakes) {
     setValue(PreventMistakes, prevent_mistakes);
 }
 
-#ifdef HAVE_KGDIFFICULTY
 void Settings::setLevel(KgDifficultyLevel::StandardLevel level) {
-#else
-void Settings::setLevel(KGameDifficulty::standardLevel level) {
-#endif
     m_level = level;
     setValue(Level, level);
 }
@@ -136,13 +128,8 @@ void Settings::restore() {
     m_height = m_qsettings->value(m_keys[Height], 10).toInt();
     m_box_density = m_qsettings->value(m_keys[BoxDensity], 0.55).toDouble();
     m_prevent_mistakes = m_qsettings->value(m_keys[PreventMistakes], false).toBool();
-#ifdef HAVE_KGDIFFICULTY
     m_level = (KgDifficultyLevel::StandardLevel)m_qsettings->value(m_keys[Level],
         KgDifficultyLevel::Medium).toInt();
-#else
-    m_level = (KGameDifficulty::standardLevel)m_qsettings->value(m_keys[Level],
-        KGameDifficulty::Medium).toInt();
-#endif
     m_custom_bg_enabled = m_qsettings->value(m_keys[CustomBgEnabled], false).toBool();
     m_custom_bg_path = m_qsettings->value(m_keys[CustomBgPath], "").toString();
     m_font_color_solved = m_qsettings->value(m_keys[FontColorSolved], "#555555").toString();

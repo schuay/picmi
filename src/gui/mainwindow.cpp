@@ -50,10 +50,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setupActions();
     restoreWindowState();
 
-#ifndef HAVE_KGDIFFICULTY
-    KGameDifficulty::setLevel(Settings::instance()->level());
-#endif
-
     startRandomGame();
 }
 
@@ -87,7 +83,6 @@ void MainWindow::setupActions() {
     this->statusBar()->addWidget(m_status_position, 1);
     this->statusBar()->addWidget(m_status_time, 1);
 
-#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Easy);
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Medium, true);
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Hard);
@@ -98,14 +93,6 @@ void MainWindow::setupActions() {
     KgDifficultyGUI::init(this);
     connect(Kg::difficulty(), SIGNAL(currentLevelChanged(const KgDifficultyLevel*)), this,
             SLOT(levelChanged(const KgDifficultyLevel*)));
-#else
-    KGameDifficulty::init(this, this, SLOT(levelChanged(KGameDifficulty::standardLevel)), SLOT(customLevelChanged(int)));
-    KGameDifficulty::setRestartOnChange(KGameDifficulty::RestartOnChange);
-    KGameDifficulty::addStandardLevel(KGameDifficulty::Easy);
-    KGameDifficulty::addStandardLevel(KGameDifficulty::Medium);
-    KGameDifficulty::addStandardLevel(KGameDifficulty::Hard);
-    KGameDifficulty::addStandardLevel(KGameDifficulty::Configurable);
-#endif
 
     /* Disable the toolbar configuration menu entry.
      * The default size is used at first start up. */
@@ -120,22 +107,11 @@ void MainWindow::loadBoard() {
     delete w;
 }
 
-#ifdef HAVE_KGDIFFICULTY
 void MainWindow::levelChanged(const KgDifficultyLevel* level) {
     Settings::instance()->setLevel(level->standardLevel());
-#else
-void MainWindow::levelChanged(KGameDifficulty::standardLevel level) {
-    Settings::instance()->setLevel(level);
-#endif
     Settings::instance()->sync();
     startRandomGame();
 }
-
-#ifndef HAVE_KGDIFFICULTY
-void MainWindow::customLevelChanged(int level) {
-    Q_UNUSED(level);
-}
-#endif
 
 void MainWindow::toggleFullscreen(bool full_screen) {
     KToggleFullScreenAction::setFullScreen(this, full_screen);
@@ -218,11 +194,7 @@ void MainWindow::startGame() {
     m_action_load_state->setEnabled(false);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
-#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->setGameRunning(true);
-#else
-    KGameDifficulty::setRunning(true);
-#endif
 
     m_timer.start();
     m_scene = m_view.createScene(m_game);
@@ -255,17 +227,7 @@ void MainWindow::updatePositions() {
 QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
     QSharedPointer<KScoreDialog> p(new KScoreDialog(KScoreDialog::Name | KScoreDialog::Date | KScoreDialog::Time));
 
-#ifdef HAVE_KGDIFFICULTY
     p->initFromDifficulty(Kg::difficulty());
-#else
-    p->addLocalizedConfigGroupNames(KGameDifficulty::localizedLevelStrings());
-    p->setConfigGroupWeights(KGameDifficulty::levelWeights());
-    QPair<QByteArray, QString> group = KGameDifficulty::localizedLevelString();
-    if(group.first.isEmpty()) {
-        group = qMakePair(QByteArray("Custom"), i18n("Custom"));
-    }
-    p->setConfigGroup(group);
-#endif
     p->hideField(KScoreDialog::Score);
 
     return p;
@@ -278,20 +240,12 @@ void MainWindow::gameWon() {
     m_action_undo->setEnabled(false);
     m_action_save_state->setEnabled(false);
     m_action_load_state->setEnabled(false);
-#ifdef HAVE_KGDIFFICULTY
     Kg::difficulty()->setGameRunning(false);
-#else
-    KGameDifficulty::setRunning(false);
-#endif
     m_timer.stop();
     m_in_progress = false;
 
     bool notified = false;
-#ifdef HAVE_KGDIFFICULTY
     if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
-#else
-    if (m_mode == Random) {
-#endif
         QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
         if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
             scoreDialog->exec();

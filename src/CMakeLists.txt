@@ -20,11 +20,6 @@ include(CheckIncludeFileCXX)
 include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
-macro_push_required_vars()
-set(CMAKE_REQUIRED_INCLUDES ${KDE4_INCLUDES} ${KDEGAMES_INCLUDE_DIR})
-check_include_file_cxx(kgdifficulty.h HAVE_KGDIFFICULTY)
-macro_pop_required_vars()
-
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/config.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/config.h"

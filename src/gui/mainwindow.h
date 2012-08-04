@@ -26,12 +26,7 @@
 #include <kaction.h>
 #include <ktoggleaction.h>
 #include <kxmlguiwindow.h>
-
-#ifdef HAVE_KGDIFFICULTY
 #include <kgdifficulty.h>
-#else
-#include <kgamedifficulty.h>
-#endif
 
 #include "scene.h"
 #include "src/logic/levelloader.h" /* TODO: Replace with Level forward declaration
@@ -59,12 +54,7 @@ private slots:
     void saveState();
     void loadState();
     void highscores();
-#ifdef HAVE_KGDIFFICULTY
     void levelChanged(const KgDifficultyLevel* level);
-#else
-    void levelChanged(KGameDifficulty::standardLevel level);
-    void customLevelChanged(int level);
-#endif
     void updatePlayedTime();
     void updatePositions();
     void loadBoard();

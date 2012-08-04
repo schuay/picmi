@@ -23,12 +23,7 @@
 #include <QSettings>
 #include <QVector>
 #include <QSharedPointer>
-
-#ifdef HAVE_KGDIFFICULTY
 #include <kgdifficulty.h>
-#else
-#include <kgamedifficulty.h>
-#endif
 
 class Settings : public QObject
 {
@@ -51,11 +46,7 @@ public:
     int height() const;
     double boxDensity() const;
     bool preventMistakes() const;
-#ifdef HAVE_KGDIFFICULTY
     KgDifficultyLevel::StandardLevel level() const;
-#else
-    KGameDifficulty::standardLevel level() const;
-#endif
     bool customBgEnabled() const;
     QString customBgPath() const;
     QString fontColorSolved() const;
@@ -65,11 +56,7 @@ public:
     void setHeight(int height);
     void setBoxDensity(double box_density);
     void setPreventMistakes(bool prevent_mistakes);
-#ifdef HAVE_KGDIFFICULTY
     void setLevel(KgDifficultyLevel::StandardLevel level);
-#else
-    void setLevel(KGameDifficulty::standardLevel level);
-#endif
     void setCustomBgEnabled(bool enabled);
     void setCustomBgPath(const QString &path);
     void setFontColorSolved(const QString &color);
@@ -94,11 +81,7 @@ private:
     int m_width, m_height;
     double m_box_density;
     bool m_prevent_mistakes;
-#ifdef HAVE_KGDIFFICULTY
     KgDifficultyLevel::StandardLevel m_level;
-#else
-    KGameDifficulty::standardLevel m_level;
-#endif
     bool m_custom_bg_enabled;
     QString m_custom_bg_path;
     QString m_font_color_unsolved, m_font_color_solved;

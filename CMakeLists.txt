@@ -10,7 +10,7 @@ set(QT_USE_QTXML TRUE)
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
-find_package(KDEGames REQUIRED)
+find_package(KDEGames 4.9.0 REQUIRED)
 
 add_subdirectory(themes)
 add_subdirectory(icons)

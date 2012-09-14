@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
                       KAboutData::License_GPL_V2,
                       ki18n("(c) 2012 The Picmi Authors"),
                       KLocalizedString(),
-                      "https://projects.kde.org/projects/extragear/games/picmi");
+                      "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(ki18n("Jakob Gruber"), ki18n("Picmi Author"), "jakob.gruber@gmail.com");
 
     KCmdLineArgs::init(argc, argv, &about);

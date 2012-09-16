@@ -94,7 +94,7 @@ QVariant LevelTableModel::headerData(int section, Qt::Orientation orientation, i
         case LevelSet: return QVariant(ki18n("Level Set").toString());
         case Difficulty: return QVariant(ki18n("Difficulty").toString());
         case Size: return QVariant(ki18n("Size").toString());
-        case Solved: return QVariant(ki18n("Solved").toString());
+        case Solved: return QVariant(ki18nc("board solved", "Solved").toString());
         default: assert(0);
         }
     }

@@ -35,7 +35,7 @@
             <item>
              <widget class="QRadioButton" name="bgDefaultRadioButton">
               <property name="text">
-               <string>Default</string>
+               <string comment="default background image">Default</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -45,7 +45,7 @@
             <item>
              <widget class="QRadioButton" name="bgCustomRadioButton">
               <property name="text">
-               <string>Custom</string>
+               <string comment="custom background image">Custom</string>
               </property>
              </widget>
             </item>

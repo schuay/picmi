@@ -87,7 +87,7 @@ void MainWindow::setupActions() {
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Medium, true);
     Kg::difficulty()->addStandardLevel(KgDifficultyLevel::Hard);
 
-    KgDifficultyLevel *configurable = new KgDifficultyLevel(90, QByteArray("Custom"), i18n("Custom"));
+    KgDifficultyLevel *configurable = new KgDifficultyLevel(90, QByteArray("Custom"), i18nc("custom difficulty", "Custom"));
     Kg::difficulty()->addLevel(configurable);
 
     KgDifficultyGUI::init(this);

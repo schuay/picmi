@@ -215,8 +215,8 @@ void MainWindow::startGame() {
 }
 
 void MainWindow::updatePlayedTime() {
-    m_status_time->setText(i18n("Elapsed time") + QString(": %1")
-                           .arg(Time(m_game->elapsedSecs()).toString()));
+    m_status_time->setText(i18n("Elapsed time: %1",
+                                Time(m_game->elapsedSecs()).toString()));
 }
 
 void MainWindow::updatePositions() {

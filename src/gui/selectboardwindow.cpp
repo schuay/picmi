@@ -165,18 +165,19 @@ QString SelectBoardWindow::diffString(int difficulty) const {
 }
 
 void SelectBoardWindow::updateDetails(QSharedPointer<Level> level) {
-    ui->labelName->setText(QString("%1: %2").arg(ki18n("Name").toString(), level->visibleName()));
-    ui->labelAuthor->setText(QString("%1: %2").arg(ki18n("Author").toString(), level->author()));
-    ui->labelSize->setText(QString("%1: %2x%3").arg(ki18n("Size").toString()).arg(level->width()).arg(level->height()));
-    ui->labelDifficulty->setText(QString("%1: %2").arg(ki18n("Difficulty").toString()).arg(diffString(level->difficulty())));
+    ui->labelName->setText(i18n("Name: %1", level->visibleName()));
+    ui->labelAuthor->setText(i18n("Author: %1", level->author()));
+    ui->labelSize->setText(i18n("Size: %1x%2", level->width(), level->height()));
+    ui->labelDifficulty->setText(i18n("Difficulty: %1", diffString(level->difficulty())));
     if (level->solved()) {
-        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString()).arg(Time(level->solvedTime()).toString()));
+        ui->labelSolved->setText(i18nc("board solve time", "Solved: %1",
+                                       Time(level->solvedTime()).toString()));
         QPixmap scaled = level->preview().scaled(ui->labelImage->size(),
                                                  Qt::KeepAspectRatio,
                                                  Qt::FastTransformation);
         ui->labelImage->setPixmap(scaled);
     } else {
-        ui->labelSolved->setText(QString("%1: %2").arg(ki18n("Solved").toString(), "-"));
+        ui->labelSolved->setText(i18nc("board not solved yet", "Solved: -"));
         ui->labelImage->setText("?");
     }
 }

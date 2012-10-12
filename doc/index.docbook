@@ -7,8 +7,8 @@
 <!ENTITY % addindex "IGNORE">
 ]>
 
-<book lang="&language;">
-<bookinfo>
+<book id="picmi" lang="&language;">
+<book id="picmi"info>
 <title>The &picmi; Handbook</title>
 
 <authorgroup>

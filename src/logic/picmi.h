@@ -73,7 +73,7 @@ public:
     QPoint undo();
 
     /* if a saved state exists, load it. otherwise, do nothing */
-    void loadState() { m_state->loadState(); emit stateChanged(); }
+    void loadState() { m_state->loadState(); m_streaks->update(); emit stateChanged(); }
     void saveState() { m_state->saveState(); }
     int currentStateAge() const { return m_state->currentStateAge(); }
 

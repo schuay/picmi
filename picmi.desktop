@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=picmi
+Name[bs]=picmi
 Name[cs]=picmi
 Name[da]=picmi
 Name[de]=picmi
@@ -27,6 +28,7 @@ Name[uk]=picmi
 Name[x-test]=xxpicmixx
 Name[zh_TW]=picmi
 GenericName=Logic Game
+GenericName[bs]=Logička igra
 GenericName[cs]=Logická hra
 GenericName[da]=Logikspil
 GenericName[de]=Logikspiel
@@ -54,6 +56,7 @@ GenericName[uk]=Гра на логіку
 GenericName[x-test]=xxLogic Gamexx
 GenericName[zh_TW]=智力遊戲
 Comment=A number logic game
+Comment[bs]=Logička igra s brojevima
 Comment[cs]=Logická hra s čísly
 Comment[da]=Et spil med tallogik
 Comment[de]=Ein Logikspiel mit Zahlen

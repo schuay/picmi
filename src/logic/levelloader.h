@@ -37,8 +37,8 @@ class Level
 public:
     Level();
 
-    QString name() const { return m_name; }
-    QString author() const { return m_author; }
+    QString name() const;
+    QString author() const;
     QString levelset() const { return m_levelset; }
     int difficulty() const { return m_difficulty; }
     int width() const { return m_width; }

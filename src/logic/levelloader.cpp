@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QSettings>
 #include <kglobal.h>
+#include <klocale.h>
 #include <kstandarddirs.h>
 
 #include "src/systemexception.h"
@@ -65,6 +66,16 @@ QString Level::visibleName() const
     }
     /* Mask the real name if unsolved. Unicode 0x26AB is the bullet point ('⚫') */
     return QString(name().length(), QChar(0x26AB));
+}
+
+QString Level::name() const {
+    QByteArray bytes = m_name.toUtf8();
+    return i18n(bytes.constData());
+}
+
+QString Level::author() const {
+    QByteArray bytes = m_author.toUtf8();
+    return i18n(bytes.constData());
 }
 
 QString Level::key() const {

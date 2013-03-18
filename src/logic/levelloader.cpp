@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QSettings>
 #include <kglobal.h>
+#include <klocale.h>
 #include <kstandarddirs.h>
 
 #include "src/systemexception.h"
@@ -49,7 +50,7 @@ void LevelList::append(const QList<QSharedPointer<Level> > &t) {
 
 bool LevelList::containsLevel(QSharedPointer<Level> level) const {
     for (int i = 0; i < size(); i++) {
-        if (at(i)->name() == level->name() && at(i)->author() == level->author()) {
+        if (*at(i) == *level) {
             return true;
         }
     }
@@ -65,6 +66,16 @@ QString Level::visibleName() const
     }
     /* Mask the real name if unsolved. Unicode 0x26AB is the bullet point ('⚫') */
     return QString(name().length(), QChar(0x26AB));
+}
+
+QString Level::name() const {
+    QByteArray bytes = m_name.toUtf8();
+    return i18n(bytes.constData());
+}
+
+QString Level::author() const {
+    QByteArray bytes = m_author.toUtf8();
+    return i18n(bytes.constData());
 }
 
 QString Level::key() const {
@@ -116,6 +127,10 @@ void Level::setSolved(int seconds) {
     m_solved = true;
     m_solved_time = seconds;
     writeSettings(seconds);
+}
+
+bool Level::operator==(const Level &that) const {
+    return (that.m_name == m_name && that.m_author == m_author);
 }
 
 QList<QSharedPointer<Level> > LevelLoader::load() {

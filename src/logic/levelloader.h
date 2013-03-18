@@ -37,8 +37,8 @@ class Level
 public:
     Level();
 
-    QString name() const { return m_name; }
-    QString author() const { return m_author; }
+    QString name() const;
+    QString author() const;
     QString levelset() const { return m_levelset; }
     int difficulty() const { return m_difficulty; }
     int width() const { return m_width; }
@@ -50,6 +50,8 @@ public:
     bool solved() const { return m_solved; }
     int solvedTime() const { return m_solved_time; }
     void setSolved(int seconds);
+
+    bool operator==(const Level &that) const;
 
 private:
     void finalize(); /* needs to be called by loader when done constructing */

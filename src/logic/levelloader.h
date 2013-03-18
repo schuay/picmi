@@ -51,6 +51,8 @@ public:
     int solvedTime() const { return m_solved_time; }
     void setSolved(int seconds);
 
+    bool operator==(const Level &that) const;
+
 private:
     void finalize(); /* needs to be called by loader when done constructing */
     void constructPreview();

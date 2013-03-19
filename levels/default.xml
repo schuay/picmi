@@ -325,7 +325,7 @@
         <row>---1111----111-</row>
     </board>
 
-    <board name="Wine Glas" author="Jakob Gruber" difficulty="2">
+    <board name="Wine Glass" author="Jakob Gruber" difficulty="2">
         <row>--111111111111--</row>
         <row>-11111111111111-</row>
         <row>-1------------1-</row>
@@ -347,7 +347,7 @@
         <row>----11111111----</row>
     </board>
 
-    <board name="Cocktail Glas" author="Jakob Gruber" difficulty="2">
+    <board name="Cocktail Glass" author="Jakob Gruber" difficulty="2">
         <row>1111--------</row>
         <row>---11--1111-</row>
         <row>----1-11--11</row>

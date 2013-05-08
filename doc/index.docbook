@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
-<!ENTITY picmi "<application>picmi</application>">
+<!ENTITY picmi "<application>Picmi</application>">
 <!ENTITY kappname "&picmi;">
 <!ENTITY package "kdegames">
 <!ENTITY % English "INCLUDE">

@@ -221,6 +221,9 @@ Saves the current board position.
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo>
+</shortcut>
 <guimenu>Settings</guimenu>
 <guimenuitem>Full Screen Mode</guimenuitem>
 </menuchoice></term>

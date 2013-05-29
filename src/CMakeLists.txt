@@ -42,6 +42,7 @@ set(picmi_SRCS
     systemexception.cpp
 )
 
+kde4_add_app_icon(picmi_SRCS "${CMAKE_SOURCE_DIR}/icons/hi*-apps-picmi.png")
 kde4_add_executable(picmi
     ${picmi_SRCS}
 )

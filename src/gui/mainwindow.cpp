@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::setupActions() {
     KStandardGameAction::gameNew(this, SLOT(startRandomGame()), actionCollection());
     KStandardGameAction::load(this, SLOT(loadBoard()), actionCollection());
+    KStandardGameAction::restart(this, SLOT(restartGame()), actionCollection());
     KStandardGameAction::highscores(this, SLOT(highscores()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
     KStandardAction::preferences(this, SLOT(settings()), actionCollection());
@@ -170,6 +171,13 @@ void MainWindow::loadState() {
 void MainWindow::startRandomGame() {
     m_game = QSharedPointer<Picmi>(new Picmi());
     m_mode = Random;
+
+    startGame();
+}
+
+void MainWindow::restartGame()
+{
+    m_game = QSharedPointer<Picmi>(new Picmi(m_game->getBoardMap()));
 
     startGame();
 }

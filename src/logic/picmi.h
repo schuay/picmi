@@ -57,6 +57,7 @@ public:
     int width() const;
     int height() const;
     int remainingBoxCount() const { return m_map->boxCount() - m_state->boxCount(); }
+    QSharedPointer<BoardMap> getBoardMap() const { return m_map; }
     bool outOfBounds(int x, int y) const;
 
     /* 0 <= x < width(); 0 <= y < height() */

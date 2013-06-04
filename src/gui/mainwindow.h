@@ -44,9 +44,10 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
-    
+
 private slots:
     void startRandomGame();
+    void restartGame();
     void togglePaused(bool paused);
     void settings();
     void gameWon();

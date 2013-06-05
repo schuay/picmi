@@ -52,6 +52,7 @@ private slots:
     void settings();
     void gameWon();
     void undo();
+    void hint();
     void saveState();
     void loadState();
     void highscores();
@@ -80,7 +81,7 @@ private:
     QSharedPointer<KScoreDialog> createScoreDialog();
     void setupActions();
 
-    KAction *m_action_undo, *m_action_save_state, *m_action_load_state;
+    KAction *m_action_undo, *m_action_save_state, *m_action_load_state, *m_action_hint;
     KToggleAction *m_action_pause;
     QLabel *m_status_time, *m_status_position;
     View m_view;

@@ -73,6 +73,8 @@ public:
     /* undo last action (if it exists) and return the changed coordinate. */
     QPoint undo();
 
+    QPoint hint();
+
     /* if a saved state exists, load it. otherwise, do nothing */
     void loadState() { m_state->loadState(); m_streaks->update(); emit stateChanged(); }
     void saveState() { m_state->saveState(); }

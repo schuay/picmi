@@ -64,6 +64,7 @@ void MainWindow::setupActions() {
     m_action_pause = KStandardGameAction::pause(this, SLOT(togglePaused(bool)), actionCollection());
     m_action_undo = KStandardGameAction::undo(this, SLOT(undo()), actionCollection());
     m_action_hint = KStandardGameAction::hint(this, SLOT(hint()), actionCollection());
+    m_action_solve = KStandardGameAction::solve(this, SLOT(solve()), actionCollection());
 
     m_action_save_state = actionCollection()->addAction("save-position");
     m_action_save_state->setText(i18n("Save Position"));
@@ -166,6 +167,11 @@ void MainWindow::hint()
     m_scene->hover(p.x(), p.y());
 }
 
+void MainWindow::solve()
+{
+    /* TODO */
+}
+
 void MainWindow::saveState() {
     m_game->saveState();
     updatePositions();
@@ -207,6 +213,7 @@ void MainWindow::startGame() {
 
     m_action_undo->setEnabled(false);
     m_action_hint->setEnabled(true);
+    m_action_solve->setEnabled(true);
     m_action_save_state->setEnabled(true);
     m_action_load_state->setEnabled(false);
     m_action_pause->setEnabled(true);
@@ -254,6 +261,7 @@ void MainWindow::gameWon() {
     KScoreDialog::FieldInfo score = m_game->endGame();
     m_view.setEnabled(false);
     m_action_pause->setEnabled(false);
+    m_action_solve->setEnabled(false);
     m_action_hint->setEnabled(false);
     m_action_undo->setEnabled(false);
     m_action_save_state->setEnabled(false);
@@ -295,6 +303,7 @@ void MainWindow::togglePaused(bool paused) {
     m_view.setPaused(paused);
     m_action_undo->setEnabled(!paused);
     m_action_hint->setEnabled(!paused);
+    m_action_solve->setEnabled(!paused);
     m_action_save_state->setEnabled(!paused);
     m_action_load_state->setEnabled(!paused);
 

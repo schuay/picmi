@@ -169,7 +169,9 @@ void MainWindow::hint()
 
 void MainWindow::solve()
 {
-    /* TODO */
+    m_game->solve();
+    m_scene->refresh();
+    finalizeGame();
 }
 
 void MainWindow::saveState() {

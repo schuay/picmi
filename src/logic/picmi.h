@@ -73,6 +73,7 @@ public:
     /* undo last action (if it exists) and return the changed coordinate. */
     QPoint undo();
 
+    /* Uncovers a single, random, still uncovered cell. */
     QPoint hint();
 
     /* Solves the entire board, but does not emit the gameWon signal. */

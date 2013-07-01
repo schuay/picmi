@@ -169,26 +169,32 @@ QPoint Picmi::undo() {
 
 QPoint Picmi::hint()
 {
-    QVector<QPoint> empty_cells;
+    QVector<QPoint> incorrect_cells;
     for (int x = 0; x != width(); ++x) {
         for (int y = 0; y != height(); ++y) {
-            if (stateAt(x, y) == Board::Nothing) {
-                empty_cells.push_back(QPoint(x, y));
+            const Board::State m = m_map->get(x, y);
+            const Board::State s = m_state->get(x, y);
+
+            if ((m == Board::Box && s != Board::Box) ||
+                (m == Board::Nothing && s != Board::Cross)) {
+                incorrect_cells.push_back(QPoint(x, y));
             }
         }
     }
 
-    if (empty_cells.size() == 0) {
+    if (incorrect_cells.size() == 0) {
         return QPoint(0, 0);
     }
 
-    const int idx = rand() % empty_cells.size();
-    const QPoint cell(empty_cells.at(idx));
+    const int idx = rand() % incorrect_cells.size();
+    const QPoint cell(incorrect_cells.at(idx));
     Board::State state = m_map->get(cell.x(), cell.y());
     if (state == Board::Nothing) {
         state = Board::Cross;
     }
 
+    /* Clear the state in order to ensure the subsequent setState succeeds. */
+    m_state->set(cell.x(), cell.y(), Board::Nothing);
     setState(cell.x(), cell.y(), state);
     m_timer.addPenaltyTime();
     return cell;

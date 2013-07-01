@@ -76,6 +76,10 @@ private:
     void startGame();
     void startPresetGame(QSharedPointer<Level> board);
 
+    /* Once a game is finished, updates action states, stops running timers,
+       and generally update the UI and state variables for a stopped game. */
+    void finalizeGame();
+
     void restoreWindowState();
     void saveWindowState();
     void pauseGame();

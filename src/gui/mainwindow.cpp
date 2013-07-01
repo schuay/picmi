@@ -258,18 +258,9 @@ QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
 }
 
 void MainWindow::gameWon() {
-    KScoreDialog::FieldInfo score = m_game->endGame();
-    m_view.setEnabled(false);
-    m_action_pause->setEnabled(false);
-    m_action_solve->setEnabled(false);
-    m_action_hint->setEnabled(false);
-    m_action_undo->setEnabled(false);
-    m_action_save_state->setEnabled(false);
-    m_action_load_state->setEnabled(false);
-    Kg::difficulty()->setGameRunning(false);
-    m_timer.stop();
-    m_in_progress = false;
+    finalizeGame();
 
+    KScoreDialog::FieldInfo score = m_game->endGame();
     bool notified = false;
     if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
         QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
@@ -288,6 +279,19 @@ void MainWindow::gameWon() {
     }
 
     m_view.setFocus();
+}
+
+void MainWindow::finalizeGame() {
+    m_view.setEnabled(false);
+    m_action_pause->setEnabled(false);
+    m_action_solve->setEnabled(false);
+    m_action_hint->setEnabled(false);
+    m_action_undo->setEnabled(false);
+    m_action_save_state->setEnabled(false);
+    m_action_load_state->setEnabled(false);
+    Kg::difficulty()->setGameRunning(false);
+    m_timer.stop();
+    m_in_progress = false;
 }
 
 void MainWindow::highscores() {

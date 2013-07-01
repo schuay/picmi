@@ -194,6 +194,11 @@ QPoint Picmi::hint()
     return cell;
 }
 
+void Picmi::solve() {
+    m_state->solve(m_map.data());
+    endGame();
+}
+
 KScoreDialog::FieldInfo Picmi::endGame() {
     m_timer.stop();
 

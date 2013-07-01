@@ -75,6 +75,9 @@ public:
 
     QPoint hint();
 
+    /* Solves the entire board, but does not emit the gameWon signal. */
+    void solve();
+
     /* if a saved state exists, load it. otherwise, do nothing */
     void loadState() { m_state->loadState(); m_streaks->update(); emit stateChanged(); }
     void saveState() { m_state->saveState(); }

@@ -63,6 +63,10 @@ public:
        bookkeeping information (undo history, box count) is _not_ updated */
     void replace(enum State prev, enum State next);
 
+    /* Copies the board to this state. Like replace(), bookkeeping
+       information is not updated since this is the final action in a game. */
+    void solve(const Board *board);
+
 signals:
     void undoStackSizeChanged(int size);
     void saveStackSizeChanged(int size);

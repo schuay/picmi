@@ -122,3 +122,16 @@ void BoardState::replace(State prev, State next) {
         }
     }
 }
+
+void BoardState::solve(const Board *board) {
+    assert(board->width() == width());
+    assert(board->height() == height());
+
+    for (int y = 0; y < height(); y++) {
+        for (int x = 0; x < width(); x++) {
+            m_state[xy_to_i(x, y)] = board->get(x, y);
+        }
+    }
+
+    replace(Board::Nothing, Board::Cross);
+}

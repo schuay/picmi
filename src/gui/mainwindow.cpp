@@ -177,7 +177,7 @@ void MainWindow::solve()
 {
     m_game->solve();
     m_scene->refresh();
-    finalizeGame();
+    gameCompleted();
 }
 
 void MainWindow::saveState() {
@@ -239,6 +239,7 @@ void MainWindow::startGame() {
 
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
     connect(m_game.data(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
+    connect(m_game.data(), SIGNAL(gameCompleted()), this, SLOT(gameCompleted()));
     connect(m_game.data(), SIGNAL(gameWon()), this, SLOT(gameWon()));
     connect(m_game.data(), SIGNAL(undoStackSizeChanged(int)), this, SLOT(undoStackSizeChanged(int)));
     connect(m_game.data(), SIGNAL(saveStackSizeChanged(int)), this, SLOT(saveStackSizeChanged(int)));
@@ -266,8 +267,6 @@ QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
 }
 
 void MainWindow::gameWon() {
-    finalizeGame();
-
     KScoreDialog::FieldInfo score = m_game->endGame();
     bool notified = false;
     if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
@@ -289,7 +288,7 @@ void MainWindow::gameWon() {
     m_view.setFocus();
 }
 
-void MainWindow::finalizeGame() {
+void MainWindow::gameCompleted() {
     m_view.setEnabled(false);
     m_action_pause->setEnabled(false);
     m_action_solve->setEnabled(false);

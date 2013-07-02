@@ -203,6 +203,7 @@ QPoint Picmi::hint()
 void Picmi::solve() {
     m_state->solve(m_map.data());
     endGame();
+    emit gameCompleted();
 }
 
 KScoreDialog::FieldInfo Picmi::endGame() {
@@ -242,6 +243,7 @@ void Picmi::setState(int x, int y, Board::State state) {
     emit stateChanged();
     if (m_state->boxCount() == m_map->boxCount() && won()) {
         m_state->replace(Board::Nothing, Board::Cross);
+        emit gameCompleted();
         emit gameWon();
     }
 }

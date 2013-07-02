@@ -91,6 +91,10 @@ public:
     QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
 
 signals:
+    /** Emitted when the game has been completed in any way. Also triggered if "Solve" was used. */
+    void gameCompleted();
+
+    /** Emitted when the game has actually been won (i.e. "Solve" wasn't used). */
     void gameWon();
 
     /**

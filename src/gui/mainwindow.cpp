@@ -66,6 +66,9 @@ void MainWindow::setupActions() {
     m_action_hint = KStandardGameAction::hint(this, SLOT(hint()), actionCollection());
     m_action_solve = KStandardGameAction::solve(this, SLOT(solve()), actionCollection());
 
+    /* Prevent the default hint shortcut from overwriting our HJKL vim-like control mapping. */
+    m_action_hint->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_I));
+
     m_action_save_state = actionCollection()->addAction("save-position");
     m_action_save_state->setText(i18n("Save Position"));
     m_action_save_state->setIcon(KIcon("list-add"));

@@ -163,8 +163,11 @@ void MainWindow::undo() {
 void MainWindow::hint()
 {
     QPoint p = m_game->hint();
-    m_scene->refresh(p);
-    m_scene->hover(p.x(), p.y());
+
+    if (m_in_progress) {
+        m_scene->refresh(p);
+        m_scene->hover(p.x(), p.y());
+    }
 }
 
 void MainWindow::solve()

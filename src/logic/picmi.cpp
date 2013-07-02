@@ -202,6 +202,7 @@ QPoint Picmi::hint()
 
 void Picmi::solve() {
     m_state->solve(m_map.data());
+    m_streaks->update();
     endGame();
     emit gameCompleted();
 }

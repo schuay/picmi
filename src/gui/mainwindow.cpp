@@ -176,8 +176,6 @@ void MainWindow::hint()
 void MainWindow::solve()
 {
     m_game->solve();
-    m_scene->refresh();
-    gameCompleted();
 }
 
 void MainWindow::saveState() {

@@ -12,11 +12,14 @@ find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
 find_package(KDEGames 4.9.0 REQUIRED)
 
+include(KDE4Defaults)
+
 add_subdirectory(themes)
 add_subdirectory(icons)
 add_subdirectory(doc)
 add_subdirectory(levels)
 add_subdirectory(src)
+add_subdirectory(test)
 
 install(FILES ${CMAKE_SOURCE_DIR}/picmi.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${DATA_INSTALL_DIR}/picmi)

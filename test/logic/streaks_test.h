@@ -9,6 +9,7 @@ class StreaksTest : public QObject
 
 private slots:
     void testSanity();
+    void test00();
 };
 
 #endif /* __STREAKS_TEST_H */

@@ -161,3 +161,45 @@ void StreaksTest::test06()
                 "b........b",
                 "xx");
 }
+
+void StreaksTest::test07()
+{
+    STREAK_TEST("b.b.......",
+                "bxb....bxb",
+                "..");
+}
+
+void StreaksTest::test08()
+{
+    STREAK_TEST("b.b.......",
+                "bxb.......",
+                "xx");
+}
+
+void StreaksTest::test09()
+{
+    STREAK_TEST("b.bb.bbb.",
+                "bxbb..bbb",
+                "xxx");
+}
+
+void StreaksTest::test10()
+{
+    STREAK_TEST("b.bb.bbb.",
+                "bxb...bbb",
+                "x.x");
+}
+
+void StreaksTest::test11()
+{
+    STREAK_TEST("b.bb.bbb.",
+                "bxbbxxbbb",
+                "xxx");
+}
+
+void StreaksTest::test12()
+{
+    STREAK_TEST("bb.b.....",
+                "bb...xbxb",
+                ".x");
+}

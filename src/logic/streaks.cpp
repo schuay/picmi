@@ -134,8 +134,36 @@ static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
         const QVector<Streak> &map, QSharedPointer<LineInfo> state)
 {
     QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
+    QVector<Streak *> assocs(map.size(), NULL);
 
-    /* TODO */
+    if (state->streaks_regular.size() > map.size() ||
+        state->streaks_reversed.size() > map.size()) {
+        return streak;
+    }
+
+    /* The concept of this check is fairly simple, and consists of two passes:
+     * 1. Compare and match the regular state streaks to map streaks.
+     * 2. Compare and match the reverse state streaks to map streaks.
+     * A streak is solved, iff it is matched with exactly one streak (reverse
+     * or regular), or it is matched with two and their begin and end indices match.
+     */
+
+    for (int i = 0; i < state->streaks_regular.size(); i++) {
+        streak[i]->solved = (streak[i]->value == state->streaks_regular[i].count);
+        assocs[i] = &state->streaks_regular[i];
+    }
+
+    for (int i = 0; i < state->streaks_reversed.size(); i++) {
+        const int ix = map.size() - i - 1;
+
+        streak[ix]->solved = (streak[ix]->value == state->streaks_reversed[i].count);
+
+        if (assocs[ix] != NULL) {
+            const bool range_matches = (assocs[ix]->begin == state->streaks_reversed[i].begin &&
+                                        assocs[ix]->end   == state->streaks_reversed[i].end);
+            streak[ix]->solved &= range_matches;
+        }
+    }
 
     return streak;
 }

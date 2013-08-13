@@ -24,29 +24,28 @@ static QVector<Board::State> colToLine(const QSharedPointer<Board> &board, int x
 static QVector<Board::State> rowToLine(const QSharedPointer<Board> &board, int y);
 
 /* takes a sequence of states and returns streaks */
-static QVector<int> lineToStreaks(
+static QVector<Streak> lineToStreaks(
         const QVector<Board::State> &line, Board::State filler);
 
-static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<int> &map);
+static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<Streak> &map);
 static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
-        const QVector<int> &map, QSharedPointer<LineInfo> state);
+        const QVector<Streak> &map, QSharedPointer<LineInfo> state);
 
 
-LineInfo::LineInfo(const QVector<Board::State> &l) : box_count(0), cross_count(0)
+LineInfo::LineInfo(const QVector<Board::State> &l)
 {
-    line = l;
     streaks_regular = lineToStreaks(l, Board::Cross);
 
     QVector<Board::State> line_reversed(l);
     std::reverse(line_reversed.begin(), line_reversed.end());
     streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
 
-    for (int i = 0; i < (int)l.size(); i++) {
-        if (l[i] == Board::Box) {
-            box_count++;
-        } else if (l[i] == Board::Cross) {
-            cross_count++;
-        }
+    /* Fix begin and end indices of reversed streaks. */
+
+    for (int i = 0; i < streaks_reversed.size(); i++) {
+        streaks_reversed[i].begin = l.size() - streaks_reversed[i].begin - 1;
+        streaks_reversed[i].end   = l.size() - streaks_reversed[i].end - 1;
+        qSwap(streaks_reversed[i].begin, streaks_reversed[i].end);
     }
 }
 
@@ -72,96 +71,85 @@ static QVector<Board::State> rowToLine(const QSharedPointer<Board> &board,
     return line;
 }
 
-static QVector<int> lineToStreaks(const QVector<Board::State> &line,
+/**
+ * Streaks are generated using a simple state machine. Either we're in a filler
+ * section (Nothing for map streaks, Cross for state streaks), or we're in a Box
+ * streak. A final possibility is that we're done processing.
+ */
+
+enum {
+    S_FILLER,
+    S_STREAK,
+    S_END
+};
+
+static QVector<Streak> lineToStreaks(const QVector<Board::State> &line,
                                   Board::State filler)
 {
-    int len = 0;
-    QVector<int> streaks;
+    Streak s;
+    QVector<Streak> streaks;
+    int state = S_FILLER;
 
     for (int i = 0; i < line.size(); i++) {
-        if (line[i] == Board::Box) {
-            len++;
-        } else if (line[i] == filler) {
-            if (len > 0) {
-                streaks.push_back(len);
-                len = 0;
+        const Board::State t = line[i];
+
+        switch (state) {
+        case S_FILLER:
+            if (t == Board::Box) {
+                s.begin = i;
+                s.count = 0;
+                state = S_STREAK;
+            } else if (t == filler) {
+                /* Nothing. */
+            } else {
+                state = S_END;
             }
-        } else {
             break;
+        case S_STREAK:
+            if (t == Board::Box) {
+                /* Nothing. */
+            } else {
+                s.end = i - 1;
+                s.count = s.end - s.begin + 1;
+                streaks.append(s);
+                state = (t == filler) ? S_FILLER : S_END;
+            }
+            break;
+        case S_END:
+        default:
+            return streaks;
         }
     }
 
-    if (len > 0) {
-        streaks.push_back(len);
-        len = 0;
+    if (state == S_STREAK) {
+        s.end = line.size() - 1;
+        s.count = s.end - s.begin + 1;
+        streaks.append(s);
     }
 
     return streaks;
 }
 
 static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
-        const QVector<int> &map, QSharedPointer<LineInfo> state)
+        const QVector<Streak> &map, QSharedPointer<LineInfo> state)
 {
-    const bool line_complete = (state->box_count + state->cross_count == (int)state->line.size());
     QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
 
-    /* line is not completely filled, so state and state_reversed are disjoint. */
-    if (!line_complete && (state->streaks_regular.size() + state->streaks_reversed.size() > map.size())) {
-        return streak;
-    }
-
-    bool solved = (map.size() == state->streaks_regular.size());
-    int upper_bound = qMin(map.size(), state->streaks_regular.size());
-    for (int i = 0; i < upper_bound; i++) {
-        if (map[i] != state->streaks_regular[i]) {
-            solved = false;
-            break;
-        }
-        streak[i]->solved = true;
-    }
-
-    /* if the line has been filled completely with either crosses or boxes, we already have enough information
-       here */
-
-    if (line_complete) {
-        return (solved ? streak : newStreak(map));
-    }
-
-    upper_bound = qMin(map.size(), state->streaks_reversed.size());
-    for (int i = 0; i < upper_bound; i++) {
-        /* streak is "reversed" -> process state streak from front, map streak from back */
-        int index = map.size() - 1 - i;
-        if (map[index] != state->streaks_reversed[i]) {
-            break;
-        }
-        streak[index]->solved = true;
-    }
-
-    bool fully_solved = true;
-    int actual_box_count = 0;
-    for (int i = 0; i < (int)streak.size(); i++) {
-        if (!streak[i]->solved) {
-            fully_solved = false;
-            break;
-        }
-        actual_box_count += streak[i]->value;
-    }
-    if (fully_solved && actual_box_count != state->box_count) {
-        return newStreak(map);
-    }
+    /* TODO */
 
     return streak;
 }
 
-static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<int> &map)
+static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<Streak> &map)
 {
     QVector<QSharedPointer<Streaks::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
         QSharedPointer<Streaks::StreakElement> element(new Streaks::StreakElement);
-        element->value = map[i];
+        element->value = map[i].count;
         element->solved = false;
         streak.push_back(element);
     }
+
     return streak;
 }
 

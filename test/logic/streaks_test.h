@@ -10,6 +10,12 @@ class StreaksTest : public QObject
 private slots:
     void testSanity();
     void test00();
+    void test01();
+    void test02();
+    void test03();
+    void test04();
+    void test05();
+    void test06();
 };
 
 #endif /* __STREAKS_TEST_H */

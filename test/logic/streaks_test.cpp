@@ -118,4 +118,46 @@ void StreaksTest::test00()
                 "xx.xx");
 }
 
+void StreaksTest::test01()
+{
+    /* Lifted from https://bugs.kde.org/show_bug.cgi?id=321842 */
+    STREAK_TEST("bb.b.bbbb.bbb.b",
+                "bbxbxbb.bxb.bxb",
+                "xx..x");
+}
+
+void StreaksTest::test02()
+{
+    /* Lifted from https://bugs.kde.org/show_bug.cgi?id=321842 */
+    STREAK_TEST("bb.b.bbbb.bbb.b",
+                "bbxbxbbbbxbbbxb",
+                "xxxxx");
+}
+
+void StreaksTest::test03()
+{
+    STREAK_TEST("bb.b.bbbb.bbb.b",
+                "bbxbxbbbbxbb...",
+                "xxx..");
+}
+
+void StreaksTest::test04()
+{
+    STREAK_TEST("bb.b.bbbb.bbb.b",
+                "bbxbxbbbbxbbb..",
+                "xxxx.");
+}
+
+void StreaksTest::test05()
+{
+    STREAK_TEST("b.b.......",
+                "bxb....bxb",
+                "..");
+}
+
+void StreaksTest::test06()
+{
+    STREAK_TEST("b.b.......",
+                "b........b",
+                "xx");
 }

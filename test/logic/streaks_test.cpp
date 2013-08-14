@@ -203,3 +203,10 @@ void StreaksTest::test12()
                 "bb...xbxb",
                 ".x");
 }
+
+void StreaksTest::test13()
+{
+    STREAK_TEST("b.b.b.b.bb",
+                "bbbxbxb...",
+                ".xx..");
+}

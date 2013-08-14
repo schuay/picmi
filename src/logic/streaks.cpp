@@ -109,8 +109,12 @@ QVector<Streaks::Streak>
 Streaks::processStreak(const QVector<StreakPrivate> &map,
                        const QVector<Board::State> &l)
 {        
-    QVector<Streaks::Streak> streak = newStreak(map);
+    QVector<Streaks::Streak> streak;
     QVector<StreakPrivate *> assocs(map.size(), NULL);
+
+    for (int i = 0; i < map.size(); i++) {
+        streak.push_back(map[i]);
+    }
 
     /* Create the state streaks. */
 
@@ -158,21 +162,6 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
 
     return streak;
 }
-
-QVector<Streaks::Streak>
-Streaks::newStreak(const QVector<StreakPrivate> &map)
-{
-    QVector<Streaks::Streak> streak;
-    for (int i = 0; i < (int)map.size(); i++) {
-        Streaks::Streak element;
-        element.value = map[i].value;
-        element.solved = false;
-        streak.push_back(element);
-    }
-
-    return streak;
-}
-
 
 Streaks::Streaks(QSharedPointer<BoardMap> map, QSharedPointer<BoardState> state)
     : m_map(map), m_state(state)

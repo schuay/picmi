@@ -28,6 +28,7 @@ class Streaks
 {
 public:
     struct Streak {
+        Streak() : solved(false) { }
         int value;
         bool solved;
     };
@@ -56,9 +57,8 @@ private: /* Functions. */
 
     /* Takes a sequence of states and returns streaks. */
     static QVector<StreakPrivate> lineToStreaks(const QVector<Board::State> &line,
-                                         Board::State filler);
+                                                Board::State filler);
 
-    static QVector<Streak> newStreak(const QVector<StreakPrivate> &map);
     static QVector<Streak> processStreak(const QVector<StreakPrivate> &map,
                                          const QVector<Board::State> &l);
 

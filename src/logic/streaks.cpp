@@ -24,24 +24,6 @@ static QVector<Board::State> colToLine(const QSharedPointer<Board> &board, int x
 static QVector<Board::State> rowToLine(const QSharedPointer<Board> &board, int y);
 
 
-Streaks::LineInfo::LineInfo(const QVector<Board::State> &l)
-{
-    streaks_regular = lineToStreaks(l, Board::Cross);
-
-    QVector<Board::State> line_reversed(l);
-    std::reverse(line_reversed.begin(), line_reversed.end());
-    streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
-
-    /* Fix begin and end indices of reversed streaks. */
-
-    for (int i = 0; i < streaks_reversed.size(); i++) {
-        streaks_reversed[i].begin = l.size() - streaks_reversed[i].begin - 1;
-        streaks_reversed[i].end   = l.size() - streaks_reversed[i].end - 1;
-        qSwap(streaks_reversed[i].begin, streaks_reversed[i].end);
-    }
-}
-
-
 static QVector<Board::State> colToLine(const QSharedPointer<Board> &board,
                                        int x)
 {
@@ -125,13 +107,28 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
 
 QVector<QSharedPointer<Streaks::StreakElement> >
 Streaks::processStreak(const QVector<Streak> &map,
-                       QSharedPointer<LineInfo> state)
-{
+                       const QVector<Board::State> &l)
+{        
     QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
     QVector<Streak *> assocs(map.size(), NULL);
 
-    if (state->streaks_regular.size() > map.size() ||
-        state->streaks_reversed.size() > map.size()) {
+    /* Create the state streaks. */
+
+    QVector<Streak> streaks_regular = lineToStreaks(l, Board::Cross);
+
+    QVector<Board::State> line_reversed(l);
+    std::reverse(line_reversed.begin(), line_reversed.end());
+    QVector<Streak> streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
+
+    /* Fix begin and end indices of reversed streaks. */
+
+    for (int i = 0; i < streaks_reversed.size(); i++) {
+        streaks_reversed[i].begin = l.size() - streaks_reversed[i].begin - 1;
+        streaks_reversed[i].end   = l.size() - streaks_reversed[i].end - 1;
+        qSwap(streaks_reversed[i].begin, streaks_reversed[i].end);
+    }
+
+    if (streaks_regular.size() > map.size() || streaks_reversed.size() > map.size()) {
         return streak;
     }
 
@@ -142,19 +139,19 @@ Streaks::processStreak(const QVector<Streak> &map,
      * or regular), or it is matched with two and their begin and end indices match.
      */
 
-    for (int i = 0; i < state->streaks_regular.size(); i++) {
-        streak[i]->solved = (streak[i]->value == state->streaks_regular[i].count);
-        assocs[i] = &state->streaks_regular[i];
+    for (int i = 0; i < streaks_regular.size(); i++) {
+        streak[i]->solved = (streak[i]->value == streaks_regular[i].count);
+        assocs[i] = &streaks_regular[i];
     }
 
-    for (int i = 0; i < state->streaks_reversed.size(); i++) {
+    for (int i = 0; i < streaks_reversed.size(); i++) {
         const int ix = map.size() - i - 1;
 
-        streak[ix]->solved = (streak[ix]->value == state->streaks_reversed[i].count);
+        streak[ix]->solved = (streak[ix]->value == streaks_reversed[i].count);
 
         if (assocs[ix] != NULL) {
-            const bool range_matches = (assocs[ix]->begin == state->streaks_reversed[i].begin &&
-                                        assocs[ix]->end   == state->streaks_reversed[i].end);
+            const bool range_matches = (assocs[ix]->begin == streaks_reversed[i].begin &&
+                                        assocs[ix]->end   == streaks_reversed[i].end);
             streak[ix]->solved &= range_matches;
         }
     }
@@ -197,28 +194,26 @@ void Streaks::calcMapStreaks() {
 }
 
 void Streaks::update(int x, int y) {
-    m_state_col_streaks[x] = QSharedPointer<LineInfo>(new LineInfo(colToLine(m_state, x)));
-    m_state_row_streaks[y] = QSharedPointer<LineInfo>(new LineInfo(rowToLine(m_state, y)));
+    m_state_col_streaks[x] = processStreak(m_map_col_streaks[x], colToLine(m_state, x));
+    m_state_row_streaks[y] = processStreak(m_map_row_streaks[y], rowToLine(m_state, y));
 }
 
 void Streaks::update() {
     m_state_col_streaks.clear();
     for (int x = 0; x < m_state->width(); x++) {
-        QSharedPointer<LineInfo> line(new LineInfo(colToLine(m_state, x)));
-        m_state_col_streaks.push_back(line);
+        m_state_col_streaks.push_back(processStreak(m_map_col_streaks[x], colToLine(m_state, x)));
     }
 
     m_state_row_streaks.clear();
     for (int y = 0; y < m_state->height(); y++) {
-        QSharedPointer<LineInfo> line(new LineInfo(rowToLine(m_state, y)));
-        m_state_row_streaks.push_back(line);
+        m_state_row_streaks.push_back(processStreak(m_map_row_streaks[y], rowToLine(m_state, y)));
     }
 }
 
 QVector<QSharedPointer<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {
-    return processStreak(m_map_row_streaks[y], m_state_row_streaks[y]);
+    return m_state_row_streaks[y];
 }
 
 QVector<QSharedPointer<Streaks::StreakElement> > Streaks::getColStreak(int x) const {
-    return processStreak(m_map_col_streaks[x], m_state_col_streaks[x]);
+    return m_state_col_streaks[x];
 }

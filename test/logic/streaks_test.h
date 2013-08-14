@@ -23,6 +23,7 @@ private slots:
     void test11();
     void test12();
     void test13();
+    void bench00();
 };
 
 #endif /* __STREAKS_TEST_H */

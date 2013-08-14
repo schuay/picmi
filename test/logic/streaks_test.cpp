@@ -210,3 +210,16 @@ void StreaksTest::test13()
                 "bbbxbxb...",
                 ".xx..");
 }
+
+void StreaksTest::bench00()
+{
+    QSharedPointer<Streaks> s = generateStreaks("b.b.b.b.bbb.b.b.b.bb",
+                                                "bbbxbxb...bbbxbxb...");
+    if (!s) {
+        QFAIL("Streak generation failed.");
+    }
+    QBENCHMARK {
+        s->update(0, 0);
+        s->getRowStreak(0);
+    }
+}

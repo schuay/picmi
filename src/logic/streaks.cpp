@@ -57,12 +57,12 @@ enum {
     S_END
 };
 
-QVector<Streaks::Streak>
+QVector<Streaks::StreakPrivate>
 Streaks::lineToStreaks(const QVector<Board::State> &line,
                        Board::State filler)
 {
-    Streak s;
-    QVector<Streak> streaks;
+    StreakPrivate s;
+    QVector<StreakPrivate> streaks;
     int state = S_FILLER;
 
     for (int i = 0; i < line.size(); i++) {
@@ -72,7 +72,7 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
         case S_FILLER:
             if (t == Board::Box) {
                 s.begin = i;
-                s.count = 0;
+                s.value = 0;
                 state = S_STREAK;
             } else if (t == filler) {
                 /* Nothing. */
@@ -85,7 +85,7 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
                 /* Nothing. */
             } else {
                 s.end = i - 1;
-                s.count = s.end - s.begin + 1;
+                s.value = s.end - s.begin + 1;
                 streaks.append(s);
                 state = (t == filler) ? S_FILLER : S_END;
             }
@@ -98,7 +98,7 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
 
     if (state == S_STREAK) {
         s.end = line.size() - 1;
-        s.count = s.end - s.begin + 1;
+        s.value = s.end - s.begin + 1;
         streaks.append(s);
     }
 
@@ -106,19 +106,19 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
 }
 
 QVector<QSharedPointer<Streaks::StreakElement> >
-Streaks::processStreak(const QVector<Streak> &map,
+Streaks::processStreak(const QVector<StreakPrivate> &map,
                        const QVector<Board::State> &l)
 {        
     QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
-    QVector<Streak *> assocs(map.size(), NULL);
+    QVector<StreakPrivate *> assocs(map.size(), NULL);
 
     /* Create the state streaks. */
 
-    QVector<Streak> streaks_regular = lineToStreaks(l, Board::Cross);
+    QVector<StreakPrivate> streaks_regular = lineToStreaks(l, Board::Cross);
 
     QVector<Board::State> line_reversed(l);
     std::reverse(line_reversed.begin(), line_reversed.end());
-    QVector<Streak> streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
+    QVector<StreakPrivate> streaks_reversed = lineToStreaks(line_reversed, Board::Cross);
 
     /* Fix begin and end indices of reversed streaks. */
 
@@ -140,14 +140,14 @@ Streaks::processStreak(const QVector<Streak> &map,
      */
 
     for (int i = 0; i < streaks_regular.size(); i++) {
-        streak[i]->solved = (streak[i]->value == streaks_regular[i].count);
+        streak[i]->solved = (streak[i]->value == streaks_regular[i].value);
         assocs[i] = &streaks_regular[i];
     }
 
     for (int i = 0; i < streaks_reversed.size(); i++) {
         const int ix = map.size() - i - 1;
 
-        streak[ix]->solved = (streak[ix]->value == streaks_reversed[i].count);
+        streak[ix]->solved = (streak[ix]->value == streaks_reversed[i].value);
 
         if (assocs[ix] != NULL) {
             const bool range_matches = (assocs[ix]->begin == streaks_reversed[i].begin &&
@@ -160,12 +160,12 @@ Streaks::processStreak(const QVector<Streak> &map,
 }
 
 QVector<QSharedPointer<Streaks::StreakElement> >
-Streaks::newStreak(const QVector<Streak> &map)
+Streaks::newStreak(const QVector<StreakPrivate> &map)
 {
     QVector<QSharedPointer<Streaks::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
         QSharedPointer<Streaks::StreakElement> element(new Streaks::StreakElement);
-        element->value = map[i].count;
+        element->value = map[i].value;
         element->solved = false;
         streak.push_back(element);
     }

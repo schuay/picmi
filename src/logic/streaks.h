@@ -47,8 +47,8 @@ public:
     QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
 
 private: /* Types. */
-    struct Streak {
-        int count;
+    struct StreakPrivate {
+        int value;
         int begin, end;
     };
 
@@ -56,20 +56,20 @@ private: /* Functions. */
     void calcMapStreaks();
 
     /* Takes a sequence of states and returns streaks. */
-    static QVector<Streak> lineToStreaks(const QVector<Board::State> &line,
+    static QVector<StreakPrivate> lineToStreaks(const QVector<Board::State> &line,
                                          Board::State filler);
 
     static QVector<QSharedPointer<StreakElement> > newStreak(
-            const QVector<Streak> &map);
+            const QVector<StreakPrivate> &map);
     static QVector<QSharedPointer<StreakElement> > processStreak(
-            const QVector<Streak> &map, const QVector<Board::State> &l);
+            const QVector<StreakPrivate> &map, const QVector<Board::State> &l);
 
 private: /* Variables. */
     QSharedPointer<BoardMap> m_map;
     QSharedPointer<BoardState> m_state;
 
-    QVector<QVector<Streak> > m_map_row_streaks;
-    QVector<QVector<Streak> > m_map_col_streaks;
+    QVector<QVector<StreakPrivate> > m_map_row_streaks;
+    QVector<QVector<StreakPrivate> > m_map_col_streaks;
 
     QVector<QVector<QSharedPointer<StreakElement> > > m_state_row_streaks;
     QVector<QVector<QSharedPointer<StreakElement> > > m_state_col_streaks;

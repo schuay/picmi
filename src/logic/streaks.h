@@ -49,7 +49,8 @@ public:
 
 private: /* Types. */
     struct StreakPrivate : public Streak {
-        int begin, end;
+        int begin;  /**< The first index of this streak. */
+        int end;    /**< The first index after this streak. */
     };
 
 private: /* Functions. */

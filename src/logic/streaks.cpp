@@ -80,8 +80,8 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
             if (t == Board::Box) {
                 /* Nothing. */
             } else {
-                s.end = i - 1;
-                s.value = s.end - s.begin + 1;
+                s.end = i;
+                s.value = s.end - s.begin;
                 streaks.append(s);
                 state = (t == filler) ? S_FILLER : S_END;
             }
@@ -93,8 +93,8 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
     }
 
     if (state == S_STREAK) {
-        s.end = line.size() - 1;
-        s.value = s.end - s.begin + 1;
+        s.end = line.size();
+        s.value = s.end - s.begin;
         streaks.append(s);
     }
 
@@ -125,8 +125,8 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
     /* Fix begin and end indices of reversed streaks. */
 
     for (int i = 0; i < streaks_reversed.size(); i++) {
-        streaks_reversed[i].begin = l.size() - streaks_reversed[i].begin - 1;
-        streaks_reversed[i].end   = l.size() - streaks_reversed[i].end - 1;
+        streaks_reversed[i].begin = l.size() - streaks_reversed[i].begin;
+        streaks_reversed[i].end   = l.size() - streaks_reversed[i].end;
         qSwap(streaks_reversed[i].begin, streaks_reversed[i].end);
     }
 

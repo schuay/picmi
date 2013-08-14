@@ -140,18 +140,18 @@ bool Picmi::won() const {
        this by ending the game once all streaks are marked solved. */
 
     for (int x = 0; x < width(); x++) {
-        QVector<QSharedPointer<Streaks::Streak> > streak = getColStreak(x);
+        QVector<Streaks::Streak> streak = getColStreak(x);
         for (int i = 0; i < (int)streak.size(); i++) {
-            if (!streak[i]->solved) {
+            if (!streak[i].solved) {
                 return false;
             }
         }
     }
 
     for (int y = 0; y < height(); y++) {
-        QVector<QSharedPointer<Streaks::Streak> > streak = getRowStreak(y);
+        QVector<Streaks::Streak> streak = getRowStreak(y);
         for (int i = 0; i < (int)streak.size(); i++) {
-            if (!streak[i]->solved) {
+            if (!streak[i].solved) {
                 return false;
             }
         }
@@ -249,9 +249,10 @@ void Picmi::setState(int x, int y, Board::State state) {
     }
 }
 
-QVector<QSharedPointer<Streaks::Streak> > Picmi::getRowStreak(int y) const {
+QVector<Streaks::Streak> Picmi::getRowStreak(int y) const {
     return m_streaks->getRowStreak(y);
 }
-QVector<QSharedPointer<Streaks::Streak> > Picmi::getColStreak(int x) const {
+
+QVector<Streaks::Streak> Picmi::getColStreak(int x) const {
     return m_streaks->getColStreak(x);
 }

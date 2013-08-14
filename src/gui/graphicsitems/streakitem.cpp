@@ -59,12 +59,12 @@ RowStreakItem::RowStreakItem(QSharedPointer<Picmi> game, int y, QGraphicsItem *p
 }
 
 void RowStreakItem::refresh() {
-    QVector<QSharedPointer<Streaks::Streak> > streak = m_game->getRowStreak(m_y);
+    QVector<Streaks::Streak> streak = m_game->getRowStreak(m_y);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {
-        QString color = (streak[i]->solved ? m_color_solved : m_color_unsolved);
-        text.append(QString("<font color=\"%1\">%2</font>").arg(color).arg(streak[i]->value));
+        QString color = (streak[i].solved ? m_color_solved : m_color_unsolved);
+        text.append(QString("<font color=\"%1\">%2</font>").arg(color).arg(streak[i].value));
         if (i != (int)streak.size() - 1) {
             text.append(" ");
         }
@@ -98,12 +98,12 @@ ColStreakItem::ColStreakItem(QSharedPointer<Picmi> game, int x, QGraphicsItem *p
 }
 
 void ColStreakItem::refresh() {
-    QVector<QSharedPointer<Streaks::Streak> > streak = m_game->getColStreak(m_x);
+    QVector<Streaks::Streak> streak = m_game->getColStreak(m_x);
     QString text;
 
     for (int i = 0; i < (int)streak.size(); i++) {
-        QString color = (streak[i]->solved ? m_color_solved : m_color_unsolved);
-        text.append(QString("<font color=\"%1\">%2</font>").arg(color).arg(streak[i]->value));
+        QString color = (streak[i].solved ? m_color_solved : m_color_unsolved);
+        text.append(QString("<font color=\"%1\">%2</font>").arg(color).arg(streak[i].value));
         if (i != (int)streak.size() - 1) {
             text.append("<br/>");
         }

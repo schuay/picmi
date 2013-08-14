@@ -43,8 +43,8 @@ public:
     /* Returns the request row/col streak. These contain the least information required by
        the frontend, which is (for each position within a streak): "which number is this",
        and "is this position solved" */
-    QVector<QSharedPointer<Streaks::Streak> > getRowStreak(int y) const;
-    QVector<QSharedPointer<Streaks::Streak> > getColStreak(int x) const;
+    QVector<Streaks::Streak> getRowStreak(int y) const;
+    QVector<Streaks::Streak> getColStreak(int x) const;
 
 private: /* Types. */
     struct StreakPrivate : public Streak {
@@ -58,10 +58,9 @@ private: /* Functions. */
     static QVector<StreakPrivate> lineToStreaks(const QVector<Board::State> &line,
                                          Board::State filler);
 
-    static QVector<QSharedPointer<Streak> > newStreak(
-            const QVector<StreakPrivate> &map);
-    static QVector<QSharedPointer<Streak> > processStreak(
-            const QVector<StreakPrivate> &map, const QVector<Board::State> &l);
+    static QVector<Streak> newStreak(const QVector<StreakPrivate> &map);
+    static QVector<Streak> processStreak(const QVector<StreakPrivate> &map,
+                                         const QVector<Board::State> &l);
 
 private: /* Variables. */
     QSharedPointer<BoardMap> m_map;
@@ -70,8 +69,8 @@ private: /* Variables. */
     QVector<QVector<StreakPrivate> > m_map_row_streaks;
     QVector<QVector<StreakPrivate> > m_map_col_streaks;
 
-    QVector<QVector<QSharedPointer<Streak> > > m_state_row_streaks;
-    QVector<QVector<QSharedPointer<Streak> > > m_state_col_streaks;
+    QVector<QVector<Streak> > m_state_row_streaks;
+    QVector<QVector<Streak> > m_state_col_streaks;
 };
 
 #endif // STREAKS_H

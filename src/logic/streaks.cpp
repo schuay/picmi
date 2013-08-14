@@ -162,11 +162,6 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
 Streaks::Streaks(QSharedPointer<BoardMap> map, QSharedPointer<BoardState> state)
     : m_map(map), m_state(state)
 {
-    calcMapStreaks();
-    update();
-}
-
-void Streaks::calcMapStreaks() {
     for (int x = 0; x < m_map->width(); x++) {
         QVector<Board::State> line = colToLine(m_map, x);
         m_map_col_streaks.push_back(lineToStreaks(line, Board::Nothing));
@@ -176,6 +171,8 @@ void Streaks::calcMapStreaks() {
         QVector<Board::State> line = rowToLine(m_map, y);
         m_map_row_streaks.push_back(lineToStreaks(line, Board::Nothing));
     }
+
+    update();
 }
 
 void Streaks::update(int x, int y) {

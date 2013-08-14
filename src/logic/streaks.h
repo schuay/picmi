@@ -53,8 +53,6 @@ private: /* Types. */
     };
 
 private: /* Functions. */
-    void calcMapStreaks();
-
     /* Takes a sequence of states and returns streaks. */
     static QVector<StreakPrivate> lineToStreaks(const QVector<Board::State> &line,
                                                 Board::State filler);

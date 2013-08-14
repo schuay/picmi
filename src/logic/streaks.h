@@ -47,8 +47,7 @@ public:
     QVector<QSharedPointer<Streaks::Streak> > getColStreak(int x) const;
 
 private: /* Types. */
-    struct StreakPrivate {
-        int value;
+    struct StreakPrivate : public Streak {
         int begin, end;
     };
 

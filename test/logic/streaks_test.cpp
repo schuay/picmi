@@ -11,7 +11,7 @@ QTEST_MAIN(StreaksTest)
     if (!s) { \
         QFAIL("Streak generation failed."); \
     } \
-    QVector<QSharedPointer<Streaks::StreakElement> > row = s->getRowStreak(0); \
+    QVector<QSharedPointer<Streaks::Streak> > row = s->getRowStreak(0); \
     QVERIFY(streakEquals(row, expected)); \
 } while (false);
 
@@ -75,7 +75,7 @@ generateStreaks(const QString &map, const QString &state)
  * respectively, solved and unsolved streaks.
  */
 static bool
-streakEquals(const QVector<QSharedPointer<Streaks::StreakElement> > &actual,
+streakEquals(const QVector<QSharedPointer<Streaks::Streak> > &actual,
              const QString &expected)
 {
     if (actual.size() != expected.size()) {

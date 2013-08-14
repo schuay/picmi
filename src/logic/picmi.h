@@ -87,8 +87,8 @@ public:
     /* returns the request row/col streak. these contain the least information required by
       the frontend, which is (for each position within a streak): "which number is this",
       and "is this position solved" */
-    QVector<QSharedPointer<Streaks::StreakElement> > getRowStreak(int y) const;
-    QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
+    QVector<QSharedPointer<Streaks::Streak> > getRowStreak(int y) const;
+    QVector<QSharedPointer<Streaks::Streak> > getColStreak(int x) const;
 
 signals:
     /** Emitted when the game has been completed in any way. Also triggered if "Solve" was used. */

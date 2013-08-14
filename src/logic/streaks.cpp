@@ -105,11 +105,11 @@ Streaks::lineToStreaks(const QVector<Board::State> &line,
     return streaks;
 }
 
-QVector<QSharedPointer<Streaks::StreakElement> >
+QVector<QSharedPointer<Streaks::Streak> >
 Streaks::processStreak(const QVector<StreakPrivate> &map,
                        const QVector<Board::State> &l)
 {        
-    QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
+    QVector<QSharedPointer<Streaks::Streak> > streak = newStreak(map);
     QVector<StreakPrivate *> assocs(map.size(), NULL);
 
     /* Create the state streaks. */
@@ -159,12 +159,12 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
     return streak;
 }
 
-QVector<QSharedPointer<Streaks::StreakElement> >
+QVector<QSharedPointer<Streaks::Streak> >
 Streaks::newStreak(const QVector<StreakPrivate> &map)
 {
-    QVector<QSharedPointer<Streaks::StreakElement> > streak;
+    QVector<QSharedPointer<Streaks::Streak> > streak;
     for (int i = 0; i < (int)map.size(); i++) {
-        QSharedPointer<Streaks::StreakElement> element(new Streaks::StreakElement);
+        QSharedPointer<Streaks::Streak> element(new Streaks::Streak);
         element->value = map[i].value;
         element->solved = false;
         streak.push_back(element);
@@ -210,10 +210,10 @@ void Streaks::update() {
     }
 }
 
-QVector<QSharedPointer<Streaks::StreakElement> > Streaks::getRowStreak(int y) const {
+QVector<QSharedPointer<Streaks::Streak> > Streaks::getRowStreak(int y) const {
     return m_state_row_streaks[y];
 }
 
-QVector<QSharedPointer<Streaks::StreakElement> > Streaks::getColStreak(int x) const {
+QVector<QSharedPointer<Streaks::Streak> > Streaks::getColStreak(int x) const {
     return m_state_col_streaks[x];
 }

@@ -23,16 +23,8 @@
 static QVector<Board::State> colToLine(const QSharedPointer<Board> &board, int x);
 static QVector<Board::State> rowToLine(const QSharedPointer<Board> &board, int y);
 
-/* takes a sequence of states and returns streaks */
-static QVector<Streak> lineToStreaks(
-        const QVector<Board::State> &line, Board::State filler);
 
-static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<Streak> &map);
-static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
-        const QVector<Streak> &map, QSharedPointer<LineInfo> state);
-
-
-LineInfo::LineInfo(const QVector<Board::State> &l)
+Streaks::LineInfo::LineInfo(const QVector<Board::State> &l)
 {
     streaks_regular = lineToStreaks(l, Board::Cross);
 
@@ -83,8 +75,9 @@ enum {
     S_END
 };
 
-static QVector<Streak> lineToStreaks(const QVector<Board::State> &line,
-                                  Board::State filler)
+QVector<Streaks::Streak>
+Streaks::lineToStreaks(const QVector<Board::State> &line,
+                       Board::State filler)
 {
     Streak s;
     QVector<Streak> streaks;
@@ -130,8 +123,9 @@ static QVector<Streak> lineToStreaks(const QVector<Board::State> &line,
     return streaks;
 }
 
-static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
-        const QVector<Streak> &map, QSharedPointer<LineInfo> state)
+QVector<QSharedPointer<Streaks::StreakElement> >
+Streaks::processStreak(const QVector<Streak> &map,
+                       QSharedPointer<LineInfo> state)
 {
     QVector<QSharedPointer<Streaks::StreakElement> > streak = newStreak(map);
     QVector<Streak *> assocs(map.size(), NULL);
@@ -168,7 +162,8 @@ static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
     return streak;
 }
 
-static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(const QVector<Streak> &map)
+QVector<QSharedPointer<Streaks::StreakElement> >
+Streaks::newStreak(const QVector<Streak> &map)
 {
     QVector<QSharedPointer<Streaks::StreakElement> > streak;
     for (int i = 0; i < (int)map.size(); i++) {

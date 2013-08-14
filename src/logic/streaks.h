@@ -24,20 +24,6 @@
 #include "boardmap.h"
 #include "boardstate.h"
 
-struct Streak {
-    int count;
-    int begin, end;
-};
-
-/* Moved from streaks.cpp to work around QSharedPointer issues with forward declarations.
- * TODO: move this back once when Qt 5 is used. */
-struct LineInfo {
-    LineInfo(const QVector<Board::State> &l);
-
-    QVector<Streak> streaks_regular;
-    QVector<Streak> streaks_reversed;
-};
-
 class Streaks
 {
 public:
@@ -60,11 +46,34 @@ public:
     QVector<QSharedPointer<Streaks::StreakElement> > getRowStreak(int y) const;
     QVector<QSharedPointer<Streaks::StreakElement> > getColStreak(int x) const;
 
-private:
+private: /* Types. */
+    struct Streak {
+        int count;
+        int begin, end;
+    };
 
+    /* Moved from streaks.cpp to work around QSharedPointer issues with forward declarations.
+     * TODO: move this back once when Qt 5 is used. */
+    struct LineInfo {
+        LineInfo(const QVector<Board::State> &l);
+
+        QVector<Streak> streaks_regular;
+        QVector<Streak> streaks_reversed;
+    };
+
+private: /* Functions. */
     void calcMapStreaks();
 
+    /* Takes a sequence of states and returns streaks. */
+    static QVector<Streak> lineToStreaks(const QVector<Board::State> &line,
+                                         Board::State filler);
 
+    static QVector<QSharedPointer<Streaks::StreakElement> > newStreak(
+            const QVector<Streak> &map);
+    static QVector<QSharedPointer<Streaks::StreakElement> > processStreak(
+            const QVector<Streak> &map, QSharedPointer<LineInfo> state);
+
+private: /* Variables. */
     QSharedPointer<BoardMap> m_map;
     QSharedPointer<BoardState> m_state;
 

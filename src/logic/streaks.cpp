@@ -108,6 +108,8 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
     QVector<Streaks::Streak> streak;
     QVector<StreakPrivate *> assocs(map.size(), NULL);
 
+    /* Initial values for returned streaks. */
+
     for (int i = 0; i < map.size(); i++) {
         streak.push_back(map[i]);
     }
@@ -127,6 +129,8 @@ Streaks::processStreak(const QVector<StreakPrivate> &map,
         streaks_reversed[i].end   = l.size() - streaks_reversed[i].end - 1;
         qSwap(streaks_reversed[i].begin, streaks_reversed[i].end);
     }
+
+    /* Preliminary checks. */
 
     if (streaks_regular.size() > map.size() || streaks_reversed.size() > map.size()) {
         return streak;

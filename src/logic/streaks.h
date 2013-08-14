@@ -57,6 +57,8 @@ private: /* Functions. */
     static QVector<StreakPrivate> lineToStreaks(const QVector<Board::State> &line,
                                                 Board::State filler);
 
+    /** Given a map streak sequence as well as the current state of the associated line,
+     *  processStreak() returns the state streaks. */
     static QVector<Streak> processStreak(const QVector<StreakPrivate> &map,
                                          const QVector<Board::State> &l);
 
@@ -64,9 +66,16 @@ private: /* Variables. */
     QSharedPointer<BoardMap> m_map;
     QSharedPointer<BoardState> m_state;
 
+    /** Map streaks are calculated once upon construction and then stay immutable
+     *  for the remaining lifetime of a Streaks object. They store information about
+     *  the actual map streaks, including the streak beginning index, end index, and
+     *  length. */
     QVector<QVector<StreakPrivate> > m_map_row_streaks;
     QVector<QVector<StreakPrivate> > m_map_col_streaks;
 
+    /** State streaks are recomputed whenever the state of an associated cell changes.
+     *  Unlike the map streaks, row streaks only store the publicly available information:
+     *  the length of a streak, and whether it's solved or not. */
     QVector<QVector<Streak> > m_state_row_streaks;
     QVector<QVector<Streak> > m_state_col_streaks;
 };

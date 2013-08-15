@@ -26,16 +26,6 @@ $prefix can be configured by setting the CMAKE_INSTALL_PREFIX variable when runn
 
 
 
-Installation from AUR (Archlinux)
--------------------
-
-Install using your favorite AUR helper or manually with wget && makepkg && pacman -U.
-
-Package Name: picmi-git
-URL: https://aur.archlinux.org/packages.php?ID=56720
-
-
-
 Manual Installation
 -------------------
 

@@ -1,8 +1,5 @@
 * frontend to save states - menu items, maybe an extra pane
 * improve level selection window (sorting, filtering)
-* refactoring
-    improve streak calculation
-    ...
 * display statistics: highscores should be displayed at the end of each game,
   listing the current position (#123 out of 323 played), # of game completed,
   # of games incomplete, average time, current time. the score window should

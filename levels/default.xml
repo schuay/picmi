@@ -94,6 +94,18 @@
         <xpm>default/shopping_cart.xpm</xpm>
     </board>
 
+    <board name="Picmi" author="Frank Uebbing" difficulty="2">
+        <xpm>default/picmi.xpm</xpm>
+    </board>
+
+    <board name="Bike" author="Frank Uebbing" difficulty="4">
+        <xpm>default/bike.xpm</xpm>
+    </board>
+
+    <board name="Soccer" author="Frank Uebbing" difficulty="3">
+        <xpm>default/soccer.xpm</xpm>
+    </board>
+
     <board name="Alarm Clock" author="Jakob Gruber, Moni Linke" difficulty="3">
         <row>----1-----11111-----1----</row>
         <row>--11111---11111---11111--</row>

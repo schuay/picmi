@@ -18,9 +18,9 @@
 
 #include "boardmap.h"
 
+#include <qglobal.h>
+#include <QTime>
 #include <QVector>
-#include <stdlib.h>
-#include <time.h>
 
 static int box_count(const QList<Board::State> &data) {
     int count = 0;
@@ -47,16 +47,24 @@ BoardMap::BoardMap(int width, int height, const QList<Board::State> &map) :
 }
 
 void BoardMap::genRandom() {
+    /* To maintain a uniformly random selection of k elements:
+     * element i enters the selection with probability k/i. */
 
-    QVector<int> indices;
+    qsrand(QTime::currentTime().msec());
+
+    QVector<int> indices(m_box_count);
     for (int i = 0; i < m_size; i++) {
-        indices.push_back(i);
+        if (i < m_box_count) {
+            indices[i] = i;
+            continue;
+        }
+
+        if (qrand() % i <= m_box_count) {
+            indices[qrand() % indices.size()] = i;
+        }
     }
 
-    srand(time(NULL));
-    for (int i = 0; i < m_box_count; i++) {
-        int ind = rand() % indices.size();
-        m_state[indices[ind]] = Box;
-        indices.remove(ind);
+    for (int i = 0; i < indices.size(); i++) {
+        m_state[indices[i]] = Box;
     }
 }

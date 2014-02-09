@@ -26,6 +26,7 @@
 
 class Scene;
 class DragManager;
+class QAbstractAnimation;
 
 class CellItem : public QGraphicsPixmapItem, public ReloadableItem
 {
@@ -56,14 +57,20 @@ protected:
     virtual QPixmap getPixmap() const;
 };
 
-class GameCellItem : public CellItem
+class GameCellItem : public QObject, public CellItem
 {
+    Q_OBJECT
+    Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity)
+    Q_PROPERTY(qreal scale READ scale WRITE setScale)
 public:
     /* creates the item with field coordinates (x,y) and the specified
       game and scene */
     GameCellItem(int x, int y, QSharedPointer<Picmi> game, Scene *scene, QGraphicsItem *parent = 0);
 
     void keyPressEvent(QKeyEvent *event);
+
+    void refresh();
+    void reload(const QSize &size);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -77,11 +84,16 @@ protected:
 private:
 
     int drag_offset(int pos) const;
+    QAbstractAnimation *createAnimation();
 
 private:
     Scene *m_scene;
     QSharedPointer<DragManager> m_dragmanager;
     Qt::MouseButton m_dragbutton;
+
+    /* Animation members. */
+    Board::State m_state;
+    QAbstractAnimation *m_anim;
 };
 
 #endif // CELLITEM_H

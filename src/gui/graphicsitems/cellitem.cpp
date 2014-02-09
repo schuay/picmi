@@ -20,6 +20,8 @@
 
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
+#include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
 #include <assert.h>
 
 #include "src/constants.h"
@@ -144,12 +146,54 @@ int OverviewCellItem::getTilesize() const {
 }
 
 GameCellItem::GameCellItem(int x, int y, QSharedPointer<Picmi> game, Scene *scene, QGraphicsItem *parent) :
-    CellItem(x, y, game, parent), m_scene(scene)
+    CellItem(x, y, game, parent), m_scene(scene), m_state(Board::Nothing)
 {
     setFlag(QGraphicsItem::ItemIsFocusable);
     setAcceptHoverEvents(true);
 
+    m_anim = createAnimation();
+
     reload(QSize());
+}
+
+QAbstractAnimation *GameCellItem::createAnimation() {
+    QParallelAnimationGroup *anim_group = new QParallelAnimationGroup(this);
+
+    QPropertyAnimation *anim = new QPropertyAnimation(this, "opacity");
+    anim->setDuration(150);
+    anim->setStartValue(0.1);
+    anim->setEndValue(1.0);
+    anim_group->addAnimation(anim);
+
+    anim = new QPropertyAnimation(this, "scale");
+    anim->setDuration(150);
+    anim->setStartValue(0.3);
+    anim->setEndValue(1.0);
+    anim_group->addAnimation(anim);
+
+    return anim_group;
+}
+
+void GameCellItem::refresh() {
+    CellItem::refresh();
+
+    /* Only start animation when the cell state has changed. */
+
+    const Board::State curr_state = m_game->stateAt(m_x, m_y);
+    if (curr_state == m_state) {
+        return;
+    }
+
+    m_state = curr_state;
+    m_anim->start();
+}
+
+void GameCellItem::reload(const QSize &size) {
+    /* Reset the transformation origin point for our scaling animation. */
+    const int tilesize = getTilesize();
+    setTransformOriginPoint(tilesize / 2, tilesize / 2);
+
+    CellItem::reload(size);
 }
 
 QPixmap GameCellItem::getPixmap() const {

@@ -82,14 +82,15 @@ protected:
     virtual QPixmap getPixmap() const;
 
 private:
-
-    int drag_offset(int pos) const;
+    /** Converts scene- to game coordinates. */
+    QPoint sceneToGame(const QPointF &p) const;
     QAbstractAnimation *createAnimation();
 
 private:
     Scene *m_scene;
     QSharedPointer<DragManager> m_dragmanager;
     Qt::MouseButton m_dragbutton;
+    QPointF m_sceneorigin;
 
     /* Animation members. */
     Board::State m_state;

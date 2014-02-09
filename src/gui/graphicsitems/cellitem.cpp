@@ -194,6 +194,10 @@ void GameCellItem::reload(const QSize &size) {
     setTransformOriginPoint(tilesize / 2, tilesize / 2);
 
     CellItem::reload(size);
+
+    /* Save the original scene position - setTransformOriginPoint() together
+     * with scaling modify it. */
+    m_sceneorigin = scenePos();
 }
 
 QPixmap GameCellItem::getPixmap() const {
@@ -231,13 +235,9 @@ void GameCellItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event) {
     m_scene->hover(m_x, m_y);
 }
 
-int GameCellItem::drag_offset(int pos) const {
-    const int tilesize = Renderer::instance()->getTilesize();
-    int offset = pos / tilesize;
-    if (pos < 0) {
-        offset--;
-    }
-    return offset;
+QPoint GameCellItem::sceneToGame(const QPointF &p) const {
+    const QPointF pf = (p - m_sceneorigin) / Renderer::instance()->getTilesize();
+    return QPoint(m_x + pf.x(), m_y + pf.y());
 }
 
 void GameCellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
@@ -245,14 +245,12 @@ void GameCellItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         return;
     }
 
-    int dx = drag_offset(event->pos().x());
-    int dy = drag_offset(event->pos().y());
-
-    if (m_game->outOfBounds(m_x + dx, m_y + dy)) {
+    const QPoint p = sceneToGame(event->scenePos());
+    if (m_game->outOfBounds(p.x(), p.y())) {
         return;
     }
 
-    m_dragmanager->move(m_x + dx, m_y + dy);
+    m_dragmanager->move(p.x(), p.y());
 }
 
 void GameCellItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {

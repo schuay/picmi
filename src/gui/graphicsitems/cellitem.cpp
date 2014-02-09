@@ -49,6 +49,7 @@ private:
 
     const QSharedPointer<Picmi> m_game;
     const QPoint m_start;
+    QPoint m_prev_pos;
     Scene *m_scene;
     Board::State m_before, m_after, m_request;
     DragManager::DragDirection m_direction;
@@ -56,7 +57,7 @@ private:
 };
 
 DragManager::DragManager(QSharedPointer<Picmi> game, Scene *scene, QPoint start) :
-    m_game(game), m_start(start), m_scene(scene), m_initialized(false)
+    m_game(game), m_start(start), m_prev_pos(start), m_scene(scene), m_initialized(false)
 {
     m_direction = Undefined;
 }
@@ -70,13 +71,33 @@ void DragManager::init(Board::State state) {
 }
 
 void DragManager::move(int x, int y) {
-    QPoint normed = normCoordinates(x, y);
-    Board::State current = m_game->stateAt(normed.x(), normed.y());
-    if (current == m_before && current != m_after && m_initialized) {
-        m_scene->press(normed.x(), normed.y(), m_request);
-    } else {
-        m_scene->hover(normed.x(), normed.y());
+    const QPoint curr_pos = normCoordinates(x, y);
+    if (curr_pos == m_prev_pos) {
+        return;
     }
+
+    /* When moving the mouse quickly, it can happen that subsequent calls to move()
+     * skip a tile. Ensure that all tiles between m_prev_pos and curr_pos are processed. */
+
+    QPoint step = curr_pos - m_prev_pos;
+    assert(step.x() == 0 || step.y() == 0);
+    step /= qMax(qAbs(step.x()), qAbs(step.y()));
+    assert(qAbs(step.x()) == 1 || qAbs(step.y()) == 1);
+
+    for (QPoint i = m_prev_pos + step; ; i += step) {
+        const Board::State current = m_game->stateAt(i.x(), i.y());
+        if (current == m_before && current != m_after && m_initialized) {
+            m_scene->press(i.x(), i.y(), m_request);
+        } else {
+            m_scene->hover(i.x(), i.y());
+        }
+
+        if (i == curr_pos) {
+            break;
+        }
+    }
+
+    m_prev_pos = curr_pos;
 }
 
 QPoint DragManager::normCoordinates(int x, int y) {

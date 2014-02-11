@@ -131,8 +131,9 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
         button(KDialog::Ok)->setEnabled(false);
     } else {
         QModelIndex index = m_model->index(0, 0);
-        ui->tableView->selectionModel()->select(index, QItemSelectionModel::Select);
-        connect(ui->tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
+        ui->tableView->selectionModel()->select(index, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+        connect(ui->tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+                this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
         updateDetails(m_levels[0]);
     }
 }

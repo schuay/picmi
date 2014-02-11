@@ -107,7 +107,6 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
 {
     setModal(true);
     setCaption(i18n("Level Selection"));
-    setMinimumSize(600, 350);
 
     ui = new Ui::LevelSelectUi;
     ui->setupUi(mainWidget());
@@ -124,6 +123,9 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     ui->tableView->showColumn(LevelTableModel::Name);
     ui->tableView->showColumn(LevelTableModel::Difficulty);
     ui->tableView->showColumn(LevelTableModel::Solved);
+
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->resizeRowsToContents();
 
     if (m_levels.empty()) {
         button(KDialog::Ok)->setEnabled(false);

@@ -30,15 +30,6 @@ class LevelTableModel : public QAbstractTableModel
 public:
     LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject * parent = 0);
 
-protected:
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-
-private:
-    const QList<QSharedPointer<Level> > &m_levels;
-
     enum Columns {
         Name,
         LevelSet,
@@ -47,6 +38,14 @@ private:
         Solved,
         ColumnCount /* not a real column */
     };
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+private:
+    const QList<QSharedPointer<Level> > &m_levels;
 };
 
 LevelTableModel::LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject *parent) :
@@ -114,6 +113,15 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     m_levels = LevelLoader::load();
     m_model = QSharedPointer<LevelTableModel>(new LevelTableModel(m_levels));
     ui->tableView->setModel(m_model.data());
+
+    /* Hide all columns except Level, Difficulty and Solved. */
+
+    for (int i = 0; i < m_model->columnCount(); i++) {
+        ui->tableView->hideColumn(i);
+    }
+    ui->tableView->showColumn(LevelTableModel::Name);
+    ui->tableView->showColumn(LevelTableModel::Difficulty);
+    ui->tableView->showColumn(LevelTableModel::Solved);
 
     if (m_levels.empty()) {
         button(KDialog::Ok)->setEnabled(false);

@@ -178,6 +178,10 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     ui->tableView->showColumn(LevelTableModel::Difficulty);
     ui->tableView->showColumn(LevelTableModel::Solved);
 
+    ui->tableView->sortByColumn(LevelTableModel::Name, Qt::AscendingOrder);
+    ui->tableView->sortByColumn(LevelTableModel::Solved, Qt::DescendingOrder);
+    ui->tableView->sortByColumn(LevelTableModel::Difficulty, Qt::AscendingOrder);
+
     ui->tableView->resizeColumnsToContents();
     ui->tableView->resizeRowsToContents();
 

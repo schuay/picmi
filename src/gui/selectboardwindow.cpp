@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <qalgorithms.h>
 
 #include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"
@@ -30,7 +31,7 @@ static QString diffString(const int difficulty);
 class LevelTableModel : public QAbstractTableModel
 {
 public:
-    LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject * parent = 0);
+    LevelTableModel(QList<QSharedPointer<Level> > &levels, QObject * parent = 0);
 
     enum Columns {
         Name,
@@ -45,12 +46,13 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 private:
-    const QList<QSharedPointer<Level> > &m_levels;
+    QList<QSharedPointer<Level> > &m_levels;
 };
 
-LevelTableModel::LevelTableModel(const QList<QSharedPointer<Level> > &levels, QObject *parent) :
+LevelTableModel::LevelTableModel(QList<QSharedPointer<Level> > &levels, QObject *parent) :
     QAbstractTableModel(parent), m_levels(levels)
 {
 
@@ -100,6 +102,58 @@ QVariant LevelTableModel::headerData(int section, Qt::Orientation orientation, i
         }
     }
     return QAbstractTableModel::headerData(section, orientation, role);
+}
+
+typedef bool (*LevelComparator)(const QSharedPointer<Level> &,
+                                const QSharedPointer<Level> &);
+
+static bool levelLessThan(const QSharedPointer<Level> &lhs,
+                          const QSharedPointer<Level> &rhs) {
+    return lhs->name() < rhs->name();
+}
+
+static bool levelGreaterThan(const QSharedPointer<Level> &lhs,
+                             const QSharedPointer<Level> &rhs) {
+    return levelLessThan(rhs, lhs);
+}
+
+static bool diffLessThan(const QSharedPointer<Level> &lhs,
+                         const QSharedPointer<Level> &rhs) {
+    return lhs->difficulty() < rhs->difficulty();
+}
+
+static bool diffGreaterThan(const QSharedPointer<Level> &lhs,
+                            const QSharedPointer<Level> &rhs) {
+    return diffLessThan(rhs, lhs);
+}
+
+static bool solvedLessThan(const QSharedPointer<Level> &lhs,
+                           const QSharedPointer<Level> &rhs) {
+    if (!lhs->solved() && !rhs->solved()) {
+        return false;
+    } else if (!lhs->solved() || !rhs->solved()) {
+        return lhs->solved();
+    } else {
+        return (lhs->solvedTime() < rhs->solvedTime());
+    }
+}
+
+static bool solvedGreaterThan(const QSharedPointer<Level> &lhs,
+                              const QSharedPointer<Level> &rhs) {
+    return solvedLessThan(rhs, lhs);
+}
+
+void LevelTableModel::sort(int column, Qt::SortOrder order) {
+    LevelComparator cmp = NULL;
+    switch (column) {
+    case Name: cmp = (order == Qt::AscendingOrder) ? levelLessThan : levelGreaterThan; break;
+    case Difficulty: cmp = (order == Qt::AscendingOrder) ? diffLessThan : diffGreaterThan; break;
+    case Solved: cmp = (order == Qt::AscendingOrder) ? solvedLessThan : solvedGreaterThan; break;
+    default: assert(0);
+    }
+
+    qStableSort(m_levels.begin(), m_levels.end(), cmp);
+    emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() -1));
 }
 
 SelectBoardWindow::SelectBoardWindow(QWidget *parent)

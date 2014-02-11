@@ -167,6 +167,8 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
 
     m_levels = LevelLoader::load();
     m_model = QSharedPointer<LevelTableModel>(new LevelTableModel(m_levels));
+
+    ui->tableView->setUpdatesEnabled(false);
     ui->tableView->setModel(m_model.data());
 
     /* Hide all columns except Level, Difficulty and Solved. */
@@ -195,6 +197,8 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
                 this, SLOT(levelDataChanged(QModelIndex,QModelIndex)));
         updateDetails(m_levels[0]);
     }
+
+    ui->tableView->setUpdatesEnabled(true);
 }
 
 void SelectBoardWindow::showEvent(QShowEvent *event) {

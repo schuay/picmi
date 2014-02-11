@@ -42,9 +42,11 @@ protected:
 
 private slots:
     void selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous);
+    void levelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
 
 private:
     void updateDetails(QSharedPointer<Level> level);
+    void resetSelection();
 
     Ui::LevelSelectUi *ui;
 

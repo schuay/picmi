@@ -184,10 +184,11 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     if (m_levels.empty()) {
         button(KDialog::Ok)->setEnabled(false);
     } else {
-        QModelIndex index = m_model->index(0, 0);
-        ui->tableView->selectionModel()->select(index, QItemSelectionModel::Select | QItemSelectionModel::Rows);
+        resetSelection();
         connect(ui->tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
                 this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
+        connect(m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+                this, SLOT(levelDataChanged(QModelIndex,QModelIndex)));
         updateDetails(m_levels[0]);
     }
 }
@@ -209,6 +210,14 @@ SelectBoardWindow::~SelectBoardWindow() {
 void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const QModelIndex &previous) {
     Q_UNUSED(previous);
     updateDetails(m_levels[current.row()]);
+}
+
+void SelectBoardWindow::levelDataChanged(const QModelIndex &topLeft, const
+                                         QModelIndex &bottomRight) {
+    Q_UNUSED(topLeft);
+    Q_UNUSED(bottomRight);
+    resetSelection();
+    updateDetails(selectedBoard());
 }
 
 static QString diffString(const int difficulty) {
@@ -247,6 +256,13 @@ void SelectBoardWindow::updateDetails(QSharedPointer<Level> level) {
         ui->labelSolved->setText(i18nc("board not solved yet", "Solved: -"));
         ui->labelImage->setText("?");
     }
+}
+
+void SelectBoardWindow::resetSelection() {
+    QModelIndex index = m_model->index(0, 0);
+    QItemSelectionModel::SelectionFlags flags =
+            QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows;
+    ui->tableView->selectionModel()->select(index, flags);
 }
 
 QSharedPointer<Level> SelectBoardWindow::selectedBoard() const {

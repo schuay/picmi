@@ -45,7 +45,6 @@ private slots:
 
 private:
     void updateDetails(QSharedPointer<Level> level);
-    QString diffString(int difficulty) const;
 
     Ui::LevelSelectUi *ui;
 

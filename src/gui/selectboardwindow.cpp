@@ -25,6 +25,8 @@
 #include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"
 
+static QString diffString(const int difficulty);
+
 class LevelTableModel : public QAbstractTableModel
 {
 public:
@@ -77,7 +79,7 @@ QVariant LevelTableModel::data(const QModelIndex &index, int role) const {
     switch (index.column()) {
     case Name: return level->visibleName();
     case LevelSet: return level->levelset();
-    case Difficulty: return level->difficulty();
+    case Difficulty: return diffString(level->difficulty());
     case Size: return QString("%1x%2").arg(level->width()).arg(level->height());
     case Solved: return "TODO";
     default: assert(0);
@@ -152,7 +154,7 @@ void SelectBoardWindow::selectedLevelChanged(const QModelIndex &current, const Q
     updateDetails(m_levels[current.row()]);
 }
 
-QString SelectBoardWindow::diffString(int difficulty) const {
+static QString diffString(const int difficulty) {
     if (difficulty < 0) {
         return diffString(0);
     } else if (difficulty > 7) {

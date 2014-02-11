@@ -113,14 +113,14 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
 
     m_levels = LevelLoader::load();
     m_model = QSharedPointer<LevelTableModel>(new LevelTableModel(m_levels));
-    ui->listView->setModel(m_model.data());
+    ui->tableView->setModel(m_model.data());
 
     if (m_levels.empty()) {
         button(KDialog::Ok)->setEnabled(false);
     } else {
         QModelIndex index = m_model->index(0, 0);
-        ui->listView->selectionModel()->select(index, QItemSelectionModel::Select);
-        connect(ui->listView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
+        ui->tableView->selectionModel()->select(index, QItemSelectionModel::Select);
+        connect(ui->tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(selectedLevelChanged(QModelIndex,QModelIndex)));
         updateDetails(m_levels[0]);
     }
 }
@@ -183,6 +183,6 @@ void SelectBoardWindow::updateDetails(QSharedPointer<Level> level) {
 }
 
 QSharedPointer<Level> SelectBoardWindow::selectedBoard() const {
-    int index = ui->listView->selectionModel()->selectedIndexes().at(0).row();
+    int index = ui->tableView->selectionModel()->selectedIndexes().at(0).row();
     return m_levels[index];
 }

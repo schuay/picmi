@@ -81,7 +81,7 @@ QVariant LevelTableModel::data(const QModelIndex &index, int role) const {
     case LevelSet: return level->levelset();
     case Difficulty: return diffString(level->difficulty());
     case Size: return QString("%1x%2").arg(level->width()).arg(level->height());
-    case Solved: return "TODO";
+    case Solved: return (level->solved()) ? Time(level->solvedTime()).toString() : "-";
     default: assert(0);
     }
 

@@ -23,7 +23,7 @@
 
 #include <QTimer>
 #include <highscore/kscoredialog.h>
-#include <kaction.h>
+#include <qaction.h>
 #include <ktoggleaction.h>
 #include <kxmlguiwindow.h>
 #include <kgdifficulty.h>
@@ -83,7 +83,7 @@ private:
     QSharedPointer<KScoreDialog> createScoreDialog();
     void setupActions();
 
-    KAction *m_action_undo,
+    QAction *m_action_undo,
             *m_action_save_state,
             *m_action_load_state,
             *m_action_hint,

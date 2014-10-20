@@ -8,7 +8,7 @@ set(logic_SRCS
     streaks.cpp
 )
 
-kde4_add_library(picmi_logic STATIC
+add_library(picmi_logic STATIC
     ${logic_SRCS}
 )
 

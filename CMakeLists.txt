@@ -1,18 +1,31 @@
-cmake_minimum_required (VERSION 2.8.0)
+cmake_minimum_required (VERSION 2.8.12)
 project (picmi)
 
 if (NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-set(QT_USE_QTSVG TRUE)
-set(QT_USE_QTXML TRUE)
+find_package(ECM REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-find_package(Qt4 REQUIRED)
-find_package(KDE4 REQUIRED)
-find_package(KDEGames 4.9.0 REQUIRED)
+find_package(Qt5 5.2.0 CONFIG REQUIRED Core Widgets Svg Xml Qml Quick QuickWidgets)
+find_package(KF5 REQUIRED COMPONENTS
+ CoreAddons
+ WidgetsAddons
+ I18n
+ XmlGui
+ KDELibs4Support
+ NewStuff
+ Declarative
+)
 
-include(KDE4Defaults)
+find_package(KF5KDEGames 4.9.0 REQUIRED)
+
+include(KDEInstallDirs)
+include(KDECompilerSettings)
+include(KDECMakeSettings)
+include(FeatureSummary)
+include(ECMInstallIcons)
 
 add_subdirectory(themes)
 add_subdirectory(icons)
@@ -22,6 +35,6 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 install(FILES ${CMAKE_SOURCE_DIR}/picmi.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${DATA_INSTALL_DIR}/picmi)
+install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION  ${KXMLGUI_INSTALL_DIR}/picmi)
 
 # vim:set ts=4 sw=4 et:

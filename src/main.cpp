@@ -17,7 +17,7 @@
 
 
 #include "config.h"
-#include <kaboutdata.h>
+#include <k4aboutdata.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 
@@ -25,20 +25,20 @@
 
 int main(int argc, char *argv[])
 {
-    KAboutData about ("picmi",
+    K4AboutData about ("picmi",
                       0,
                       ki18n("Picmi"),
                       QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH).toAscii(),
                       ki18n("Picmi - a nonogram puzzle game"),
-                      KAboutData::License_GPL_V2,
-                      ki18n("(c) 2012 The Picmi Authors"),
+                      K4AboutData::License_GPL_V2,
+                      ki18n("(c) 2012 - 2014 The Picmi Authors"),
                       KLocalizedString(),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(ki18n("Jakob Gruber"), ki18n("Picmi Author"), "jakob.gruber@gmail.com");
 
     KCmdLineArgs::init(argc, argv, &about);
     KApplication app;
-    KGlobal::locale()->insertCatalog( QLatin1String( "libkdegames" ));
+    KLocalizedString::setApplicationDomain( "picmi" );
 
     MainWindow *w = new MainWindow;
     w->show();

@@ -5,7 +5,7 @@ if (NOT PICMI_FILEPATH)
     set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
 endif ()
 
-add_definitions(${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+add_definitions(${QT_DEFINITIONS} ${KDE_DEFINITIONS})
 remove_definitions(-DQT_NO_STL)
 
 # See http://www.cmake.org/pipermail/cmake/2008-June/022381.html
@@ -17,7 +17,6 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif ()
 
 include(CheckIncludeFileCXX)
-include(${QT_USE_FILE})
 add_definitions(${QT_DEFINITIONS})
 
 configure_file(
@@ -26,8 +25,6 @@ configure_file(
 )
 
 include_directories(
-    ${KDE4_INCLUDES}
-    ${KDEGAMES_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
@@ -42,8 +39,10 @@ set(picmi_SRCS
     systemexception.cpp
 )
 
+# only does work on windows & mac, not sure what the kf5 euqivalent is
 kde4_add_app_icon(picmi_SRCS "${CMAKE_SOURCE_DIR}/icons/hi*-apps-picmi.png")
-kde4_add_executable(picmi
+
+add_executable(picmi
     ${picmi_SRCS}
 )
 
@@ -51,10 +50,13 @@ set(picmi_LIBS picmi_gui picmi_logic)
 
 target_link_libraries(picmi
     ${picmi_LIBS}
-    ${KDEGAMES_LIBRARY}
-    ${KDE4_KDEUI_LIBS}
-    ${KDE4_KDECORE_LIBS}
-    ${QT_LIBRARIES}
+    KF5::CoreAddons
+    KF5::WidgetsAddons
+    KF5::KDELibs4Support
+    KF5::XmlGui
+    KF5::I18n
+    Qt5::Svg
+    KF5KDEGames
 )
 
 install(TARGETS picmi DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})

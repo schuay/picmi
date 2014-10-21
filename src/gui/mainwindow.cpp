@@ -121,13 +121,6 @@ void MainWindow::levelChanged(const KgDifficultyLevel* level) {
 
 void MainWindow::toggleFullscreen(bool full_screen) {
     KToggleFullScreenAction::setFullScreen(this, full_screen);
-    if (full_screen) {
-        menuBar()->hide();
-        statusBar()->hide();
-    } else {
-        menuBar()->show();
-        statusBar()->show();
-    }
 }
 
 void MainWindow::undoStackSizeChanged(int size)

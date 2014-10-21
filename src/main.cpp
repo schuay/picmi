@@ -25,10 +25,13 @@
 
 int main(int argc, char *argv[])
 {
-    K4AboutData about ("picmi",
+    K4AboutData about("picmi",
                       0,
                       ki18n("Picmi"),
-                      QString("%1.%2.%3").arg(VERSION_MAJOR).arg(VERSION_MINOR).arg(VERSION_PATCH).toAscii(),
+                      QString("%1.%2.%3").arg(VERSION_MAJOR)
+                                         .arg(VERSION_MINOR)
+                                         .arg(VERSION_PATCH)
+                                         .toAscii(),
                       ki18n("Picmi - a nonogram puzzle game"),
                       K4AboutData::License_GPL_V2,
                       ki18n("(c) 2012 - 2014 The Picmi Authors"),
@@ -38,7 +41,7 @@ int main(int argc, char *argv[])
 
     KCmdLineArgs::init(argc, argv, &about);
     KApplication app;
-    KLocalizedString::setApplicationDomain( "picmi" );
+    KLocalizedString::setApplicationDomain("picmi");
 
     MainWindow *w = new MainWindow;
     w->show();

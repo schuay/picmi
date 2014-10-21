@@ -10,6 +10,7 @@ remove_definitions(-DQT_NO_STL)
 
 # See http://www.cmake.org/pipermail/cmake/2008-June/022381.html
 # and 2a38192c6daba in KDE SVN.
+# TODO: KDE5 equivalent for KDE4_ENABLE_EXCEPTIONS.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -39,23 +40,17 @@ set(picmi_SRCS
     systemexception.cpp
 )
 
-# only does work on windows & mac, not sure what the kf5 euqivalent is
-kde4_add_app_icon(picmi_SRCS "${CMAKE_SOURCE_DIR}/icons/hi*-apps-picmi.png")
+# TODO: KDE5 equivalent.
+# kde4_add_app_icon(picmi_SRCS "${CMAKE_SOURCE_DIR}/icons/hi*-apps-picmi.png")
 
-add_executable(picmi
-    ${picmi_SRCS}
-)
-
-set(picmi_LIBS picmi_gui picmi_logic)
-
+add_executable(picmi ${picmi_SRCS})
 target_link_libraries(picmi
-    ${picmi_LIBS}
+    picmi_gui
+    picmi_logic
     KF5::CoreAddons
-    KF5::WidgetsAddons
     KF5::KDELibs4Support
     KF5::XmlGui
     KF5::I18n
-    Qt5::Svg
     KF5KDEGames
 )
 

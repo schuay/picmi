@@ -51,7 +51,6 @@ void Renderer::loadResources() {
     /* Fonts. */
 
     for (int i = 0; i < FontSizeLength; i++) {
-        m_fonts[i].setFamily(FONT_NAME);
         m_fonts[i].setPointSize(24);
     }
 

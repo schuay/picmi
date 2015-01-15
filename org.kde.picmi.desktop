@@ -132,3 +132,4 @@ Terminal=false
 Type=Application
 X-KDE-StartupNotify=true
 Categories=Qt;KDE;Game;LogicGame;
+X-DBUS-ServiceName=org.kde.picmi

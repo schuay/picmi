@@ -24,6 +24,7 @@
 #include <KAboutData>
 #include <KLocalizedString>
 #include <QCommandLineParser>
+#include <kdelibs4configmigrator.h>
 
 #include "gui/mainwindow.h"
 
@@ -42,6 +43,13 @@ int main(int argc, char *argv[])
     about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
 
     QApplication app(argc, argv);
+
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("picmi"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("picmirc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("picmiui.rc"));
+    migrate.migrate();
+
+
     QCommandLineParser parser;
     KAboutData::setApplicationData(about);
     parser.addVersionOption();

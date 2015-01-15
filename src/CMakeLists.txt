@@ -51,6 +51,7 @@ target_link_libraries(picmi
     KF5::KDELibs4Support
     KF5::XmlGui
     KF5::I18n
+    Qt5::Svg
     KF5KDEGames
 )
 

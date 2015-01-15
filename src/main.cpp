@@ -17,30 +17,38 @@
 
 
 #include "config.h"
-#include <k4aboutdata.h>
-#include <kapplication.h>
-#include <kcmdlineargs.h>
+
+
+
+#include <QApplication>
+#include <KAboutData>
+#include <KLocalizedString>
+#include <QCommandLineParser>
 
 #include "gui/mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    K4AboutData about("picmi",
-                      0,
-                      ki18n("Picmi"),
-                      QString("%1.%2.%3").arg(VERSION_MAJOR)
+    KAboutData about("picmi",
+                      i18n("Picmi"),
+                      QString::fromLatin1("%1.%2.%3").arg(VERSION_MAJOR)
                                          .arg(VERSION_MINOR)
                                          .arg(VERSION_PATCH)
                                          .toAscii(),
-                      ki18n("Picmi - a nonogram puzzle game"),
-                      K4AboutData::License_GPL_V2,
-                      ki18n("(c) 2012 - 2014 The Picmi Authors"),
-                      KLocalizedString(),
+                      i18n("Picmi - a nonogram puzzle game"),
+                      KAboutLicense::GPL_V2,
+                      i18n("(c) 2012 - 2014 The Picmi Authors"),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
-    about.addAuthor(ki18n("Jakob Gruber"), ki18n("Picmi Author"), "jakob.gruber@gmail.com");
+    about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
 
-    KCmdLineArgs::init(argc, argv, &about);
-    KApplication app;
+    QApplication app(argc, argv);
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(about);
+    parser.addVersionOption();
+    parser.addHelpOption();
+    about.setupCommandLine(&parser);
+    parser.process(app);
+    about.processCommandLine(&parser);
     KLocalizedString::setApplicationDomain("picmi");
 
     MainWindow *w = new MainWindow;

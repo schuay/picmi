@@ -19,8 +19,8 @@
 
 #include <QAbstractTableModel>
 #include <assert.h>
-#include <klocale.h>
-#include <kpushbutton.h>
+#include <KLocalizedString>
+#include <qpushbutton.h>
 #include <qalgorithms.h>
 
 #include "src/logic/elapsedtime.h"

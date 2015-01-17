@@ -8,7 +8,7 @@ endif ()
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-find_package(Qt5 5.2.0 CONFIG REQUIRED Core Widgets Svg Quick QuickWidgets)
+find_package(Qt5 5.2.0 CONFIG REQUIRED Core Widgets Svg Quick QuickWidgets Test)
 find_package(KF5 REQUIRED COMPONENTS
     CoreAddons
     Declarative

@@ -48,7 +48,6 @@ target_link_libraries(picmi
     picmi_gui
     picmi_logic
     KF5::CoreAddons
-    KF5::KDELibs4Support
     KF5::XmlGui
     KF5::I18n
     Qt5::Svg

@@ -52,6 +52,7 @@ target_link_libraries(picmi
     KF5::I18n
     Qt5::Svg
     KF5KDEGames
+    KF5::KDELibs4Support
 )
 
 install(TARGETS picmi DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -18,7 +18,7 @@
 #ifndef SELECTBOARD_H
 #define SELECTBOARD_H
 
-#include <kdialog.h>
+#include <QDialog>
 #include <QSharedPointer>
 
 #include "ui_selectboardwindow.h"
@@ -26,7 +26,7 @@
 class Level;
 class LevelTableModel;
 
-class SelectBoardWindow : public KDialog
+class SelectBoardWindow : public QDialog
 {
     Q_OBJECT
 public:

@@ -25,10 +25,10 @@
 #include <QPushButton>
 #include <kactioncollection.h>
 #include <klocalizedstring.h>
-#include <kmenubar.h>
+#include <qmenubar.h>
 #include <kmessagebox.h>
 #include <kstandardgameaction.h>
-#include <kstatusbar.h>
+#include <qstatusbar.h>
 #include <ktogglefullscreenaction.h>
 
 #include "selectboardwindow.h"

@@ -22,6 +22,10 @@
 #include <KLocalizedString>
 #include <qpushbutton.h>
 #include <qalgorithms.h>
+#include <KConfigGroup>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
+
 
 #include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"
@@ -157,13 +161,25 @@ void LevelTableModel::sort(int column, Qt::SortOrder order) {
 }
 
 SelectBoardWindow::SelectBoardWindow(QWidget *parent)
-    : KDialog(parent)
+    : QDialog(parent)
 {
     setModal(true);
-    setCaption(i18n("Level Selection"));
+    setWindowTitle(i18n("Level Selection"));
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(buttonBox);
 
+    QWidget *mainWidget = new QWidget(this);
     ui = new Ui::LevelSelectUi;
-    ui->setupUi(mainWidget());
+    ui->setupUi(mainWidget);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
 
     m_levels = LevelLoader::load();
     m_model = QSharedPointer<LevelTableModel>(new LevelTableModel(m_levels));
@@ -188,7 +204,7 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     ui->tableView->resizeRowsToContents();
 
     if (m_levels.empty()) {
-        button(KDialog::Ok)->setEnabled(false);
+        okButton->setEnabled(false);
     } else {
         resetSelection();
         connect(ui->tableView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
@@ -203,12 +219,12 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
 
 void SelectBoardWindow::showEvent(QShowEvent *event) {
     updateDetails(selectedBoard());
-    KDialog::showEvent(event);
+    QDialog::showEvent(event);
 }
 
 void SelectBoardWindow::resizeEvent(QResizeEvent *event) {
     updateDetails(selectedBoard());
-    KDialog::resizeEvent(event);
+    QDialog::resizeEvent(event);
 }
 
 SelectBoardWindow::~SelectBoardWindow() {

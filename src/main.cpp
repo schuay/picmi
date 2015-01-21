@@ -25,11 +25,13 @@
 #include <KLocalizedString>
 #include <QCommandLineParser>
 #include <kdelibs4configmigrator.h>
-
+#include <KDBusService>
 #include "gui/mainwindow.h"
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+
     KAboutData about("picmi",
                       i18n("Picmi"),
                       QString::fromLatin1("%1.%2.%3").arg(VERSION_MAJOR)
@@ -41,8 +43,6 @@ int main(int argc, char *argv[])
                       i18n("(c) 2012 - 2014 The Picmi Authors"),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
-
-    QApplication app(argc, argv);
 
     Kdelibs4ConfigMigrator migrate(QStringLiteral("picmi"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("picmirc"));
@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
     parser.process(app);
     about.processCommandLine(&parser);
     KLocalizedString::setApplicationDomain("picmi");
+
+    KDBusService service;
 
     MainWindow *w = new MainWindow;
     w->show();

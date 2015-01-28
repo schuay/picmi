@@ -20,7 +20,7 @@
 #include "ui_settingswindow.h"
 
 #include <assert.h>
-#include <kcolordialog.h>
+#include <QColorDialog>
 #include <kfiledialog.h>
 #include <klocalizedstring.h>
 
@@ -51,7 +51,8 @@ SettingsWindow::~SettingsWindow()
 void SettingsWindow::selectSolvedColor()
 {
     QColor color(m_font_color_solved);
-    if (KColorDialog::getColor(color, this) != QDialog::Accepted) {
+    color = QColorDialog::getColor(color, this);
+    if ( color.isValid() ) {
         return;
     }
     m_font_color_solved = color.name();
@@ -61,7 +62,8 @@ void SettingsWindow::selectSolvedColor()
 void SettingsWindow::selectUnsolvedColor()
 {
     QColor color(m_font_color_unsolved);
-    if (KColorDialog::getColor(color, this) != QDialog::Accepted) {
+    color = QColorDialog::getColor(color, this);
+    if ( color.isValid() ) {
         return;
     }
     m_font_color_unsolved = color.name();

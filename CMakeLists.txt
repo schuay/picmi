@@ -26,6 +26,8 @@ include(KDECompilerSettings)
 include(KDECMakeSettings)
 include(FeatureSummary)
 include(ECMInstallIcons)
+include(ECMAddTests)
+
 
 add_subdirectory(themes)
 add_subdirectory(icons)

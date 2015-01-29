@@ -171,8 +171,8 @@ SelectBoardWindow::SelectBoardWindow(QWidget *parent)
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &SelectBoardWindow::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &SelectBoardWindow::reject);
     mainLayout->addWidget(buttonBox);
 
     QWidget *mainWidget = new QWidget(this);

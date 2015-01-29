@@ -219,7 +219,7 @@ void MainWindow::startPresetGame(QSharedPointer<Level> board) {
 void MainWindow::startGame() {
 
     if (m_scene) {
-        disconnect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
+        disconnect(&m_timer, &QTimer::timeout, this, &MainWindow::updatePlayedTime);
     }
 
     m_action_undo->setEnabled(false);
@@ -243,7 +243,7 @@ void MainWindow::startGame() {
     m_view.setFocus();
     m_view.setPaused(false);
 
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(updatePlayedTime()));
+    connect(&m_timer, &QTimer::timeout, this, &MainWindow::updatePlayedTime);
     connect(m_game.data(), SIGNAL(stateChanged()), this, SLOT(updatePositions()));
     connect(m_game.data(), SIGNAL(gameCompleted()), this, SLOT(gameCompleted()));
     connect(m_game.data(), SIGNAL(gameWon()), this, SLOT(gameWon()));

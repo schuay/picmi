@@ -32,6 +32,12 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("picmi"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("picmirc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("picmiui.rc"));
+    migrate.migrate();
+
+
     KAboutData about("picmi",
                       i18n("Picmi"),
                       QString::fromLatin1("%1.%2.%3").arg(VERSION_MAJOR)
@@ -43,11 +49,6 @@ int main(int argc, char *argv[])
                       i18n("(c) 2012 - 2014 The Picmi Authors"),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
-
-    Kdelibs4ConfigMigrator migrate(QStringLiteral("picmi"));
-    migrate.setConfigFiles(QStringList() << QStringLiteral("picmirc"));
-    migrate.setUiFiles(QStringList() << QStringLiteral("picmiui.rc"));
-    migrate.migrate();
 
 
     QCommandLineParser parser;

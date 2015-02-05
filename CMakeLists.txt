@@ -5,7 +5,8 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-find_package(ECM REQUIRED NO_MODULE)
+
+find_package(ECM 1.3.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 find_package(Qt5 5.2.0 CONFIG REQUIRED Core Widgets Svg Quick QuickWidgets Test)

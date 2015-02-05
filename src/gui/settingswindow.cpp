@@ -21,7 +21,7 @@
 
 #include <assert.h>
 #include <QColorDialog>
-#include <kfiledialog.h>
+#include <qfiledialog.h>
 #include <klocalizedstring.h>
 
 static inline QString toStylesheet(const QString &color)
@@ -72,9 +72,8 @@ void SettingsWindow::selectUnsolvedColor()
 
 void SettingsWindow::bgToolButtonClicked()
 {
-    QString fileName = KFileDialog::getOpenFileName(QUrl(),
-                                                    i18n("*.png *.jpg|Image Files (*.png *.jpg)"),
-                                                    this, i18n("Select Background"));
+    QString fileName = QFileDialog::getOpenFileName(this, i18n("Select Background"), QString(),
+                                                    i18n("*.png *.jpg|Image Files (*.png *.jpg)") );
 
     if (fileName.isNull()) {
         return;

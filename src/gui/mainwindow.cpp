@@ -71,13 +71,13 @@ void MainWindow::setupActions() {
 
     m_action_save_state = actionCollection()->addAction("save-position");
     m_action_save_state->setText(i18n("Save Position"));
-    m_action_save_state->setIcon(QIcon("list-add"));
+    m_action_save_state->setIcon(QIcon::fromTheme("list-add"));
     actionCollection()->setDefaultShortcut(m_action_save_state, QKeySequence(Qt::CTRL + Qt::Key_S));
     connect(m_action_save_state, SIGNAL(triggered()), this, SLOT(saveState()));
 
     m_action_load_state = actionCollection()->addAction("load-position");
     m_action_load_state->setText(i18n("Load Position"));
-    m_action_load_state->setIcon(QIcon("view-refresh"));
+    m_action_load_state->setIcon(QIcon::fromTheme("view-refresh"));
     actionCollection()->setDefaultShortcut(m_action_load_state, QKeySequence(Qt::CTRL + Qt::Key_L));
     connect(m_action_load_state, SIGNAL(triggered()), this, SLOT(loadState()));
 

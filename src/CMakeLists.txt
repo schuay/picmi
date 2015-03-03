@@ -2,7 +2,7 @@ set(PICMI_VERSION_MAJOR 2)
 set(PICMI_VERSION_MINOR 0)
 set(PICMI_VERSION_PATCH 0)
 if (NOT PICMI_FILEPATH)
-    set(PICMI_FILEPATH ${DATA_INSTALL_DIR}/picmi/)
+    set(PICMI_FILEPATH ${KDE_INSTALL_DATADIR}/picmi/)
 endif ()
 
 add_definitions(${QT_DEFINITIONS} ${KDE_DEFINITIONS})
@@ -11,7 +11,7 @@ remove_definitions(-DQT_NO_STL)
 # See http://www.cmake.org/pipermail/cmake/2008-June/022381.html
 # and 2a38192c6daba in KDE SVN.
 # TODO: KDE5 equivalent for KDE4_ENABLE_EXCEPTIONS.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
+kde_enable_exceptions()
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions("-Wextra -pedantic")
@@ -40,8 +40,8 @@ set(picmi_SRCS
     systemexception.cpp
 )
 
-# TODO: KDE5 equivalent.
-# kde4_add_app_icon(picmi_SRCS "${CMAKE_SOURCE_DIR}/icons/hi*-apps-picmi.png")
+file(GLOB ICONS_SRCS "${CMAKE_SOURCE_DIR}/icons/*-apps-picmi.png")
+ecm_add_app_icon(picmi_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(picmi ${picmi_SRCS})
 target_link_libraries(picmi
@@ -56,6 +56,6 @@ target_link_libraries(picmi
     KF5::KDELibs4Support
 )
 
-install(TARGETS picmi DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS picmi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 # vim:set ts=4 sw=4 et:

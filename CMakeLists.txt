@@ -6,7 +6,7 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 
-find_package(ECM 1.3.0 REQUIRED CONFIG)
+find_package(ECM 1.7.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 find_package(Qt5 5.2.0 CONFIG REQUIRED Core Widgets Svg Quick QuickWidgets Test)
@@ -26,6 +26,7 @@ include(KDEInstallDirs)
 include(KDECompilerSettings)
 include(KDECMakeSettings)
 include(FeatureSummary)
+include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(ECMAddTests)
 
@@ -37,9 +38,9 @@ add_subdirectory(levels)
 add_subdirectory(src)
 add_subdirectory(test)
 
-install(FILES ${CMAKE_SOURCE_DIR}/org.kde.picmi.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES ${CMAKE_SOURCE_DIR}/org.kde.picmi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES ${CMAKE_SOURCE_DIR}/picmi.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
-install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/picmi)
+install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/picmi)
 
 # vim:set ts=4 sw=4 et:
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

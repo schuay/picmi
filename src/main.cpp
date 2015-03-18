@@ -30,12 +30,12 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
-
     Kdelibs4ConfigMigrator migrate(QStringLiteral("picmi"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("picmirc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("picmiui.rc"));
     migrate.migrate();
+
+    QApplication app(argc, argv);
 
 
     KAboutData about("picmi",

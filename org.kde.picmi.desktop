@@ -130,6 +130,6 @@ Exec=picmi
 Icon=picmi
 Terminal=false
 Type=Application
-X-KDE-StartupNotify=true
+StartupNotify=true
 Categories=Qt;KDE;Game;LogicGame;
 X-DBUS-ServiceName=org.kde.picmi

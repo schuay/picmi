@@ -23,10 +23,9 @@
 #include <QFile>
 #include <QPainter>
 #include <QPixmapCache>
+#include <QStandardPaths>
 #include <assert.h>
 #include <iostream>
-#include <kglobal.h>
-#include <kstandarddirs.h>
 
 #include "src/constants.h"
 #include "src/outofboundsexception.h"
@@ -60,7 +59,9 @@ void Renderer::loadResources() {
     QList<QString> paths;
     paths << QString(prefix)
           << QString(FILEPATH "/" + prefix)
-          << KGlobal::dirs()->findResourceDir("appdata", prefix) + prefix;
+          << QStandardPaths::locate(QStandardPaths::DataLocation,
+                                    prefix,
+                                    QStandardPaths::LocateOption::LocateDirectory) + prefix;
 
     /* try loading first from working directory, then the system directories */
     for (int i = 0; i < paths.size(); i++) {

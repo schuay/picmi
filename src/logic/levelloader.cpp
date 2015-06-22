@@ -19,13 +19,13 @@
 #include "config.h"
 #include "levelloader.h"
 
+#include <KLocalizedString>
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
 #include <QFile>
 #include <QSettings>
-#include <kglobal.h>
-#include <kstandarddirs.h>
+#include <QStandardPaths>
 
 #include "src/systemexception.h"
 
@@ -137,7 +137,9 @@ QList<QSharedPointer<Level> > LevelLoader::load() {
     QList<QString> paths;
     paths << QString(prefix)
           << QString(FILEPATH "/" + prefix)
-          << KGlobal::dirs()->findResourceDir("appdata", prefix) + prefix;
+          << QStandardPaths::locate(QStandardPaths::DataLocation,
+                                    prefix,
+                                    QStandardPaths::LocateOption::LocateDirectory) + prefix;
 
     LevelList list;
 

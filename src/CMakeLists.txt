@@ -8,9 +8,6 @@ endif ()
 add_definitions(${QT_DEFINITIONS} ${KDE_DEFINITIONS})
 remove_definitions(-DQT_NO_STL)
 
-# See http://www.cmake.org/pipermail/cmake/2008-June/022381.html
-# and 2a38192c6daba in KDE SVN.
-# TODO: KDE5 equivalent for KDE4_ENABLE_EXCEPTIONS.
 kde_enable_exceptions()
 
 if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")

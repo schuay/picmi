@@ -18,14 +18,13 @@
 
 #include "config.h"
 
-
-
-#include <QApplication>
 #include <KAboutData>
+#include <KDBusService>
 #include <KLocalizedString>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <kdelibs4configmigrator.h>
-#include <KDBusService>
+
 #include "gui/mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -43,7 +42,7 @@ int main(int argc, char *argv[])
                       QString::fromLatin1("%1.%2.%3").arg(VERSION_MAJOR)
                                          .arg(VERSION_MINOR)
                                          .arg(VERSION_PATCH)
-                                         .toAscii(),
+                                         .toLatin1(),
                       i18n("Picmi - a nonogram puzzle game"),
                       KAboutLicense::GPL_V2,
                       i18n("(c) 2012 - 2014 The Picmi Authors"),

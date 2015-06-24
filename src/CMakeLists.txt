@@ -47,10 +47,10 @@ target_link_libraries(picmi
     KF5::CoreAddons
     KF5::XmlGui
     KF5::I18n
+    KF5::KIOWidgets
     Qt5::Svg
     KF5KDEGames
     KF5::DBusAddons
-    KF5::KDELibs4Support
 )
 
 install(TARGETS picmi DESTINATION ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

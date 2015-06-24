@@ -18,18 +18,17 @@
 
 #include "mainwindow.h"
 
+#include <KActionCollection>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KStandardGameAction>
+#include <KToggleFullScreenAction>
 #include <QCoreApplication>
 #include <QGraphicsSimpleTextItem>
 #include <QHBoxLayout>
+#include <QMenuBar>
 #include <QPointer>
-#include <iostream>
-#include <kactioncollection.h>
-#include <klocalizedstring.h>
-#include <qmenubar.h>
-#include <kmessagebox.h>
-#include <kstandardgameaction.h>
-#include <qstatusbar.h>
-#include <ktogglefullscreenaction.h>
+#include <QStatusBar>
 
 #include "selectboardwindow.h"
 #include "settingswindow.h"

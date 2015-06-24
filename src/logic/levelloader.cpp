@@ -262,7 +262,7 @@ QSharedPointer<Level> LevelLoader::loadLevel(const QDomElement &node) const {
 }
 
 static Board::State charToState(const QChar &c) {
-    switch (c.toAscii()) {
+    switch (c.toLatin1()) {
     case '-': return Board::Nothing;
     case '1': return Board::Box;
     default: throw SystemException("Invalid char in level definition");

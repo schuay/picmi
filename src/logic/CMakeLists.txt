@@ -13,9 +13,10 @@ add_library(picmi_logic STATIC
 )
 
 target_link_libraries(picmi_logic
-    ${KDEGAMES_LIBRARY}
-    ${KDE4_KDECORE_LIBS}
-    ${QT_LIBRARIES}
+    KF5KDEGames
+    KF5::CoreAddons
+    KF5::I18n
+    Qt5::Core
 )
 
 # vim:set ts=4 sw=4 et:

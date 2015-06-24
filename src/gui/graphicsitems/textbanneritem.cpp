@@ -18,7 +18,7 @@
 
 #include "textbanneritem.h"
 
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #include "src/constants.h"
 

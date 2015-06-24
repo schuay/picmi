@@ -20,9 +20,9 @@
 #include "ui_settingswindow.h"
 
 #include <assert.h>
+#include <KLocalizedString>
 #include <QColorDialog>
-#include <qfiledialog.h>
-#include <klocalizedstring.h>
+#include <QFileDialog>
 
 static inline QString toStylesheet(const QString &color)
 {

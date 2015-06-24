@@ -11,6 +11,6 @@ add_executable(streaks_test ${streaks_test_SRCS})
 add_test(streaks_test streaks_test)
 ecm_mark_as_test(streaks_test)
 
-target_link_libraries(streaks_test picmi_logic Qt5::Test ${QT_LIBRARIES} )
+target_link_libraries(streaks_test picmi_logic Qt5::Test Qt5::Core)
 
 # vim:set ts=4 sw=4 et:

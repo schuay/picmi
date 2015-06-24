@@ -17,15 +17,14 @@
 
 #include "selectboardwindow.h"
 
-#include <QAbstractTableModel>
-#include <assert.h>
-#include <KLocalizedString>
-#include <qpushbutton.h>
-#include <qalgorithms.h>
 #include <KConfigGroup>
-#include <QVBoxLayout>
+#include <KLocalizedString>
+#include <QAbstractTableModel>
 #include <QDialogButtonBox>
-
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QtAlgorithms>
+#include <assert.h>
 
 #include "src/logic/elapsedtime.h"
 #include "src/logic/levelloader.h"

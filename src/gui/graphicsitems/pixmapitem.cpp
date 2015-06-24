@@ -68,7 +68,7 @@ StreakVBackgroundItem::StreakVBackgroundItem(Renderer::Resource resource, int x,
     PixmapItem(resource, x, 0, parent)
 {
     setZValue(ZVALUE_STREAKFRAME);
-    rotate(90);
+    setRotation(90);
 }
 
 void StreakVBackgroundItem::reload(const QSize &size) {

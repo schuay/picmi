@@ -33,7 +33,7 @@ generateStreaks(const QString &map, const QString &state)
 
     QList<Board::State> ss;
     for (int i = 0; i < map.size(); i++) {
-        switch (map[i].toAscii()) {
+        switch (map[i].toLatin1()) {
         case '.': /* Nothing. */
             ss.append(Board::Nothing);
             break;
@@ -52,7 +52,7 @@ generateStreaks(const QString &map, const QString &state)
     QSharedPointer<BoardState> sptr(new BoardState(state.size(), 1));
 
     for (int i = 0; i < state.size(); i++) {
-        switch (state[i].toAscii()) {
+        switch (state[i].toLatin1()) {
         case '.': /* Nothing. */
             break;
         case 'b': /* Box. */
@@ -98,7 +98,7 @@ streakEquals(const QVector<Streaks::Streak> &actual,
     }
 
     QString msg = "Result mismatch. Actual: " + actualString + ", Expected: " + expected;
-    QWARN(msg.toAscii());
+    QWARN(msg.toLatin1());
 
     return false;
 }

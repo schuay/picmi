@@ -22,6 +22,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 install(FILES ${CMAKE_SOURCE_DIR}/picmi.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES ${CMAKE_SOURCE_DIR}/picmi.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
 install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${DATA_INSTALL_DIR}/picmi)
 
 # vim:set ts=4 sw=4 et:

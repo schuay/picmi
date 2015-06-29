@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2014 Eduardo Mayorga <e@mayorgalinux.com> -->
+<!--
+     EmailAddress: jakob.gruber@gmail.com
+SentUpstream: 2014-09-25
+-->
+<component type="desktop">
+  <id>picmi.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <summary>Puzzle game based on number logic</summary>
+  <description>
+    <p>
+      The goal is to reveal the hidden pattern in the board by coloring or
+      leaving blank the cells in a grid according to numbers given at the side
+      of the grid.
+      This is a single player game.
+    </p>
+  </description>
+  <url type="homepage">https://projects.kde.org/projects/kde/kdegames/picmi</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://games.kde.org/games/picmi/screenshots/originals/picmi01.png</image>
+    </screenshot>
+  </screenshots>
+</component>

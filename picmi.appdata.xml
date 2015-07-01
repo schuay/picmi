@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2014 Eduardo Mayorga <e@mayorgalinux.com> -->
 <!--
      EmailAddress: jakob.gruber@gmail.com
@@ -8,6 +8,13 @@ SentUpstream: 2014-09-25
   <id>picmi.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <summary>Puzzle game based on number logic</summary>
+  <summary xml:lang="ca">Joc de puzle basat en lògica de nombres</summary>
+  <summary xml:lang="nl">Een logisch spel met nummers</summary>
+  <summary xml:lang="pt">'Puzzle' baseado na lógica de números</summary>
+  <summary xml:lang="pt-BR">Puzzle baseado na lógica de números</summary>
+  <summary xml:lang="sv">Pusselspel baserat på sifferlogik</summary>
+  <summary xml:lang="uk">Гра-головоломка, заснована на інтерпретації чисел</summary>
+  <summary xml:lang="x-test">xxPuzzle game based on number logicxx</summary>
   <description>
     <p>
       The goal is to reveal the hidden pattern in the board by coloring or
@@ -15,6 +22,13 @@ SentUpstream: 2014-09-25
       of the grid.
       This is a single player game.
     </p>
+    <p xml:lang="ca">L'objectiu és descobrir el patró ocult en el taulell acolorint o deixant en blanc les cel·les en una quadrícula d'acord amb els nombres indicats en el lateral de la quadrícula. És un joc d'un jugador.</p>
+    <p xml:lang="nl">Het doel is het onthullen van het verborgen patroon in het bord door kleuren of leeg laten van de cellen in een raster volgens cijfers gegeven aan de rand van het raster. Dit is een spel voor een enkele speler.</p>
+    <p xml:lang="pt">O objectivo é revelar o padrão escondido no tabuleiro, colorindo ou deixando em branco as células de uma grelha, de acordo com os números indicados de lado na grelha. Este é um jogo apenas para um jogador.</p>
+    <p xml:lang="pt-BR">O objetivo é revelar o padrão oculto no tabuleiro, colorindo ou deixando em branco as células de uma grade, de acordo com os números indicados ao lado da grade. Este é um jogo para apenas um jogador.</p>
+    <p xml:lang="sv">Målet är att avslöja det dolda mönstret på spelbrädet genom att färglägga eller lämna rutorna tomma i ett rutmönster enligt de tal som anges vid sidan om rutmönstret. Detta är ett spel för en ensam spelare.</p>
+    <p xml:lang="uk">Метою гри є визначення прихованого візерунка у полі для гри зафарбовуванням комірок поля відповідно до чисел, які наведено за бічною рискою поля. Грати у гру одночасно можна лише один гравець.</p>
+    <p xml:lang="x-test">xxThe goal is to reveal the hidden pattern in the board by coloring or leaving blank the cells in a grid according to numbers given at the side of the grid. This is a single player game.xx</p>
   </description>
   <url type="homepage">https://projects.kde.org/projects/kde/kdegames/picmi</url>
   <screenshots>

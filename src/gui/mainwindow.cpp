@@ -22,7 +22,7 @@
 #include <QGraphicsSimpleTextItem>
 #include <QHBoxLayout>
 #include <QPointer>
-#include <iostream>
+#include <QPushButton>
 #include <kactioncollection.h>
 #include <klocalizedstring.h>
 #include <kmenubar.h>
@@ -86,6 +86,18 @@ void MainWindow::setupActions() {
     m_status_position = new QLabel;
     m_status_position->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
+    m_new_game = new QPushButton;
+    m_new_game->setText(i18n("New Game"));
+    m_new_game->setVisible(false);
+    connect(m_new_game, SIGNAL(clicked(bool)), this, SLOT(startRandomGame()));
+
+    m_load_game = new QPushButton;
+    m_load_game->setText(i18n("Load New Game"));
+    m_load_game->setVisible(false);
+    connect(m_load_game, SIGNAL(clicked(bool)), this, SLOT(loadBoard()));
+
+    this->statusBar()->addWidget(m_new_game, 0);
+    this->statusBar()->addWidget(m_load_game, 0);
     this->statusBar()->addWidget(m_status_position, 1);
     this->statusBar()->addWidget(m_status_time, 1);
 
@@ -217,6 +229,9 @@ void MainWindow::startGame() {
     m_action_load_state->setEnabled(false);
     m_action_pause->setEnabled(true);
     m_action_pause->setChecked(false);
+    m_status_position->setVisible(true);
+    m_load_game->setVisible(false);
+    m_new_game->setVisible(false);
     Kg::difficulty()->setGameRunning(true);
 
     m_timer.start();
@@ -260,13 +275,18 @@ QSharedPointer<KScoreDialog> MainWindow::createScoreDialog() {
 void MainWindow::gameWon() {
     KScoreDialog::FieldInfo score = m_game->endGame();
     bool notified = false;
-    if (m_mode == Random && Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
-        QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
-        if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
-            scoreDialog->exec();
-            notified = true;
+    m_status_position->setVisible(false);
+    if (m_mode == Random) {
+        m_new_game->setVisible(true);
+        if (Kg::difficultyLevel() != KgDifficultyLevel::Custom) {
+            QSharedPointer<KScoreDialog> scoreDialog = createScoreDialog();
+            if (scoreDialog->addScore(score, KScoreDialog::LessIsMore | KScoreDialog::AskName) != 0) {
+                scoreDialog->exec();
+                notified = true;
+            }
         }
     } else if (m_mode == Preset) {
+        m_load_game->setVisible(true);
         m_current_level->setSolved(m_game->elapsedSecs());
     }
 

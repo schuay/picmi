@@ -90,6 +90,7 @@ private:
             *m_action_solve;
     KToggleAction *m_action_pause;
     QLabel *m_status_time, *m_status_position;
+    QPushButton *m_new_game, *m_load_game;
     View m_view;
     QSharedPointer<Picmi> m_game;
     QSharedPointer<Scene> m_scene;

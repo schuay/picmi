@@ -31,10 +31,12 @@
 #include <QPushButton>
 #include <QStatusBar>
 
-#include "selectboardwindow.h"
-#include "settingswindow.h"
 #include "src/constants.h"
 #include "src/logic/levelloader.h"
+#include "src/logic/picmi.h"
+#include "selectboardwindow.h"
+#include "settingswindow.h"
+#include "scene.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent),

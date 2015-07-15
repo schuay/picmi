@@ -137,9 +137,9 @@ QList<QSharedPointer<Level> > LevelLoader::load() {
     QList<QString> paths;
     paths << QString(prefix)
           << QString(FILEPATH "/" + prefix)
-          << QStandardPaths::locate(QStandardPaths::DataLocation,
+          << QStandardPaths::locate(QStandardPaths::AppDataLocation,
                                     prefix,
-                                    QStandardPaths::LocateOption::LocateDirectory) + prefix;
+                                    QStandardPaths::LocateOption::LocateDirectory);
 
     LevelList list;
 

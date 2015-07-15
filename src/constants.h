@@ -19,7 +19,6 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-const QString ORGANIZATION_NAME = "picmi";
 const int ZVALUE_HIGHLIGHT = -3;
 const int ZVALUE_CELLFRAME = 0;
 const int ZVALUE_STREAKFRAME = 0;

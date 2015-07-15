@@ -59,9 +59,9 @@ void Renderer::loadResources() {
     QList<QString> paths;
     paths << QString(prefix)
           << QString(FILEPATH "/" + prefix)
-          << QStandardPaths::locate(QStandardPaths::DataLocation,
+          << QStandardPaths::locate(QStandardPaths::AppDataLocation,
                                     prefix,
-                                    QStandardPaths::LocateOption::LocateDirectory) + prefix;
+                                    QStandardPaths::LocateOption::LocateDirectory);
 
     /* try loading first from working directory, then the system directories */
     for (int i = 0; i < paths.size(); i++) {

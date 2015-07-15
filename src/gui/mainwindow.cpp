@@ -42,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent) :
     KXmlGuiWindow(parent),
     m_key_pos("window/position"), m_in_progress(false), m_mode(Random)
 {
-    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setApplicationName("picmi");
 
     m_timer.setInterval(500);

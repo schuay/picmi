@@ -1,5 +1,5 @@
 /* *************************************************************************
- *  Copyright 2012 Jakob Gruber <jakob.gruber@gmail.com>                   *
+ *  Copyright 2015 Jakob Gruber <jakob.gruber@gmail.com>                   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
                                          .toLatin1(),
                       i18n("Picmi - a nonogram puzzle game"),
                       KAboutLicense::GPL_V2,
-                      i18n("(c) 2012 - 2014 The Picmi Authors"),
+                      i18n("(c) 2012 - 2015 The Picmi Authors"),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
 

@@ -1,5 +1,5 @@
 /* *************************************************************************
- *  Copyright 2012 Jakob Gruber <jakob.gruber@gmail.com>                   *
+ *  Copyright 2015 Jakob Gruber <jakob.gruber@gmail.com>                   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *

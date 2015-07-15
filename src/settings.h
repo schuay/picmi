@@ -64,6 +64,10 @@ public:
 
     void sync();
 
+    /** Raw access to the underlying QSettings object.
+     *  TODO: Wrap all accesses in custom functions and remove this. */
+    QSharedPointer<QSettings> qSettings() const { return m_qsettings; }
+
     static Settings *instance();
 
 signals:

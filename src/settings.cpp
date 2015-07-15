@@ -30,7 +30,13 @@ Settings::Settings() {
            << "game/font_color_solved"
            << "game/font_color_unsolved";
 
-    m_qsettings = QSharedPointer<QSettings>(new QSettings);
+    /* We explicitly pass "picmi" as the organization name in order to
+     * access the correct settings.
+     * This has historical reason in that we used to set the organization
+     * name globally, which however caused problems in
+     * QStandardPaths::locate().
+     */
+    m_qsettings = QSharedPointer<QSettings>(new QSettings("picmi", "picmi"));
     restore();
 }
 

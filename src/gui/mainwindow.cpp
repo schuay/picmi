@@ -34,6 +34,7 @@
 #include "src/constants.h"
 #include "src/logic/levelloader.h"
 #include "src/logic/picmi.h"
+#include "src/settings.h"
 #include "selectboardwindow.h"
 #include "settingswindow.h"
 #include "scene.h"
@@ -43,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_key_pos("window/position"), m_in_progress(false), m_mode(Random)
 {
     QCoreApplication::setApplicationName("picmi");
+    QCoreApplication::setOrganizationDomain("kde.org");
 
     m_timer.setInterval(500);
 
@@ -152,14 +154,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::saveWindowState() {
-    QSettings settings;
-    settings.setValue(m_key_pos, pos());
-    settings.sync();
+    QSharedPointer<QSettings> settings = Settings::instance()->qSettings();
+    settings->setValue(m_key_pos, pos());
+    settings->sync();
 }
 
 void MainWindow::restoreWindowState() {
-    QSettings settings;
-    QPoint p = settings.value(m_key_pos, pos()).toPoint();
+    QSharedPointer<QSettings> settings = Settings::instance()->qSettings();
+    QPoint p = settings->value(m_key_pos, pos()).toPoint();
 
     move(p);
 }

@@ -24,9 +24,9 @@
 #include <QDir>
 #include <QDomDocument>
 #include <QFile>
-#include <QSettings>
 #include <QStandardPaths>
 
+#include "src/settings.h"
 #include "src/systemexception.h"
 
 class LevelList : public QList<QSharedPointer<Level> >
@@ -82,11 +82,11 @@ QString Level::key() const {
 }
 
 void Level::writeSettings(int seconds) {
-    QSettings settings;
+    QSharedPointer<QSettings> settings = Settings::instance()->qSettings();
     QString k = key();
 
-    settings.setValue(k, seconds);
-    settings.sync();
+    settings->setValue(k, seconds);
+    settings->sync();
 }
 
 void Level::finalize() {
@@ -95,12 +95,12 @@ void Level::finalize() {
 }
 
 void Level::readSettings() {
-    QSettings settings;
+    QSharedPointer<QSettings> settings = Settings::instance()->qSettings();
     QString k = key();
 
-    if (settings.contains(k)) {
+    if (settings->contains(k)) {
         m_solved = true;
-        m_solved_time = settings.value(k).toInt();
+        m_solved_time = settings->value(k).toInt();
     }
 }
 

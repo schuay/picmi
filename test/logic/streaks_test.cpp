@@ -4,7 +4,7 @@
 
 #include "streaks.h"
 
-QTEST_MAIN(StreaksTest)
+QTEST_GUILESS_MAIN(StreaksTest)
 
 #define STREAK_TEST(map, state, expected) do { \
     QSharedPointer<Streaks> s = generateStreaks(map, state); \

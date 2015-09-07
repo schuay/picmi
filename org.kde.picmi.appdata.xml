@@ -5,7 +5,7 @@
 SentUpstream: 2014-09-25
 -->
 <component type="desktop">
-  <id>picmi.desktop</id>
+  <id>org.kde.picmi.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <summary>Puzzle game based on number logic</summary>
   <summary xml:lang="ca">Joc de puzle basat en lògica de nombres</summary>

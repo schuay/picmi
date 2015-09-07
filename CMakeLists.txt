@@ -41,7 +41,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 install(FILES ${CMAKE_SOURCE_DIR}/org.kde.picmi.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES ${CMAKE_SOURCE_DIR}/picmi.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
+install(FILES ${CMAKE_SOURCE_DIR}/org.kde.picmi.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install(FILES ${CMAKE_SOURCE_DIR}/picmiui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/picmi)
 
 # vim:set ts=4 sw=4 et:

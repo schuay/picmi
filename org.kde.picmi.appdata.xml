@@ -9,6 +9,7 @@ SentUpstream: 2014-09-25
   <metadata_license>CC0-1.0</metadata_license>
   <summary>Puzzle game based on number logic</summary>
   <summary xml:lang="ca">Joc de puzle basat en lògica de nombres</summary>
+  <summary xml:lang="ca-valencia">Joc de puzle basat en lògica de nombres</summary>
   <summary xml:lang="cs">Hra puzzle založená na číselné logice</summary>
   <summary xml:lang="de">Rätselspiel auf der Grundlage von Zahlenlogik</summary>
   <summary xml:lang="en-GB">Puzzle game based on number logic</summary>
@@ -35,6 +36,7 @@ SentUpstream: 2014-09-25
       This is a single player game.
     </p>
     <p xml:lang="ca">L'objectiu és descobrir el patró ocult en el taulell acolorint o deixant en blanc les cel·les en una quadrícula d'acord amb els nombres indicats en el lateral de la quadrícula. És un joc d'un jugador.</p>
+    <p xml:lang="ca-valencia">L'objectiu és descobrir el patró ocult en el taulell acolorint o deixant en blanc les cel·les en una quadrícula d'acord amb els nombres indicats en el lateral de la quadrícula. És un joc d'un jugador.</p>
     <p xml:lang="en-GB">The goal is to reveal the hidden pattern in the board by coloring or leaving blank the cells in a grid according to numbers given at the side of the grid. This is a single player game.</p>
     <p xml:lang="es">El objetivo consiste en revelar el patrón oculto en el tablero coloreando o dejando en blanco las casillas de una rejilla según los números que se muestran al lado de la rejilla. Este juego es para un único jugador.</p>
     <p xml:lang="gl">O obxectivo consiste en descubrir o padrón oculto no taboleiro. Para facelo, ten que colorar ou deixar en branco celas nunha grade segundo os números que aparecen nas celas contiguas. Trátase dun xogo para un único xogador.</p>

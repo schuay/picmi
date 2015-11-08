@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
                       i18n("Picmi - a nonogram puzzle game"),
                       KAboutLicense::GPL_V2,
                       i18n("(c) 2012 - 2015 The Picmi Authors"),
+                      QString(),
                       "https://projects.kde.org/projects/kde/kdegames/picmi");
     about.addAuthor(i18n("Jakob Gruber"), i18n("Picmi Author"), "jakob.gruber@gmail.com");
 

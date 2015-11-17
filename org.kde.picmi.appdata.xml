@@ -8,6 +8,7 @@ SentUpstream: 2014-09-25
   <id>org.kde.picmi.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <summary>Puzzle game based on number logic</summary>
+  <summary xml:lang="ast">Xuegu de puzzles basáu na llóxica numbérica</summary>
   <summary xml:lang="ca">Joc de puzle basat en lògica de nombres</summary>
   <summary xml:lang="ca-valencia">Joc de puzle basat en lògica de nombres</summary>
   <summary xml:lang="cs">Hra puzzle založená na číselné logice</summary>

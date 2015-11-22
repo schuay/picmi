@@ -52,7 +52,7 @@ void SettingsWindow::selectSolvedColor()
 {
     QColor color(m_font_color_solved);
     color = QColorDialog::getColor(color, this);
-    if ( color.isValid() ) {
+    if (!color.isValid()) {
         return;
     }
     m_font_color_solved = color.name();
@@ -63,7 +63,7 @@ void SettingsWindow::selectUnsolvedColor()
 {
     QColor color(m_font_color_unsolved);
     color = QColorDialog::getColor(color, this);
-    if ( color.isValid() ) {
+    if (!color.isValid()) {
         return;
     }
     m_font_color_unsolved = color.name();

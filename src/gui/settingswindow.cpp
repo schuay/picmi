@@ -73,7 +73,7 @@ void SettingsWindow::selectUnsolvedColor()
 void SettingsWindow::bgToolButtonClicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, i18n("Select Background"), QString(),
-                                                    i18n("*.png *.jpg|Image Files (*.png *.jpg)") );
+                                                    i18n("Image Files (*.png *.jpg)"));
 
     if (fileName.isNull()) {
         return;
